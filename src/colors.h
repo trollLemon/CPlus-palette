@@ -7,9 +7,11 @@
 
 namespace pallet {
 
-  png::image< png::index_pixel > getPixel (int width, int height);
+  png::rgb_pixel  getPixel (int width, int height);
   
   void makeColorPallet(std::string path, int size);
+  
+  unsigned long createRGB(int r, int g, int b);
 
 }
 
