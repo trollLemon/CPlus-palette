@@ -1,4 +1,4 @@
-# C-pallet
+# CPlus-pallet
 Command line utility that generates a color pallet based on an image inputed by the user. The amount of colors can also be specified.
 
 # Usage
@@ -15,5 +15,4 @@ This as well:
 https://www.geeksforgeeks.org/command-line-arguments-in-c-cpp/
 
 And this:
-
 https://www.nongnu.org/pngpp/doc/0.2.9/
