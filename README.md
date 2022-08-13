@@ -20,8 +20,10 @@ $ sudo pacman -S png++
 
 # Referances
 
-This stack overflow article:
+These stack overflow articles:
 https://stackoverflow.com/questions/47399745/reading-out-pixel-values-png-c
+
+https://stackoverflow.com/questions/14375156/how-to-convert-a-rgb-color-value-to-an-hexadecimal-value-in-c
 
 This as well:
 https://www.geeksforgeeks.org/command-line-arguments-in-c-cpp/
