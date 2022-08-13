@@ -4,7 +4,19 @@ Command line utility that generates a color pallet based on an image inputed by 
 # Usage
 
 # Building
-//TODO:
+You will need the PNG++ headers in order to build this project.
+
+You can follow the install instructions from PNG++'s main page: 
+https://www.nongnu.org/pngpp/doc/0.2.9/
+
+Or if you are on linux, you can install it using the package manager of your choice.
+
+On arch, you can install PNG++ with the following:
+```bash
+$ sudo pacman -S png++
+```
+
+//TODO: finish this 
 
 # Referances
 
