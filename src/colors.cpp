@@ -43,9 +43,10 @@ namespace pallet
 	
 		
 	png::image< png::rgb_pixel > image(path);//read the image
+	image.resize((image.get_width()* 0.1),(image.get_height()*0.1));//resize image
         uint height {image.get_height()};
 	uint width {image.get_width()};	
-	uint increment = 100; //this is how many pixels we incrememnt over	
+	uint increment = 10; //this is how many pixels we incrememnt over	
 	
 	for(uint i = 0; i< height; i = i + increment)
 	{
@@ -56,7 +57,6 @@ namespace pallet
 			png::rgb_pixel pixel {getPixel(image, j, i)};
 
 			std::string hex { createHex(pixel.red, pixel.green, pixel.blue)};
-			
 			//map stuff
 			if (!colors.count(hex))
 			{
