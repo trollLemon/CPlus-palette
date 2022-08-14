@@ -1,12 +1,12 @@
 #include <iostream>
 #include <string>
+#include "colors.h"
 #include "png++/png.hpp"
-
-
 int main(int argc, char** argv)
 {
-	
-	
+
+
+
 
 	std::string path {argv[1]};//this is our path to the image
 
@@ -24,8 +24,11 @@ int main(int argc, char** argv)
 
 	int palletSize {std::stoi(palletSizeInput)};	
 
-
 	std::cout << "Generating a " << palletSize<<" color pallet from " << path << "..." << '\n';		
+	
+	pallet::makeColorPallet(path, palletSize);
+
 	return 0;
 
 }
+
