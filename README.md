@@ -28,5 +28,6 @@ https://stackoverflow.com/questions/14375156/how-to-convert-a-rgb-color-value-to
 This as well:
 https://www.geeksforgeeks.org/command-line-arguments-in-c-cpp/
 
-And this:
+And these:
 https://www.nongnu.org/pngpp/doc/0.2.9/
+https://www.codespeedy.com/convert-rgb-to-hex-color-code-in-cpp/
