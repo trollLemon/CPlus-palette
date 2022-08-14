@@ -4,14 +4,15 @@
 
 #include "png++/png.hpp"
 #include <string>
-
+#include <map>
+#include <sstream>
 namespace pallet {
 
   png::rgb_pixel  getPixel (int width, int height);
   
   void makeColorPallet(std::string path, int size);
   
-  unsigned long createRGB(int r, int g, int b);
+  std::string  createHex(int r, int g, int b);
 
 }
 
