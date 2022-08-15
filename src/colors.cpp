@@ -2,8 +2,10 @@
 #include "png++/png.hpp"
 #include <string>
 #include <map>
-
-
+#include<vector>
+#include <algorithm>
+#include <sstream>
+#include <bits/stdc++.h>
 namespace pallet
 {	 
 
@@ -71,7 +73,38 @@ namespace pallet
 		}	
 	}
 	
+	std::cout << "Got color data, making pallet \n";	
+	//now that we have the colors and their frequencies, we put them in an array list and sort it
+	std::vector<long> colorData;	
+	for(const auto& elem : colors)
+	{
+		colorData.push_back(elem.second);
+	}	   
+	
+	std::sort(colorData.begin(), colorData.end());	
+	std::reverse(colorData.begin(), colorData.end());	
+        //now print the color pallet to the user
+	
+	std::cout << "Color Pallet:" << '\n';
+
+	for (int i = 0; i < size; i++ )	
+	{
+		std::string currHex ;	
+		long value {colorData.at(i)};
+
+		//find the key corresponding to the value
+		for (const auto& elem : colors)
+		{
+			if(elem.second == value)
+			{
+			    
+			    currHex = elem.first;
+			}	
+		}
 		
+		std::cout << currHex << '\n';
+	}	
+
 	}
 
 }
