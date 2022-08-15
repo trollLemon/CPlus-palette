@@ -6,6 +6,8 @@
 #include <string>
 #include <map>
 #include <sstream>
+#include <vector> 
+#include <algorithm>
 namespace pallet {
 
   png::rgb_pixel  getPixel (int width, int height);
