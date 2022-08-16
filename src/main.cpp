@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include "colors.h"
-#include "png++/png.hpp"
 int main(int argc, char** argv)
 {
 
