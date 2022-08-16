@@ -1,7 +1,8 @@
 #include "colors.h"
 #include <string>
 #include <map>
-#include<vector>
+#include <vector>
+#include <array>
 #include <algorithm>
 #include <sstream>
 #include <bits/stdc++.h>
@@ -36,19 +37,25 @@ using namespace cimg_library;
 	{
 	
 
-	std::map<std::string, long> colors;
+	std::map<std::array<unsigned char, 3>, long> colors;
 	CImg <unsigned char> image(path.c_str());	
-		
+	
+	image.resize(128,128);
+
+	image.blur_median(20);		
         int height {image.height()};
 	int width {image.width()};	
 	int increment = 10; //this is how many pixels we incrememnt over	
+	
+	// CImgDisplay main_disp(image,"Click a point");
 
-	float box = 34.0;	
 
-	image.blur_box(box, box, 2,1);
-	
-	
-	
+	 //while (!main_disp.is_closed()) {
+	 
+	 //main_disp.wait();
+
+	 //}
+
 	
 	for(uint i = 0; i< height; i = i + increment)
 	{
@@ -60,18 +67,23 @@ using namespace cimg_library;
 			unsigned char red {image(j,i,0,0)};
 			unsigned char green {image(j,i,0,1)};
 			unsigned char blue {image(j,i,0,2)};
-
-			std::string hex { createHex(red, green, blue)};
 			
+			 std::array<unsigned char, 3> rgb;	
+			
+			rgb[0] = red;	
+			rgb[1] = green;
+			rgb[2] = blue;
+
+
 			//map stuff
-			if (!colors.count(hex))
+			if (!colors.count(rgb))
 			{
-				colors.insert({hex, 1});
+				colors.insert({rgb, 1});
 			} 
 
 			else 
 			{
-			colors[hex]++;
+			colors[rgb]++;
 			
 			}
 		}	
@@ -87,29 +99,43 @@ using namespace cimg_library;
 	
 	std::sort(colorData.begin(), colorData.end());	
 	std::reverse(colorData.begin(), colorData.end());	
-        //now print the color pallet to the user
+        
+		
+	
+	
+	
+	//now print the color pallet to the user
 	
 	std::cout << "Color Pallet:" << '\n';
-
-	for (int i = 0; i < size; i++ )	
+	
+	for (int i = 0; i < size; ++i)
 	{
-		std::string currHex ;	
+	
+		std::string currHex;
 		long value {colorData.at(i)};
-
-		//find the key corresponding to the value
-		for (const auto& elem : colors)
-		{
-			if(elem.second == value)
-			{
-			    
-			    currHex = elem.first;
-			}	
-		}
 		
-		std::cout << currHex << '\n';
-	}	
+		std::array<unsigned char, 3> currRgb;
+		
+		for(const auto& elem : colors)
+		{
+			if (elem.second == value)
+			{
+				currRgb = elem.first;
+				break;
+			}
+		
+		}
+
+		colors.erase(currRgb);
+		unsigned char red {currRgb[0]};
+		unsigned char green {currRgb[1]};
+		unsigned char blue {currRgb[2]};
+
+		std::cout << createHex(red,green,blue) << '\n';
 
 	}
 
+	
+	}
 }
 
