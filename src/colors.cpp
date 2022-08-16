@@ -1,5 +1,4 @@
 #include "colors.h"
-#include "png++/png.hpp"
 #include <string>
 #include <map>
 #include<vector>
@@ -9,11 +8,7 @@
 namespace pallet
 {	 
 
-	//return the pixel at the given indexes
- 	 png::rgb_pixel  getPixel ( png::image< png::rgb_pixel > image, int width, int height){
-		 return image[height][width];
-	 
-	 }
+using namespace cimg_library;	 
 	
 
 	//convert rgb values to hexidecimal
@@ -42,23 +37,32 @@ namespace pallet
 	
 
 	std::map<std::string, long> colors;
-	
+	CImg <unsigned char> image(path.c_str());	
 		
-	png::image< png::rgb_pixel > image(path);//read the image
-	image.resize((image.get_width()* 0.1),(image.get_height()*0.1));//resize image
-        uint height {image.get_height()};
-	uint width {image.get_width()};	
-	uint increment = 10; //this is how many pixels we incrememnt over	
+        int height {image.height()};
+	int width {image.width()};	
+	int increment = 10; //this is how many pixels we incrememnt over	
+
+	float box = 34.0;	
+
+	image.blur_box(box, box, 2,1);
+	
+	
+	
 	
 	for(uint i = 0; i< height; i = i + increment)
 	{
 		
 		
 		for(uint j = 0; j < width; j= j + increment)
-		{
-			png::rgb_pixel pixel {getPixel(image, j, i)};
+		{	
+			//grab the rgb values of the current pixel
+			unsigned char red {image(j,i,0,0)};
+			unsigned char green {image(j,i,0,1)};
+			unsigned char blue {image(j,i,0,2)};
 
-			std::string hex { createHex(pixel.red, pixel.green, pixel.blue)};
+			std::string hex { createHex(red, green, blue)};
+			
 			//map stuff
 			if (!colors.count(hex))
 			{
