@@ -7,6 +7,7 @@
 #include <sstream>
 #include <bits/stdc++.h>
 #include <tuple>
+#include <cmath>
 namespace pallet
 {	 
 
@@ -14,15 +15,22 @@ using namespace cimg_library;
 	
 
 	//convert rgb values to hexidecimal
-	// code snippet by Nikos C from this stackoverflow post: https://stackoverflow.com/questions/14375156/how-to-convert-a-rgb-color-value-to-an-hexadecimal-value-in-c 
+	//gotten from lindevs: https://www.youtube.com/watch?v=TXMegco45q8
 	 std::string createHex(int r, int g, int b)
 	{
+		
+		char hex[8];
+		std::snprintf( hex, sizeof hex, "#%02x%02x%02x", r,g,b);
+		
+		std::string hexString;	
 	
-		std::stringstream hex;
+		for (char i : hex)
+		{
+			hexString += i;
+		
+		}	
 
-		hex << "#";
-		hex << std::hex << (r << 16 | g << 8 | b);
-		return hex.str();	
+		return hexString;	
 	
 	}
 
@@ -43,18 +51,14 @@ using namespace cimg_library;
 	
 	image.resize(128,128);
 
-	image.blur_median(10);		
+	image.blur_median(40);		
         int height {image.height()};
 	int width {image.width()};	
 	
-  CImgDisplay main_disp(image,"Click a point");
 
 
-	 while (!main_disp.is_closed()) {
 	 
-	 main_disp.wait();
 
-	 }
 	//split the resized image into blocks, and find the average pixel value of each block
 	std::vector<std::array<unsigned char, 3>> averageColors;
 	for (int i{0}; i<size; ++i)
@@ -65,7 +69,7 @@ using namespace cimg_library;
 	
 		 std::vector<std::array<unsigned char, 3>> colors;
 		
-		for(; w < increment * (i + 1) &&  h < increment * (i + 1); ++w, ++h)
+		for(; w <= increment * (i + 1) &&  h <= increment * (i + 1); ++w, ++h)
 		{
 			
 			
@@ -84,24 +88,24 @@ using namespace cimg_library;
 		
 		//get average
 		
-		int averageRed;
-		int averageGreen;
-		int averageBlue;
-		int sampleSize {3};
+		long averageRed;
+		long averageGreen;
+		long averageBlue;
+		ulong sampleSize {colors.size()};
 		for (auto& rgbValues : colors)
 		{
-			averageRed +=(int) rgbValues[0];
-			averageGreen += (int) rgbValues[1];
-			averageBlue += (int)rgbValues[2];
+			averageRed += rgbValues[0] * rgbValues[0];
+			averageGreen +=  rgbValues[1] * rgbValues[1];
+			averageBlue += rgbValues[2] * rgbValues[2];
 		
 		
 		}	
 
 		std::array<unsigned char, 3> average;
 		
-		average[0] = averageRed/sampleSize;
-		average[1] = averageGreen/sampleSize;
-		average[2] = averageBlue/sampleSize;
+		average[0] = std::sqrt(averageRed/sampleSize);
+		average[1] = std::sqrt(averageGreen/sampleSize);
+		average[2] = std::sqrt(averageBlue/sampleSize);
 		
 		averageColors.push_back(average);
 
