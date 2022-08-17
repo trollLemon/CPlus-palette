@@ -30,5 +30,5 @@ This as well:
 https://www.geeksforgeeks.org/command-line-arguments-in-c-cpp/
 
 And these:
-https://www.nongnu.org/pngpp/doc/0.2.9/
+https://sighack.com/post/averaging-rgb-colors-the-right-way
 https://www.codespeedy.com/convert-rgb-to-hex-color-code-in-cpp/
