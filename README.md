@@ -3,6 +3,18 @@ Command line utility that generates a color pallet based on an image inputed by 
 
 # Usage
 
+The program has two inputs, a path to an image file (it can be a png or a jpg), and how many colors you want in your
+pallet.
+
+For example:
+
+```bash
+$ ./cpluspallet ~/Pictures/apicture.png 8
+```
+will generate 8 colors based off the colors in apicture.png.
+
+You can have the program generate as many colors you want
+
 # Building
 You will need the CImg in order to build this project.
 
@@ -17,7 +29,12 @@ $ yay CImg
 ```
 and choose the option *community/cimg*.
 
-//TODO: finish this 
+Once you have gotten CImg, you can now compile and link the project.
+
+```bash 
+$ g++ -o cpluspallet src/main.cpp src/colors.cpp -O2 -L/usr/X11R6/lib -lm -lpthread -lX11
+```
+ Running this will create a binary called 'cpluspallet'.
 
 # Referances
 
