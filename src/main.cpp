@@ -12,7 +12,7 @@ int main(int argc, char** argv)
 	if (path == "--help")
 	{
 	
-		std::cout << "test";
+		std::cout << "Usage " << argv[0] << ": pathToImage numberOfColors\n";
 		return 0;
 
 	}
