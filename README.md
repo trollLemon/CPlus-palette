@@ -36,7 +36,7 @@ $ g++ -o cpluspallet src/main.cpp src/colors.cpp -O2 -L/usr/X11R6/lib -lm -lpthr
 ```
  Running this will create a binary called 'cpluspallet'.
 
-# Referances
+# References
 
 These stack overflow articles:
 https://stackoverflow.com/questions/47399745/reading-out-pixel-values-png-c
