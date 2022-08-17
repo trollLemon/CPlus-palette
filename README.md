@@ -4,17 +4,18 @@ Command line utility that generates a color pallet based on an image inputed by 
 # Usage
 
 # Building
-You will need the PNG++ headers in order to build this project.
+You will need the CImg in order to build this project.
 
-You can follow the install instructions from PNG++'s main page: 
-https://www.nongnu.org/pngpp/doc/0.2.9/
+You can follow the install instructions from CImg's main page: 
+https://cimg.eu/download.html
 
 Or if you are on linux, you can install it using the package manager of your choice.
 
-On arch, you can install PNG++ with the following:
+On arch, you can install CImg from the AUR with the following:
 ```bash
-$ sudo pacman -S png++
+$ yay CImg
 ```
+and choose the option *community/cimg*.
 
 //TODO: finish this 
 
