@@ -1,10 +1,12 @@
 #include "colors.h"
 #include <string>
 #include <map>
-#include<vector>
+#include <vector>
+#include <array>
 #include <algorithm>
 #include <sstream>
 #include <bits/stdc++.h>
+#include <tuple>
 namespace pallet
 {	 
 
@@ -36,80 +38,94 @@ using namespace cimg_library;
 	{
 	
 
-	std::map<std::string, long> colors;
+	
 	CImg <unsigned char> image(path.c_str());	
-		
+	
+	image.resize(128,128);
+
+	image.blur_median(10);		
         int height {image.height()};
 	int width {image.width()};	
-	int increment = 10; //this is how many pixels we incrememnt over	
+	
+  CImgDisplay main_disp(image,"Click a point");
 
-	float box = 34.0;	
 
-	image.blur_box(box, box, 2,1);
-	
-	
-	
-	
-	for(uint i = 0; i< height; i = i + increment)
+	 while (!main_disp.is_closed()) {
+	 
+	 main_disp.wait();
+
+	 }
+	//split the resized image into blocks, and find the average pixel value of each block
+	std::vector<std::array<unsigned char, 3>> averageColors;
+	for (int i{0}; i<size; ++i)
 	{
+		int increment = 128/size; //increment for the block loop, this increases by 128/size each iteration	
+		int w{increment * i};
+		int h{increment *i};
+	
+		 std::vector<std::array<unsigned char, 3>> colors;
 		
-		
-		for(uint j = 0; j < width; j= j + increment)
-		{	
-			//grab the rgb values of the current pixel
-			unsigned char red {image(j,i,0,0)};
-			unsigned char green {image(j,i,0,1)};
-			unsigned char blue {image(j,i,0,2)};
-
-			std::string hex { createHex(red, green, blue)};
-			
-			//map stuff
-			if (!colors.count(hex))
-			{
-				colors.insert({hex, 1});
-			} 
-
-			else 
-			{
-			colors[hex]++;
-			
-			}
-		}	
-	}
-	
-	std::cout << "Got color data, making pallet \n";	
-	//now that we have the colors and their frequencies, we put them in an array list and sort it
-	std::vector<long> colorData;	
-	for(const auto& elem : colors)
-	{
-		colorData.push_back(elem.second);
-	}	   
-	
-	std::sort(colorData.begin(), colorData.end());	
-	std::reverse(colorData.begin(), colorData.end());	
-        //now print the color pallet to the user
-	
-	std::cout << "Color Pallet:" << '\n';
-
-	for (int i = 0; i < size; i++ )	
-	{
-		std::string currHex ;	
-		long value {colorData.at(i)};
-
-		//find the key corresponding to the value
-		for (const auto& elem : colors)
+		for(; w < increment * (i + 1) &&  h < increment * (i + 1); ++w, ++h)
 		{
-			if(elem.second == value)
-			{
-			    
-			    currHex = elem.first;
-			}	
+			
+			
+			unsigned char red {image(h,w,0,0)};
+			unsigned char green {image(h,w,0,1)};
+			unsigned char blue {image(h,w,0,2)};
+												
+			std::array<unsigned char, 3> rgb;	
+														 			
+			rgb[0] = red;	
+			rgb[1] = green;
+			rgb[2] = blue;
+			
+			colors.push_back(rgb);	
 		}
 		
-		std::cout << currHex << '\n';
+		//get average
+		
+		int averageRed;
+		int averageGreen;
+		int averageBlue;
+		int sampleSize {3};
+		for (auto& rgbValues : colors)
+		{
+			averageRed +=(int) rgbValues[0];
+			averageGreen += (int) rgbValues[1];
+			averageBlue += (int)rgbValues[2];
+		
+		
+		}	
+
+		std::array<unsigned char, 3> average;
+		
+		average[0] = averageRed/sampleSize;
+		average[1] = averageGreen/sampleSize;
+		average[2] = averageBlue/sampleSize;
+		
+		averageColors.push_back(average);
+
 	}	
 
-	}
+	
+	std::cout << "Got color data, making pallet \n";	
+	
+	//convert rgb to hex and print to console
+	
+	for (auto& rgb : averageColors)
+	{
+		std::string hex {createHex(rgb[0], rgb[1],rgb[2])};
+		std::cout << hex << '\n';
+	
+	}	
 
+
+	}	
+		
+
+	
+
+	
+	
 }
 
