@@ -4,10 +4,7 @@
 
 #include "CImg.h"
 #include <string>
-#include <map>
-#include <sstream>
-#include <vector> 
-#include <algorithm>
+
 namespace pallet {
 
   

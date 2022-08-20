@@ -39,12 +39,8 @@ $ g++ -o cpluspallet src/main.cpp src/colors.cpp -O2 -L/usr/X11R6/lib -lm -lpthr
 # References
 
 These stack overflow articles:
-https://stackoverflow.com/questions/47399745/reading-out-pixel-values-png-c
-
 https://stackoverflow.com/questions/14375156/how-to-convert-a-rgb-color-value-to-an-hexadecimal-value-in-c
-
-This as well:
-https://www.geeksforgeeks.org/command-line-arguments-in-c-cpp/
+https://stackoverflow.com/questions/5823854/how-can-i-generate-a-palette-of-prominent-colors-from-an-image
 
 And these:
 https://sighack.com/post/averaging-rgb-colors-the-right-way
