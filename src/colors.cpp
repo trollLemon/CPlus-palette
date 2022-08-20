@@ -3,11 +3,9 @@
 #include <map>
 #include <vector>
 #include <array>
-#include <algorithm>
-#include <sstream>
-#include <bits/stdc++.h>
-#include <tuple>
 #include <cmath>
+#include <iostream>
+
 namespace pallet
 {	 
 
