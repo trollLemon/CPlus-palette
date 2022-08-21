@@ -30,6 +30,28 @@ These are the colors outputed from the program:
 ![#cab0db](https://user-images.githubusercontent.com/90001607/185774749-fef2b515-6b9b-4e64-b2ab-3607db21704d.png)
 
 
+It also works with other image files as well:
+This was saved as a jpg image.
+![7255636](https://user-images.githubusercontent.com/90001607/185774868-909d7f8c-19cc-4272-a304-63691b3d5d2b.jpg)
+##### I got this image off wallpaperaccess
+
+and here are 8 colors generated:
+![#1d1f24
+](https://user-images.githubusercontent.com/90001607/185775052-7cf9e981-3ca3-4250-8649-7b2fe86175fb.png)
+![#3ec8d3
+](https://user-images.githubusercontent.com/90001607/185775053-834c2a85-29c3-4d97-b338-8192cb05e1d3.png)
+![#75e9f3
+](https://user-images.githubusercontent.com/90001607/185775054-e2e91f5f-74bc-464a-9edf-aa1c72b660d0.png)
+![#262a33
+](https://user-images.githubusercontent.com/90001607/185775055-e57bf43d-9452-42ee-a987-95b6e4530838.png)
+![#75596f](https://user-images.githubusercontent.com/90001607/185775056-2738735b-c59e-42ca-a4b7-576b01346c10.png)
+![#141518](https://user-images.githubusercontent.com/90001607/185775057-9fd3e4eb-6a9d-49fa-9434-d6db04441f45.png)
+![#343949
+](https://user-images.githubusercontent.com/90001607/185775058-bedd0e4f-f7a9-4426-9e15-4667de8cb7c8.png)
+![#f19aa9
+](https://user-images.githubusercontent.com/90001607/185775059-a2abfbf4-1db0-4993-99ae-e17502eef844.png)
+
+
 You can have the program generate as many colors you want
 
 # Building
