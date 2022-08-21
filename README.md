@@ -33,7 +33,7 @@ These are the colors outputed from the program:
 It also works with other image files as well:
 This was saved as a jpg image.
 ![7255636](https://user-images.githubusercontent.com/90001607/185774868-909d7f8c-19cc-4272-a304-63691b3d5d2b.jpg)
-##### I got this image off wallpaperaccess: https://wallpaperaccess.com/3440x1440-minimal, scroll down a bit and you'll find it.
+##### (I got this image off wallpaperaccess: https://wallpaperaccess.com/3440x1440-minimal, scroll down a bit and you'll find it.)
 
 and here are 8 colors generated:
 
