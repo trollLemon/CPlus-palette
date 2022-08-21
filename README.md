@@ -29,6 +29,14 @@ $ yay CImg
 ```
 and choose the option *community/cimg*.
 
+On Debain (or mint, ubuntu, other debian based distros), you will need to get imagemagick:
+```bash
+$  sudo apt install imagemagick
+```
+and CImg:
+```bash
+$  sudo apt install cimg-dev
+```
 Once you have gotten CImg, you can now compile and link the project.
 
 ```bash 
