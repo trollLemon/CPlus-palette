@@ -1,10 +1,10 @@
-# CPlus-pallet
+# CPlus-pallete
 Command line utility that generates a color pallet based on an image inputed by the user. The amount of colors can also be specified.
 
 # Usage
 
 The program has two inputs, a path to an image file (it can be a png or a jpg), and how many colors you want in your
-pallet.
+pallete.
 
 For example:
 
