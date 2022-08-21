@@ -9,9 +9,26 @@ pallete.
 For example:
 
 ```bash
-$ ./cpluspallet ~/Pictures/apicture.png 8
+$ ./cpluspallet ~/Pictures/apicture.png 5
 ```
-will generate 8 colors based off the colors in apicture.png.
+will generate 5 colors based off the colors in apicture.png.
+
+The output will look like the following:
+
+![image](https://user-images.githubusercontent.com/90001607/185774728-5e7a760c-e054-4ff5-837a-a7470e927a80.png)
+
+These are colors generated from this image:
+
+![image](https://user-images.githubusercontent.com/90001607/185774623-82d15335-8d70-444a-83ff-15c2b0006ec6.png)
+
+These are the colors outputed from the program:
+
+![#4aee30](https://user-images.githubusercontent.com/90001607/185774744-4b3ebd2d-4411-400c-ab88-cef6e5c59231.png)
+![#7b80a1](https://user-images.githubusercontent.com/90001607/185774745-f2c34367-3c6d-46d7-a66b-e873e90791fe.png)
+![#28ccff](https://user-images.githubusercontent.com/90001607/185774747-6cfe540f-4cad-4dfe-ae98-b1f7d618ee44.png)
+![#44e21e](https://user-images.githubusercontent.com/90001607/185774748-837e0a14-7b68-484d-a085-c98438a6880c.png)
+![#cab0db](https://user-images.githubusercontent.com/90001607/185774749-fef2b515-6b9b-4e64-b2ab-3607db21704d.png)
+
 
 You can have the program generate as many colors you want
 
