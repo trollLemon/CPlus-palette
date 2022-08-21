@@ -92,9 +92,10 @@ using namespace cimg_library;
 		ulong sampleSize {colors.size()};
 		for (auto& rgbValues : colors)
 		{
-			averageRed += rgbValues[0] * rgbValues[0];
-			averageGreen +=  rgbValues[1] * rgbValues[1];
-			averageBlue += rgbValues[2] * rgbValues[2];
+
+			averageRed += static_cast<long>(rgbValues[0]) * static_cast<long>(rgbValues[0]);
+			averageGreen +=  static_cast<long>(rgbValues[1]) * static_cast<long>(rgbValues[1]);
+			averageBlue += static_cast<long>(rgbValues[2]) * static_cast<long>(rgbValues[2]);
 		
 		
 		}	
