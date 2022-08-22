@@ -17,3 +17,6 @@ And it will most likely be merged, as long as the additions don't deter away fro
 Make sure to explain what you are adding to the project in your pull request.
 
 If you want to change something in the source code, just make a pull request and explain what you are changing in the code and why.
+
+
+Thank you for contributing :)
