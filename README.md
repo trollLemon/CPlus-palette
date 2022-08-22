@@ -1,15 +1,15 @@
-# CPlus-pallete
-Command line utility that generates a color pallet based on an image inputed by the user. The amount of colors can also be specified.
+# CPlus-palette
+Command line utility that generates a color palette based on an image inputted by the user. The amount of colors can also be specified.
 
 # Usage
 
 The program has two inputs, a path to an image file (it can be a png or a jpg), and how many colors you want in your
-pallete.
+palette.
 
 For example:
 
 ```bash
-$ ./cpluspallet ~/Pictures/apicture.png 5
+$ ./cpluspalette ~/Pictures/apicture.png 5
 ```
 will generate 5 colors based off the colors in apicture.png.
 
@@ -20,7 +20,7 @@ The output will look like the following:
 
 ![image](https://user-images.githubusercontent.com/90001607/185774623-82d15335-8d70-444a-83ff-15c2b0006ec6.png)
 
-These are the colors outputed from the program:
+These are the colors outputted from the program:
 
 ![#4aee30](https://user-images.githubusercontent.com/90001607/185774744-4b3ebd2d-4411-400c-ab88-cef6e5c59231.png)
 ![#7b80a1](https://user-images.githubusercontent.com/90001607/185774745-f2c34367-3c6d-46d7-a66b-e873e90791fe.png)
@@ -74,7 +74,7 @@ $ yay CImg
 ```
 and choose the option *community/cimg*.
 
-Then install imagemagick, it is avaliable in the official arch repositories:
+Then install imagemagick, it is available in the official arch repositories:
 ```bash
 
 $ sudo pacman -S imagemagick
@@ -116,9 +116,9 @@ sudo dnf install ImageMagick
 Once you have gotten CImg, you can now compile and link the project.
 
 ```bash 
-$ g++ -o cpluspallet src/main.cpp src/colors.cpp -O2 -L/usr/X11R6/lib -lm -lpthread -lX11
+$ g++ -o cpluspalette src/main.cpp src/colors.cpp -O2 -L/usr/X11R6/lib -lm -lpthread -lX11
 ```
- Running this will create a binary called 'cpluspallet'.
+ Running this will create a binary called 'cpluspalette'.
 
 # References
 
