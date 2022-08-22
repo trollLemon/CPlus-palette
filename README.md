@@ -50,6 +50,9 @@ and here are 8 colors generated:
 You can have the program generate as many colors you want
 
 # Building
+
+### What you need
+
 You will need the CImg in order to build this project.
 
 You can follow the install instructions from CImg's main page: 
@@ -57,20 +60,60 @@ https://cimg.eu/download.html
 
 Or if you are on linux, you can install it using the package manager of your choice.
 
+
+You will need to have [ImageMagick](https://imagemagick.org/index.php) installed on your system aswell.
+
+*(Without this package, CImg will not be able to identify the file types of the images.)*
+
+You will also need the g++ compiler.
+
+## Arch and Arch based Distros
+
 On arch, you can install CImg from the AUR with the following:
 ```bash
 $ yay CImg
 ```
 and choose the option *community/cimg*.
 
+Then install imagemagick, it is avaliable in the official arch repositories:
+```bash
+
+$ sudo pacman -S imagemagick
+```
+
+## Debian and Debian Based Distros
+
 On Debain (or mint, ubuntu, other debian based distros), you will need to get imagemagick:
 ```bash
 $  sudo apt install imagemagick
 ```
+
 and CImg:
 ```bash
 $  sudo apt install cimg-dev
 ```
+
+## Fedora and Fedora Based Distros
+
+First install the X11 headers:
+```bash
+$ sudo yum install libX11-dev
+```
+
+and get Cimg:
+
+```bash
+sudo dnf install CImg-devel
+
+```
+
+and ImageMagick:
+```bash
+sudo dnf install ImageMagick
+```
+
+### now that you have everything
+
 Once you have gotten CImg, you can now compile and link the project.
 
 ```bash 
