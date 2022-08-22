@@ -11,6 +11,10 @@ An issue report should include the following:
 - any errors in the terminal when you run the program
 - steps to reproduce the issue
 
+## Questions
+
+Any questions can be put in the issues tab, and you don't need to include the information a regular issue report has.
+
 ## Pull Requests
 If you want to add something to the project, feel free to make a pull request with the additions you want,
 And it will most likely be merged, as long as the additions don't deter away from the program's main purpose, to generate a color palette.
