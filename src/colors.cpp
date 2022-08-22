@@ -47,15 +47,13 @@ using namespace cimg_library;
 	
 	CImg <unsigned char> image(path.c_str());	
 	
-	image.resize(128,128);
-
-	image.blur_median(40);		
-        int height {image.height()};
+	int widthAndHeight{128};
+	int blurFactor{40};
+	image.resize(widthAndHeight,widthAndHeight);
+	image.blur_median(blurFactor);		
+  
+	int height {image.height()};
 	int width {image.width()};	
-	
-
-
-	 
 
 	//split the resized image into blocks, and find the average pixel value of each block
 	std::vector<std::array<unsigned char, 3>> averageColors;
@@ -110,24 +108,20 @@ using namespace cimg_library;
 
 	}	
 
-	
-	std::cout << "Got color data, making pallet \n";	
-	
-	//convert rgb to hex and print to console
-	
-	for (auto& rgb : averageColors)
-	{
-		std::string hex {createHex(rgb[0], rgb[1],rgb[2])};
-		std::cout << hex << '\n';
-	
-	}	
-
-
-	}	
 		
-
+		std::cout << "Got color data, making pallet \n";	
 	
+		//convert rgb to hex and print to console
+	
+		for (auto& rgb : averageColors)
+		{
+			std::string hex {createHex(rgb[0], rgb[1],rgb[2])};
+			std::cout << hex << '\n';
+	
+		}	
 
+
+		}	
 	
 	
 }
