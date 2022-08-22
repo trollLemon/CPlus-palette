@@ -17,7 +17,6 @@ The output will look like the following:
 
 ![image](https://user-images.githubusercontent.com/90001607/185774728-5e7a760c-e054-4ff5-837a-a7470e927a80.png)
 
-These are colors generated from this image:
 
 ![image](https://user-images.githubusercontent.com/90001607/185774623-82d15335-8d70-444a-83ff-15c2b0006ec6.png)
 
