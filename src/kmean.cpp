@@ -1,5 +1,6 @@
 #include <vector>
 #include <array>
+#include <cmath>
 #include "kmean.h"
 namespace kmean_cluster {
 
@@ -63,6 +64,16 @@ namespace kmean_cluster {
 
 		return newPoint;
 	}
+
+	double distance(Point p, Point q)
+	{
+		float r = static_cast<float>(p.r) - static_cast<float>(q.r);
+		float g = static_cast<float>(p.g) - static_cast<float>(q.g);
+		float b = static_cast<float>(p.b) - static_cast<float>(q.b);
+		
+		int power = 2;
+		return std::sqrt( std::pow(r, power) + std::pow(g, power) + std::pow(b, power));
+	}	
 
 }
 
