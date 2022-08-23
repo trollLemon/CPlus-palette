@@ -4,8 +4,9 @@
 
 #include <vector>
 #include <array>
+#include <tuple>
 namespace kmean_cluster {
-static double maxDiff = 20.0;
+static double maxDiff = 10.0;
  
 	struct Point {
 
@@ -18,9 +19,11 @@ static double maxDiff = 20.0;
 	struct Cluster {
 
 		std::vector<Point> points;
-		Point centriod;
+		Point centroid;
 	};
 
+	
+	bool sortBySecond(std::tuple<Cluster, double> a, std::tuple<Cluster, double> b);
 
 	std::vector<Point> makePointsFromImageData (std::vector<std::array<unsigned char, 3>> colorData);
 	
@@ -33,6 +36,8 @@ static double maxDiff = 20.0;
 	double distance(Point p, Point q);
 	
 	Point calculateCentriod(Cluster cluster);
+
+	std::array<double,3> centriodDifference(Cluster a, Cluster b);
 
 }
 
