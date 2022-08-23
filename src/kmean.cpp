@@ -2,6 +2,7 @@
 #include <array>
 #include <cmath>
 #include "kmean.h"
+#include <iostream>
 namespace kmean_cluster {
 
 
@@ -74,7 +75,35 @@ namespace kmean_cluster {
 		int power = 2;
 		return std::sqrt( std::pow(r, power) + std::pow(g, power) + std::pow(b, power));
 	}	
+	
+	std::vector<Point> makePointsFromImageData (std::vector<std::array<unsigned char, 3>> colorData)
+	{
+		std::vector<Point> thePoints;
+		for (auto& rgb : colorData)
+		{
+			Point newPoint;
+			newPoint.r = rgb[0];
+			newPoint.g = rgb[1];
+			newPoint.b = rgb[2];
 
+			thePoints.push_back(newPoint);
+		}
+
+		return thePoints;
+
+	}
+
+	std::vector<Point> makePalette (std::vector<std::array<unsigned char ,3>> colorData)
+	{
+
+		std::vector<Point> palette; //this will end up holding our centroids, since those will be the color palette once the k means is done
+		
+		std::cout << "r";
+		std::vector<Point> pointData {makePointsFromImageData(colorData)};
+
+		return palette;
+
+	}	
 }
 
 
