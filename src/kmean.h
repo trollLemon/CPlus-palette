@@ -18,7 +18,7 @@ static double maxDiff = 20.0;
 	struct Cluster {
 
 		std::vector<Point> points;
-
+		Point centriod;
 	};
 
 
@@ -31,8 +31,6 @@ static double maxDiff = 20.0;
 	std::vector<Point> makePalette (std::vector<std::array<unsigned char ,3>> colorData);
 	
 	double distance(Point p, Point q);
-	
-  Cluster assign(Cluster cluster, std::vector<Point> points);
 	
 	Point calculateCentriod(Cluster cluster);
 
