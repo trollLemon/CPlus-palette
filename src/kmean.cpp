@@ -3,6 +3,8 @@
 #include <cmath>
 #include "kmean.h"
 #include <iostream>
+#include <random>
+#include <algorithm>
 namespace kmean_cluster {
 
 
@@ -93,13 +95,27 @@ namespace kmean_cluster {
 
 	}
 
-	std::vector<Point> makePalette (std::vector<std::array<unsigned char ,3>> colorData)
+	std::vector<Point> makePalette (std::vector<std::array<unsigned char ,3>> colorData, int size)
 	{
 
 		std::vector<Point> palette; //this will end up holding our centroids, since those will be the color palette once the k means is done
 		
-		std::cout << "r";
 		std::vector<Point> pointData {makePointsFromImageData(colorData)};
+		
+		//pick 'size' amount of Points randomly and make them into clusters:
+		std::vector<Cluster> clusters; //our clusters
+
+		std::mt19937 mt{ std::random_device{}() }; 
+    std::uniform_int_distribution randomPoints{ 0, static_cast<int>(pointData.size()) };
+		//assign random points to be our cluster centroids
+		for(int i{0}; i < size; ++i)
+		{
+			Cluster currCluster {makeCluster(pointData.at(randomPoints(mt)))};
+			clusters.push_back(currCluster);
+		}
+
+
+
 
 		return palette;
 
