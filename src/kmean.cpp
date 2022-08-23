@@ -5,6 +5,8 @@
 #include <iostream>
 #include <random>
 #include <algorithm>
+#include <tuple>
+#include <bits/stdc++.h>
 namespace kmean_cluster {
 
 
@@ -28,7 +30,7 @@ namespace kmean_cluster {
 		Cluster currCluster;
 
 		currCluster.points = points;
-		currCluster.centriod = randomPoint;
+		currCluster.centroid = randomPoint;
 
 		return currCluster;
 
@@ -68,6 +70,7 @@ namespace kmean_cluster {
 		return newPoint;
 	}
 
+
 	double distance(Point p, Point q)
 	{
 		float r = static_cast<float>(p.r) - static_cast<float>(q.r);
@@ -76,7 +79,24 @@ namespace kmean_cluster {
 		
 		int power = 2;
 		return std::sqrt( std::pow(r, power) + std::pow(g, power) + std::pow(b, power));
-	}	
+	}
+
+	 std::array<double,3> centriodDifference(Cluster a, Cluster b)
+	 {
+			double rDiff {static_cast<double>(a.centroid.r) - static_cast<double>(b.centroid.r)};
+			double gDiff {static_cast<double>(a.centroid.g) - static_cast<double>(b.centroid.g)};
+		  double bDiff {static_cast<double>(a.centroid.b) - static_cast<double>(b.centroid.b)};
+
+			std::array<double, 3> theDifferance;
+			
+			theDifferance[0] = std::abs(rDiff);
+			theDifferance[1] = std::abs(gDiff);
+			theDifferance[2] = std::abs(bDiff);
+
+			return theDifferance;
+
+	 }
+
 	
 	std::vector<Point> makePointsFromImageData (std::vector<std::array<unsigned char, 3>> colorData)
 	{
@@ -92,6 +112,13 @@ namespace kmean_cluster {
 		}
 
 		return thePoints;
+
+	}
+	
+	bool sortBySecond(std::tuple<Cluster, double> a, std::tuple<Cluster, double> b)
+	{
+
+		return (std::get<1>(a) < std::get<1>(b));
 
 	}
 
@@ -114,7 +141,53 @@ namespace kmean_cluster {
 			clusters.push_back(currCluster);
 		}
 
+		/* Now that we have initialized some clusters, we can now start the K means algorithm.
+		 * We will add each point to the closest clusture (based on color distance), and 
+		 * calculate new centroids for the clusters. 
+		 *
+		 * We will do this in a while loop, and break once all the clusters have the following observation:
+		 * The difference from the old centroid and the new centroid is less than or equal to maxDiff, defined in kmeans.h
+		 *
+		 * Once we have done that, we can simply fill the palette vector with our cluster centroids, since those will be 
+		 * the colors in the palette.
+		 */
+		
+			while (true) 
+			{
 
+				//store the centroids of each cluster before reassignment, we will compare these later
+				std::vector<Point> oldCentroids;
+
+				for (Cluster c: clusters)
+				{
+					oldCentroids.push_back(c.centroid);
+				}
+				
+				//assign points to clusters
+				for (Point p : pointData)
+				{
+					std::vector<std::tuple<Cluster, double>> distances;
+					
+					//get the distance from the current point to each centroid in the clusters.
+					//we group the distance and the centroid in a tuple, then add it to a vector 
+					for (Cluster c : clusters)
+					{
+					double theDistance {distance(p, c.centroid)};
+					distances.push_back(std::make_tuple(c, theDistance));
+				
+					}
+
+					//now find the closest cluster and add the point to the cluster.
+
+					std::sort(distances.begin(), distances.end(), sortBySecond);
+
+				}	
+
+
+
+
+
+			}	
 
 
 		return palette;
