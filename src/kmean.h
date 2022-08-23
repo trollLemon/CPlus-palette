@@ -28,7 +28,7 @@ static double maxDiff = 20.0;
 
 	Cluster makeCluster (Point randomPoint);
 	
-	std::vector<Point> makePalette (std::vector<std::array<unsigned char ,3>> colorData);
+	std::vector<Point> makePalette (std::vector<std::array<unsigned char ,3>> colorData, int size);
 	
 	double distance(Point p, Point q);
 	
