@@ -68,11 +68,13 @@ using namespace cimg_library;
 			pixelColor[0] = image(h,w,0,0);
 			pixelColor[1] = image(h,w,0,1);
 			pixelColor[2] = image(h,w,0,2);
-
+			
+			colors.push_back(pixelColor);
 		}
 			
 
 	}
+	kmean_cluster::makePalette (colors);
 
 
 	}
