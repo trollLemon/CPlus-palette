@@ -74,7 +74,7 @@ using namespace cimg_library;
 			
 
 	}
-	kmean_cluster::makePalette (colors);
+	kmean_cluster::makePalette (colors, size);
 
 
 	}
