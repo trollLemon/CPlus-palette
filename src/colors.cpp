@@ -50,7 +50,9 @@ using namespace cimg_library;
 	CImg <int> image(path.c_str());	
 	
 	int widthAndHeight{128};
+	int blur{10};
 	image.resize(widthAndHeight,widthAndHeight);
+	image.blur_median(blur);
 	int height {image.height()};
 	int width {image.width()};	
 
@@ -74,6 +76,11 @@ using namespace cimg_library;
 	}	
 
 		std::vector<Point> palette {generatePalette(colors, size)};
+		
+		for(Point p : palette)
+		{
+			std::cout<<createHex(p.r,p.g,p.b) << '\n';
+		}
 
 		}
 
