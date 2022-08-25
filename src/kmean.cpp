@@ -39,14 +39,13 @@
   
 	void assignPoints(std::vector<Point>& points, std::vector<Cluster>& clusters)
 	{
-		//TODO:change this to a normal for loop cause for each loops copy shit and we have 2 bytes of memory	
-		for (Point p : points)
+		for (int i{0}; i< points.size(); ++i)
 		{
 	
 			std::vector<std::tuple<double, int>> distances;
 			for(Cluster c: clusters)
 			{
-				double dist {colorDistance(p,c.centroid)};
+				double dist {colorDistance(points.at(i),c.centroid)};
 				int theId {c.id};
 
 				distances.push_back(std::make_tuple(dist, theId));
@@ -61,8 +60,8 @@
 			{
 				if (clusters.at(i).id == closestId)
 				{
-					p.id = closestId;
-					clusters.at(i).addPoint(p);
+					points.at(i).id = closestId;
+					clusters.at(i).addPoint(points.at(i));
 				}
 			}
 			
