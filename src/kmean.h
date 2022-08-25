@@ -16,7 +16,13 @@
 			this->b = blue;
 			this->id = -1; //-1 means the point hasnt been put in a cluster yet
 		};
+		Point(){
+		this->r =0;
+		this->g =0;
+		this ->b =0;
+		this->id =0;
 
+		};
 		void printRgb(){
 
 			std::cout << this->r << " " << this->g << " " << this->b << " " << '\n'; 
@@ -31,7 +37,14 @@
   Point centroid;
 	std::vector<Point> data;
   int id;
-		
+	
+	Cluster(Point p, int id)
+	{
+		this-> centroid =p;
+		this-> id = id;
+		this-> data.push_back(p);
+	};
+
 	void addPoint(Point p){
 		this->data.push_back(p);
 	};
@@ -42,8 +55,15 @@
 	void setCentroid(Point p){
 		
 		this->centroid = p;
-
+		
 		};
+	std::vector<Point>& getData(){
+		return this->data;
+	};
+	void resetCentroid(){
+		this->data.clear();
+	};
+
 		
 	};
 
