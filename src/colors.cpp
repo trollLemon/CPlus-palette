@@ -47,7 +47,7 @@ using namespace cimg_library;
 	
 
 	
-	CImg <unsigned char> image(path.c_str());	
+	CImg <int> image(path.c_str());	
 	
 	int widthAndHeight{128};
 	int blurFactor{10};
@@ -55,27 +55,31 @@ using namespace cimg_library;
 	image.blur_median(blurFactor);  
 	int height {image.height()};
 	int width {image.width()};	
-	
+
+
+
 	//get the colors from each pixel
 	
-	std::vector<std::array<unsigned char, 3>> colors;
+	std::vector<std::array<int, 3>> colors;
 
 	for(int h{0}; h < height; ++h)
 	{
 		for(int w{0}; w < width; ++w)
 		{
-			std::array<unsigned char, 3> pixelColor;
+			std::array<int, 3> pixelColor;
 			pixelColor[0] = image(h,w,0,0);
 			pixelColor[1] = image(h,w,0,1);
 			pixelColor[2] = image(h,w,0,2);
 			
 			colors.push_back(pixelColor);
 		}
-			
+	}	
+
+		std::vector<Point> palette {generatePalette(colors, size)};
+
+		}
 
 	}
-	kmean_cluster::makePalette (colors, size);
 
 
-	}
-}
+
