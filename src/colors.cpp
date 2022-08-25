@@ -83,9 +83,9 @@ using namespace cimg_library;
 		
 		//get average
 		
-		long averageRed;
-		long averageGreen;
-		long averageBlue;
+		long averageRed{0};
+		long averageGreen{0};
+		long averageBlue{0};
 		ulong sampleSize {colors.size()};
 		for (auto& rgbValues : colors)
 		{
