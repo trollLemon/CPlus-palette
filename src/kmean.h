@@ -1,44 +1,54 @@
-
-#ifndef PALETTEGEN
-#define PALETTEGEN
-
+#ifndef KMEAN
+#define KMEAN
+#include <iostream>
 #include <vector>
 #include <array>
-#include <tuple>
-namespace kmean_cluster {
-static double maxDiff = 10.0;
- 
 	struct Point {
+	int r;
+	int g;
+	int b;
 
-		unsigned char r;
-		unsigned char g;
-		unsigned char b;
+	int id;
+		Point(int red, int green, int blue)
+		{
+			this->r = red;
+			this->g = green;
+			this->b = blue;
+			this->id = -1; //-1 means the point hasnt been put in a cluster yet
+		};
+
+		void printRgb(){
+
+			std::cout << this->r << " " << this->g << " " << this->b << " " << '\n'; 
+
+		};
 
 	};
-
+	
+	
 	struct Cluster {
-
-		std::vector<Point> points;
-		Point centroid;
+  
+  Point centroid;
+	std::vector<Point> data;
+  int id;
+		
+	void addPoint(Point p){
+		this->data.push_back(p);
 	};
+    void printCentroid(){
 
-	
-	bool sortBySecond(std::tuple<Cluster, double> a, std::tuple<Cluster, double> b);
+				this->centroid.printRgb();
+    };
 
-	std::vector<Point> makePointsFromImageData (std::vector<std::array<unsigned char, 3>> colorData);
-	
-	Point makePoint (std::array<unsigned char, 3 > rgb);
+  };
 
-	Cluster makeCluster (Point randomPoint);
-	
-	std::vector<Point> makePalette (std::vector<std::array<unsigned char ,3>> colorData, int size);
-	
-	double distance(Point p, Point q);
-	
-	Point calculateCentriod(Cluster cluster);
 
-	std::array<double,3> centriodDifference(Cluster a, Cluster b);
 
-}
+	double colorDistance(Point& p, Point& q);
+	void chooseCentroids(std::vector<Cluster>& clusters, std::vector<Point>& points, int k );
+	void assignPoints(std::vector<Point>& points, std::vector<Cluster>& clusters);
+	void updateCentroids(Cluster& cluster);
+	
+	std::vector<Point> generatePalette(std::vector<std::array<int,3>> colorData, int size);
 
 #endif
