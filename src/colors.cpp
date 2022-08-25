@@ -50,9 +50,7 @@ using namespace cimg_library;
 	CImg <int> image(path.c_str());	
 	
 	int widthAndHeight{128};
-	int blurFactor{10};
 	image.resize(widthAndHeight,widthAndHeight);
-	image.blur_median(blurFactor);  
 	int height {image.height()};
 	int width {image.width()};	
 
