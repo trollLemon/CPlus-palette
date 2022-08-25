@@ -35,19 +35,24 @@
 	void addPoint(Point p){
 		this->data.push_back(p);
 	};
-    void printCentroid(){
+  void printCentroid(){
 
-				this->centroid.printRgb();
-    };
-
+		this->centroid.printRgb();
   };
+	void setCentroid(Point p){
+		
+		this->centroid = p;
+
+		};
+		
+	};
 
 
 
 	double colorDistance(Point& p, Point& q);
 	void chooseCentroids(std::vector<Cluster>& clusters, std::vector<Point>& points, int k );
 	void assignPoints(std::vector<Point>& points, std::vector<Cluster>& clusters);
-	void updateCentroids(Cluster& cluster);
+	void updateCentroids(std::vector<Cluster>& clusters);
 	
 	std::vector<Point> generatePalette(std::vector<std::array<int,3>> colorData, int size);
 

@@ -17,23 +17,25 @@
   
 	void chooseCentroids(std::vector<Cluster>& clusters, std::vector<Point>& points, int k )
 	{
-		int begining {0};
-		std::mt19937 mt {std::random_device{}() };
-		std::uniform_int_distribution index{ begining, (int)points.size() };
+
+		std::vector<int> indecies;
+		for (int i {0}; i < points.size(); ++i)
+    	indecies.push_back(i);
+		std::random_shuffle(indecies.begin(), indecies.end());
 
 		for(int i{0}; i<k; ++i)
 		{
 
 
-		 int randomIndex = index(mt);	
-			std::vector<Point> data;
+		 int randomIndex = indecies.at(i);	
+		 std::cout<< randomIndex << '\n';	
+		 std::vector<Point> data;
 		 Cluster clstr{
 			points.at(randomIndex),
 			data,	
 			i
 		 };
 		 clusters.push_back(clstr);
-
 		}
 	}
   
@@ -69,9 +71,21 @@
 	}
 
 
-	void updateCentroids(Cluster& cluster)
+	void updateCentroids(std::vector<Cluster>& clusters)
 	{
-		
+		for(int i{0}; i< clusters.size(); i++){
+
+			 clusters.at(i).printCentroid();
+
+			if (clusters.at(i).data.size() == 0)
+			{
+				break;
+			}
+			else
+			{
+			}
+		}		
+
 	}
 
   std::vector<Point> generatePalette(std::vector<std::array<int, 3>> colorData, int size)
@@ -90,13 +104,22 @@
 		//create clusters and choose some starting centroids
 		chooseCentroids(clusters, points, size);
 	
-
+		
 		assignPoints(points, clusters);	
+
+		for(Cluster c: clusters)
+    {
+      std::cout << "Cluster " << c.id << ": " << c.data.size() << " " << c.centroid.r << " " << c.centroid.g << " " << c.centroid.b << '\n';
+    }
+		
+		std::cout << "\n\n";
+
+		updateCentroids(clusters);
 	
 		for(Cluster c: clusters)
 		{
-			std::cout << "Cluster " << c.id << ": " << c.data.size() << '\n';
-		}
+			std::cout << "Cluster " << c.id << ": " << c.data.size() << " " << c.centroid.r << " " << c.centroid.g << " " << c.centroid.b << '\n';
+ 		}
 	
 		std::vector<Point> palette;
 
