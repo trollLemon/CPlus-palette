@@ -47,15 +47,12 @@ using namespace cimg_library;
 	
 
 	
-	CImg <int> image(path.c_str());	
+	CImg <unsigned char> image(path.c_str());	
 	
-	int widthAndHeight{128};
-	int blur{10};
+	int widthAndHeight{30};
 	image.resize(widthAndHeight,widthAndHeight);
-	image.blur_median(blur);
 	int height {image.height()};
 	int width {image.width()};	
-
 
 
 	//get the colors from each pixel
@@ -66,11 +63,10 @@ using namespace cimg_library;
 	{
 		for(int w{0}; w < width; ++w)
 		{
-			std::array<int, 3> pixelColor;
+			std::array<int, 3> pixelColor = {0,0,0};
 			pixelColor[0] = image(h,w,0,0);
 			pixelColor[1] = image(h,w,0,1);
 			pixelColor[2] = image(h,w,0,2);
-			
 			colors.push_back(pixelColor);
 		}
 	}	
