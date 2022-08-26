@@ -69,6 +69,7 @@ using namespace cimg_library;
 			pixelColor[2] = image(h,w,0,2);
 			colors.push_back(pixelColor);
 		}
+
 	}	
 
 		std::vector<Point> palette {generatePalette(colors, size)};
