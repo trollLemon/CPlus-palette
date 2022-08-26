@@ -1,4 +1,6 @@
 #include "colors.h"
+#include "kmean.h"
+
 #include <string>
 #include <map>
 #include <vector>
@@ -47,81 +49,39 @@ using namespace cimg_library;
 	
 	CImg <unsigned char> image(path.c_str());	
 	
-	int widthAndHeight{128};
-	int blurFactor{10};
+	int widthAndHeight{30};
 	image.resize(widthAndHeight,widthAndHeight);
-	image.blur_median(blurFactor);  
 	int height {image.height()};
 	int width {image.width()};	
 
-	//split the resized image into blocks, and find the average pixel value of each block
-	std::vector<std::array<unsigned char, 3>> averageColors;
-	for (int i{0}; i<size; ++i)
-	{
-		int increment = 128/size; //increment for the block loop, this increases by 128/size each iteration	
-		int w{increment * i};
-		int h{increment *i};
+
+	//get the colors from each pixel
 	
-		 std::vector<std::array<unsigned char, 3>> colors;
-		
-		for(; w <= increment * (i + 1) &&  h <= increment * (i + 1); ++w, ++h)
+	std::vector<std::array<int, 3>> colors;
+
+	for(int h{0}; h < height; ++h)
+	{
+		for(int w{0}; w < width; ++w)
 		{
-			
-			
-			unsigned char red {image(h,w,0,0)};
-			unsigned char green {image(h,w,0,1)};
-			unsigned char blue {image(h,w,0,2)};
-												
-			std::array<unsigned char, 3> rgb;	
-														 			
-			rgb[0] = red;	
-			rgb[1] = green;
-			rgb[2] = blue;
-			
-			colors.push_back(rgb);	
+			std::array<int, 3> pixelColor = {0,0,0};
+			pixelColor[0] = image(h,w,0,0);
+			pixelColor[1] = image(h,w,0,1);
+			pixelColor[2] = image(h,w,0,2);
+			colors.push_back(pixelColor);
 		}
-		
-		//get average
-		
-		long averageRed{0};
-		long averageGreen{0};
-		long averageBlue{0};
-		ulong sampleSize {colors.size()};
-		for (auto& rgbValues : colors)
-		{
-
-			averageRed += static_cast<long>(rgbValues[0]) * static_cast<long>(rgbValues[0]);
-			averageGreen +=  static_cast<long>(rgbValues[1]) * static_cast<long>(rgbValues[1]);
-			averageBlue += static_cast<long>(rgbValues[2]) * static_cast<long>(rgbValues[2]);
-		
-		
-		}	
-
-		std::array<unsigned char, 3> average;
-		
-		average[0] = std::sqrt(averageRed/sampleSize);
-		average[1] = std::sqrt(averageGreen/sampleSize);
-		average[2] = std::sqrt(averageBlue/sampleSize);
-		
-		averageColors.push_back(average);
 
 	}	
 
+		std::vector<Point> palette {generatePalette(colors, size)};
 		
-		std::cout << "Got color data, making pallet \n";	
-	
-		//convert rgb to hex and print to console
-	
-		for (auto& rgb : averageColors)
+		for(Point p : palette)
 		{
-			std::string hex {createHex(rgb[0], rgb[1],rgb[2])};
-			std::cout << hex << '\n';
-	
-		}	
+			std::cout<<createHex(p.r,p.g,p.b) << '\n';
+		}
+
+		}
+
+	}
 
 
-		}	
-	
-	
-}
 
