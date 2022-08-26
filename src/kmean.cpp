@@ -41,7 +41,6 @@
 	{
 		for (int i{0}; i< points.size(); ++i)
 		{
-	
 			std::vector<std::tuple<double, int>> distances;
 			for(Cluster c: clusters)
 			{
@@ -72,38 +71,25 @@
 	void updateCentroids(std::vector<Cluster>& clusters)
 	{
 		
+		std::array<int,3> averages = {0,0,0};
+		int size=0;
+
 		for(int c{0}; c < clusters.size(); ++c)
 		{
-			
-			//dont operate on the centroid if it only consists of a centroid and no data
-			if(clusters.at(c).getData().size() ==0)
-			{
-				continue;
-			}
-
-			int aveR{0};
-			int aveG{0};
-			int aveB{0};
-			int size{0};//keep track of the size of the clusters' point vector
-			
-			for(int p{0}; p < clusters.at(c).getData().size(); ++p)
-			{
-				//add each r g and b values to the average color variables defined above
-				//we get better color averages if we collect an average of the squares
-				aveR += clusters.at(c).getData().at(p).r * clusters.at(c).getData().at(p).r;					
-				aveG += clusters.at(c).getData().at(p).g * clusters.at(c).getData().at(p).g;
-				aveB += clusters.at(c).getData().at(p).b * clusters.at(c).getData().at(p).b;
-				++size;
-			}
-
-			
-			int r {static_cast<int>(std::sqrt(aveR/size))};
-			int g {static_cast<int>(std::sqrt(aveG/size))};
-			int b {static_cast<int>(std::sqrt(aveB/size))};
-		
-			Point newCentroid {Point(r,g,b)};
-			clusters.at(c).setCentroid(newCentroid);
-			clusters.at(c).resetCentroid();	
+			averages={0,0,0};
+			size = 0;
+					for(int p{0}; p < clusters.at(c).getData().size(); ++p)
+					{
+						averages[0] += clusters.at(c).getData().at(p).r * clusters.at(c).getData().at(p).r;
+						averages[1] += clusters.at(c).getData().at(p).g * clusters.at(c).getData().at(p).g;
+						averages[2] += clusters.at(c).getData().at(p).b * clusters.at(c).getData().at(p).b;
+						++size;
+					}
+				
+					Point p {Point(std::sqrt(averages[0]/size), std::sqrt(averages[1]/size), std::sqrt(averages[2]/size))};
+					clusters.at(c).setCentroid(p);
+					clusters.at(c).data.clear();
+					clusters.at(c).getData().push_back(p);
 		}
 	}
 
@@ -126,18 +112,16 @@
 	
 		
 		assignPoints(points, clusters);	
-
-		std::cout << "\n\n";
 		
 		int x = 0;
 
-		while(x<8)
+		while(x<10)
 		{
 		updateCentroids(clusters);
 		assignPoints(points,clusters);
 		++x;
 		}
-	
+		
 		std::vector<Point> palette;
 		
 		for(int i{0}; i< clusters.size(); ++i)
