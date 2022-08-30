@@ -84,14 +84,16 @@
 					int r = clusters.at(c).getData().at(p).r;
 					int g = clusters.at(c).getData().at(p).g;
 					int b = clusters.at(c).getData().at(p).b;
-					averages[0] += r;
-					averages[1] += g;
-					averages[2] += b;
+					averages[0] += r*r;
+					averages[1] += g*g;
+					averages[2] += b*b;
 					++size;	
 			}
+				clusters.at(c).getData().clear();
+				Point newCentroid = Point(std::sqrt(averages[0]/size), std::sqrt(averages[1]/size), std::sqrt(averages[2]/size));
+				clusters.at(c).centroid = newCentroid;
+				clusters.at(c).addPoint(newCentroid);
 
-				Point g = Point(averages[0]/size, averages[1]/size, averages[2]/size);
-				clusters.at(c).centroid = g;			
 		}
 	}
 
@@ -138,7 +140,6 @@
 	
 		
 		
-		
 
 		while(true)
 		{
@@ -153,7 +154,7 @@
 
 			assignPoints(points,clusters);
 			updateCentroids(clusters);
-		
+				
 			//store new centroids
 			std::vector<Point> newCentroids;
 
