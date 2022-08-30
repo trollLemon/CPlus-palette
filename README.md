@@ -117,7 +117,7 @@ sudo dnf install ImageMagick
 Once you have gotten CImg, you can now compile and link the project.
 
 ```bash 
-$ g++ -o cpluspalette src/main.cpp src/colors.cpp -O2 -L/usr/X11R6/lib -lm -lpthread -lX11
+$ g++ -std=c++20 -o cpluspallet src/main.cpp src/colors.cpp  src/kmean.cpp -O2 -L/usr/X11R6/lib -lm -lpthread -lX11
 ```
  Running this will create a binary called 'cpluspalette'.
 
