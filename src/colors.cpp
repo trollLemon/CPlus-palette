@@ -49,12 +49,12 @@ using namespace cimg_library;
 	
 	CImg <unsigned char> image(path.c_str());	
 	
-	int widthAndHeight{30};
+	int widthAndHeight{256};
 	image.resize(widthAndHeight,widthAndHeight);
 	int height {image.height()};
 	int width {image.width()};	
 
-
+		
 	//get the colors from each pixel
 	
 	std::vector<std::array<int, 3>> colors;
@@ -64,9 +64,10 @@ using namespace cimg_library;
 		for(int w{0}; w < width; ++w)
 		{
 			std::array<int, 3> pixelColor = {0,0,0};
-			pixelColor[0] = image(h,w,0,0);
-			pixelColor[1] = image(h,w,0,1);
-			pixelColor[2] = image(h,w,0,2);
+			pixelColor[0] = image(w,h,0,0);
+			pixelColor[1] = image(w,h,0,1);
+			pixelColor[2] = image(w,h,0,2);
+			
 			colors.push_back(pixelColor);
 		}
 
