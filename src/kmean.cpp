@@ -20,18 +20,16 @@
 
 		std::vector<int> indecies;
 		for (int i {0}; i < points.size(); ++i)
-    	indecies.push_back(i);
-	
+		{	
+			indecies.push_back(i);
+		}
 		std::random_device rd;
     std::mt19937 gen{rd()};
  
 		std::ranges::shuffle(indecies, gen);
 		for(int i{0}; i<k; ++i)
-		{
-
-			
+		{	
 		 int randomIndex = indecies.at(i);	
-		 std::vector<Point> data;
 		 Cluster clstr{Cluster(points.at(randomIndex), i)};
 		 clusters.push_back(clstr);
 		}
@@ -39,57 +37,61 @@
   
 	void assignPoints(std::vector<Point>& points, std::vector<Cluster>& clusters)
 	{
-		for (int i{0}; i< points.size(); ++i)
+		
+
+		for(int p {0}; p < points.size(); ++p)
 		{
-			std::vector<std::tuple<double, int>> distances;
-			for(Cluster c: clusters)
-			{
-				double dist {colorDistance(points.at(i),c.centroid)};
-				int theId {c.id};
 
-				distances.push_back(std::make_tuple(dist, theId));
-
-			}
-
-			std::sort(distances.begin(), distances.end());
+			//find closest cluster
 			
-			int closestId {std::get<1>(distances.at(0))};
-			
-			for (int i{0}; i< clusters.size(); ++i)
+			int closest = clusters.at(0).id;
+			double closestDist = colorDistance(points.at(p), clusters.at(0).centroid);
+			for(int c {0}; c < clusters.size(); ++c)
 			{
-				if (clusters.at(i).id == closestId)
+				double currDist = colorDistance(points.at(p), clusters.at(c).centroid);
+
+				if(currDist < closestDist )
 				{
-					points.at(i).id = closestId;
-					clusters.at(i).addPoint(points.at(i));
+					closestDist = currDist;
+					closest = clusters.at(c).id;
 				}
 			}
 			
-		}		
+			//add the point to the closest cluster
+		
+			for (int c{0}; c< clusters.size(); ++c)
+			{
+				if (clusters.at(c).id == closest)
+				{
+					clusters.at(c).addPoint(points.at(p));
+					break;
+				}
+			}
+
+		}
+
 	}
 
 
 	void updateCentroids(std::vector<Cluster>& clusters)
 	{
-		
-		std::array<int,3> averages = {0,0,0};
-		int size=0;
-
-		for(int c{0}; c < clusters.size(); ++c)
+		for (int c{0}; c < clusters.size(); ++c)
 		{
-			averages={0,0,0};
-			size = 0;
-					for(int p{0}; p < clusters.at(c).getData().size(); ++p)
-					{
-						averages[0] += clusters.at(c).getData().at(p).r * clusters.at(c).getData().at(p).r;
-						averages[1] += clusters.at(c).getData().at(p).g * clusters.at(c).getData().at(p).g;
-						averages[2] += clusters.at(c).getData().at(p).b * clusters.at(c).getData().at(p).b;
-						++size;
-					}
-				
-					Point p {Point(std::sqrt(averages[0]/size), std::sqrt(averages[1]/size), std::sqrt(averages[2]/size))};
-					clusters.at(c).setCentroid(p);
-					clusters.at(c).data.clear();
-					clusters.at(c).getData().push_back(p);
+			std::array<int,3> averages = {0,0,0};
+			int size = 0;
+			for(int p{0}; p < clusters.at(c).getData().size(); ++p)
+			{
+					int r = clusters.at(c).getData().at(p).r;
+					int g = clusters.at(c).getData().at(p).g;
+					int b = clusters.at(c).getData().at(p).b;
+					averages[0] += r;
+					averages[1] += g;
+					averages[2] += b;
+					++size;	
+			}
+
+				Point g = Point(averages[0]/size, averages[1]/size, averages[2]/size);
+				clusters.at(c).centroid = g;			
 		}
 	}
 
@@ -111,14 +113,13 @@
 		chooseCentroids(clusters, points, size);
 	
 		
-		assignPoints(points, clusters);	
 		
 		int x = 0;
 
 		while(x<10)
 		{
-		updateCentroids(clusters);
 		assignPoints(points,clusters);
+		updateCentroids(clusters);
 		++x;
 		}
 		
