@@ -133,4 +133,5 @@ https://github.com/ndrake127/kMeans
 
 ### tips for getting color data
 https://sighack.com/post/averaging-rgb-colors-the-right-way
+
 https://www.codespeedy.com/convert-rgb-to-hex-color-code-in-cpp/
