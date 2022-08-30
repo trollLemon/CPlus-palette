@@ -19,7 +19,7 @@ The output will look like the following:
 
 ![image](https://user-images.githubusercontent.com/90001607/187527765-840ba92d-d2e2-4c79-a548-3d9413be511a.png)
 
-These are the colors outputted from the program:
+These are the colors generated from the program:
 
 
 ![#2a2e3a](https://user-images.githubusercontent.com/90001607/187529250-57aae882-766e-4ce7-a01e-776bc4f5aa42.png)
