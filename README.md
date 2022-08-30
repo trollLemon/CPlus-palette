@@ -125,7 +125,9 @@ $ g++ -o cpluspalette src/main.cpp src/colors.cpp -O2 -L/usr/X11R6/lib -lm -lpth
 # References
 ### used these two articles and ndrake127's github repo for ideas on how I should structure the project.
 https://reasonabledeviations.com/2019/10/02/k-means-in-cpp/
+
 https://curiousily.com/posts/color-palette-extraction-with-k-means-clustering/
+
 https://github.com/ndrake127/kMeans
 
 
