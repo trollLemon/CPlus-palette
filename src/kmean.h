@@ -16,17 +16,24 @@
 			this->b = blue;
 			this->id = -1; //-1 means the point hasnt been put in a cluster yet
 		};
-		Point(){
+		Point()
+		{
 		this->r =0;
 		this->g =0;
 		this ->b =0;
 		this->id =0;
 
 		};
-		void printRgb(){
+		void printRgb()
+		{
 
 			std::cout << this->r << " " << this->g << " " << this->b << " " << '\n'; 
 
+		};
+
+		int sumRGB()
+		{
+			return this->r+this->g+this->b;
 		};
 
 	};
