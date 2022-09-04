@@ -98,7 +98,7 @@
 	}
 
 	//determine if the centroids have converged
-	bool shouldContinue(std::vector<Point> oldCentroids, std::vector<Point> newCentroids)
+	bool shouldContinue(std::vector<Point>& oldCentroids, std::vector<Point>& newCentroids)
 	{
 		
 		std::vector<std::array<int,3>> diffs;
@@ -123,7 +123,7 @@
 		return false;
 	}
 
- std::vector<Point> generatePalette(std::vector<std::array<int,3>> colorData, int size)
+ std::vector<Point> generatePalette(std::vector<std::array<int,3>>& colorData, int size)
  {
 		//load image data into points, then put them in the points vector
 		std::vector<Point> points;
