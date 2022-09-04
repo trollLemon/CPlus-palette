@@ -42,7 +42,7 @@ using namespace cimg_library;
 	 * sort it from most prominent color to least prominent, and then grab
 	 * the amount of colors dictated by the size variable.
 	 */ 
-	void makeColorPallet(std::string path, int size)
+	void makeColorPallet(std::string& path, int size)
 	{
 	
 

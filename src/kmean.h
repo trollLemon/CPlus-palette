@@ -74,7 +74,7 @@
 	void assignPoints(std::vector<Point>& points, std::vector<Cluster>& clusters);
 	void updateCentroids(std::vector<Cluster>& clusters);
 	
-	std::vector<Point> generatePalette(std::vector<std::array<int,3>> colorData, int size);
+	std::vector<Point> generatePalette(std::vector<std::array<int,3>>& colorData, int size);
 
-	bool shouldContinue(std::vector<Point> oldCentroids, std::vector<Point> newCentroids);
+	bool shouldContinue(std::vector<Point>& oldCentroids, std::vector<Point>& newCentroids);
 #endif

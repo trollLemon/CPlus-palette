@@ -8,7 +8,7 @@
 namespace pallet {
 
   
-  void makeColorPallet(std::string path, int size);
+  void makeColorPallet(std::string& path, int size);
   
   std::string  createHex(int r, int g, int b);
 
