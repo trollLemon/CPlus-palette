@@ -1,6 +1,7 @@
 #include "colors.h"
 #include "kmean.h"
-
+#include <functional>
+#include <algorithm>
 #include <string>
 #include <map>
 #include <vector>
@@ -74,8 +75,18 @@ using namespace cimg_library;
 	}	
 
 		std::vector<Point> palette {generatePalette(colors, size)};
+
+		//sort palette based on the sum of the R G and B values
+		//This is so we can sort the colors from darkest to brightest, since the colors with low sums will be darker
+		//and vise versa
+		std::sort(palette.begin(), palette.end(),[](Point& a, Point& b){
+				return a.sumRGB() > b.sumRGB();
+				});	
 		
-		for(Point p : palette)
+		//reverse the order so its darkest colors to lightest
+		std::reverse(palette.begin(), palette.end());
+
+		for(Point& p : palette)
 		{
 			std::cout<<createHex(p.r,p.g,p.b) << '\n';
 		}
