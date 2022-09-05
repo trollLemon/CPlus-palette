@@ -123,8 +123,8 @@ mkdir build && cd build
 
 next configure Cmake and then build the project:
 ```bash
-cmake .
-cmake --build ./
+cmake ../
+cmake --build .
 ```
 
 Then if you want to install it on your system rather than having the executable
