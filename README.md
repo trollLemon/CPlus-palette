@@ -9,7 +9,7 @@ palette.
 For example:
 
 ```bash
-$ ./cpluspalette ~/Pictures/example.png 5
+cpluspalette ~/Pictures/example.png 5
 ```
 will generate 5 colors based off the colors in example.png:
 
@@ -65,39 +65,39 @@ You will need to have *[ImageMagick](https://imagemagick.org/index.php)*, and th
 
 *(Without this package, CImg will not be able to identify the file types of the images.)*
 
-You will also need the g++ compiler.
+You will also need Cmake to build.
 
 ## Arch and Arch based Distros
 
 On arch, you can install CImg from the AUR with the following:
 ```bash
-$ yay CImg
+yay CImg
 ```
 and choose the option *community/cimg*.
 
 Then install imagemagick, it is available in the official arch repositories:
 ```bash
 
-$ sudo pacman -S imagemagick
+sudo pacman -S imagemagick
 ```
 
 ## Debian and Debian Based Distros
 
 On Debain (or mint, ubuntu, other debian based distros), you will need to get imagemagick:
 ```bash
-$  sudo apt install imagemagick
+sudo apt install imagemagick
 ```
 
 and CImg:
 ```bash
-$  sudo apt install cimg-dev
+sudo apt install cimg-dev
 ```
 
 ## Fedora and Fedora Based Distros
 
 First install the X11 headers:
 ```bash
-$ sudo yum install libX11-dev
+sudo yum install libX11-dev
 ```
 
 and get Cimg:
@@ -116,10 +116,22 @@ sudo dnf install ImageMagick
 
 Once you have gotten CImg, you can now compile and link the project.
 
-```bash 
-$ g++ -std=c++20 -o cpluspallet src/main.cpp src/colors.cpp  src/kmean.cpp -O2 -L/usr/X11R6/lib -lm -lpthread -lX11
+First, create a directory called build in the Github repo and then cd into it:
+```bash
+mkdir build && cd build
 ```
- Running this will create a binary called 'cpluspalette'.
+
+next configure Cmake and then build the project:
+```bash
+cmake .
+cmake --build ./
+```
+
+Then if you want to install it on your system rather than having the executable
+in the build directory, run:
+```bash
+sudo make install
+```
 
 
 # References
