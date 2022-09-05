@@ -14,3 +14,5 @@ find_package(X11 REQUIRED)
 include_directories(${X11_INCLUDE_DIR})
 target_link_libraries(cpluspalette ${X11_LIBRARIES})
 
+
+install(TARGETS cpluspalette )
