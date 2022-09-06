@@ -53,7 +53,7 @@ You can have the program generate as many colors you want
 
 ### What you need
 
-You will need the [CImg](https://www.cimg.eu/index.html), [ImageMagick](https://imagemagick.org/index.php), and the X11 headers installed on your system in order to build this project.
+You will need [CImg](https://www.cimg.eu/index.html), [ImageMagick](https://imagemagick.org/index.php), and the X11 headers installed on your system in order to build this project.
 
 
 
@@ -73,34 +73,40 @@ Then install imagemagick, it is available in the official arch repositories:
 
 sudo pacman -S imagemagick
 ```
+If you dont have the X11 headers you can install them from the official repository:
+```bash
+sudo pacman -S libx11
 
+```
 ## Debian and Debian Based Distros
 
-On Debain (or mint, ubuntu, other debian based distros), you will need to get imagemagick:
+On Debain (or mint, ubuntu, other debian based distros), install imagemagick:
 ```bash
 sudo apt install imagemagick
 ```
-
-and CImg:
+ CImg:
 ```bash
 sudo apt install cimg-dev
+```
+and the X11 headers if you don't have them:
+``bash
+sudo apt install libx11-dev
 ```
 
 ## Fedora and Fedora Based Distros
 
-First install the X11 headers:
+X11 headers:
 ```bash
 sudo yum install libX11-dev
 ```
 
-and get Cimg:
+Cimg:
 
 ```bash
 sudo dnf install CImg-devel
 
 ```
-
-and ImageMagick:
+ImageMagick:
 ```bash
 sudo dnf install ImageMagick
 ```
