@@ -53,8 +53,10 @@ You can have the program generate as many colors you want
 
 ### What you need
 
-You will need the CImg,*[ImageMagick](https://imagemagick.org/index.php)*, and the X11 headers installed on your system in order to build this project.
-*(Without this package, CImg will not be able to identify the file types of the images.)*
+You will need the [CImg](https://www.cimg.eu/index.html), [ImageMagick](https://imagemagick.org/index.php), and the X11 headers installed on your system in order to build this project.
+
+
+
 Installation instrcutions for these packages for different linux distros are included in this README. 
 You will also need Cmake and a c++ compiler to build (i.e g++, clang, etc..).
 
