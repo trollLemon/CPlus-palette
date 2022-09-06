@@ -57,7 +57,7 @@ You will need [CImg](https://www.cimg.eu/index.html), [ImageMagick](https://imag
 
 
 
-Installation instrcutions for these packages for different linux distros are included in this README. 
+Installation instructions for these packages for different linux distros are included in this README. 
 You will also need Cmake and a c++ compiler to build (i.e g++, clang, etc..).
 
 ## Arch and Arch based Distros
@@ -80,7 +80,7 @@ sudo pacman -S libx11
 ```
 ## Debian and Debian Based Distros
 
-On Debain (or mint, ubuntu, other debian based distros), install imagemagick:
+On Debian (or mint, ubuntu, other debian based distros), install imagemagick:
 ```bash
 sudo apt install imagemagick
 ```
