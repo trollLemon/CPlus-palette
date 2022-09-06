@@ -89,7 +89,7 @@ sudo apt install imagemagick
 sudo apt install cimg-dev
 ```
 and the X11 headers if you don't have them:
-``bash
+```bash
 sudo apt install libx11-dev
 ```
 
