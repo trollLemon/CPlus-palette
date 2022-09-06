@@ -53,7 +53,7 @@ You can have the program generate as many colors you want
 
 ### What you need
 
-You will need the [CImg](https://www.cimg.eu/index.html), [ImageMagick](https://imagemagick.org/index.php), and the X11 headers installed on your system in order to build this project.
+You will need [CImg](https://www.cimg.eu/index.html), [ImageMagick](https://imagemagick.org/index.php), and the X11 headers installed on your system in order to build this project.
 
 
 
