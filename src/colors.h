@@ -5,10 +5,16 @@
 #include "CImg.h"
 #include <string>
 
-namespace pallet {
+namespace palette {
 
-  
-  void makeColorPallet(std::string& path, int size);
+  enum class paletteGenerationStatus 
+  {
+    success,
+    imageLoadError,
+    inputIsDirectory
+  };
+
+  paletteGenerationStatus  makeColorPalette(std::string& path, int size);
   
   std::string  createHex(int r, int g, int b);
 
