@@ -1,5 +1,6 @@
 #include "colors.h"
 #include "kmean.h"
+#include "CImg.h"
 #include <functional>
 #include <algorithm>
 #include <string>
@@ -45,12 +46,10 @@ using namespace cimg_library;
 	 * 
     
      */ 
-	paletteGenerationStatus makeColorPalette(std::string& path, int size)
+	void makeColorPalette(std::string& path, int size)
 	{
     
-    try{
-
-    CImg <unsigned char> image(path.c_str()); //This is assigned if an image is loaded without errors, if not , then the program will exit and this wont be used
+  CImg <unsigned char> image(path.c_str()); //This is assigned if an image is loaded without errors, if not , then the program will exit and this wont be used
 	
 	int widthAndHeight{256};
 	image.resize(widthAndHeight,widthAndHeight);
@@ -92,20 +91,6 @@ using namespace cimg_library;
 		{
 			std::cout<<createHex(p.r,p.g,p.b) << '\n';
 		}
-        
-        return paletteGenerationStatus::success;
-      
-        }
-
-        //handle errors if they were caught
-        catch(CImgIOException)
-        {
-            return paletteGenerationStatus::imageLoadError;
-        }
-        catch(CImgArgumentException)
-        {
-            return paletteGenerationStatus::inputIsDirectory;
-        }
         
     }
     
