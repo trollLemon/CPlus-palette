@@ -3,8 +3,8 @@
 Contributions to this project are welcome. 
 
 ## issues and Bug Reports
-If you find an issue, or something isn't working correctly, take a look at the issues tab and make sure someone
-hasn't already filled out an issue report with the same problem you are having.
+If you find an issue, take a look at the issues tab and make sure someone
+hasn't already filled out an issue report with the same problem.
 
 An issue report should include the following:
 - the bug you have found, or the issue you are having
