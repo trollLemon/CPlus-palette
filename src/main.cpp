@@ -33,16 +33,32 @@ int main(int argc, char** argv)
 
 
 
-	std::string  palletSizeInput {argv[2]};//and this is the size of the color pallet
+	std::string  palletSizeInput {argv[2]};//and this is the size of the colo:w
 
 	int palletSize {std::stoi(palletSizeInput)};	
 
 	std::cout << "Generating a " << palletSize<<" color pallet from " << path << "..." << '\n';		
 	
-	pallet::makeColorPallet(path, palletSize);
+    //take in user inputs and create a color palette, and return an Enum telling us if it 
+    //was successful or not
+    palette::paletteGenerationStatus result {palette::makeColorPalette(path, palletSize)};
+    
+    switch (result)
+    {
 
-	return 0;
+    case palette::paletteGenerationStatus::success:
+        return 0;
+    case palette::paletteGenerationStatus::imageLoadError:
+        std::cout << "Failed to load " << path << '\n'; 
+        return 1;
+    case palette::paletteGenerationStatus::inputIsDirectory:
+        std::cout << "Failed to load " << path << ", it is a directory\n"; 
+        return 1;
 
+    default:
+	    return 1;
+
+    }
 }
 
 
