@@ -9,7 +9,7 @@
 #include <cmath>
 #include <iostream>
 
-namespace pallet
+namespace palette
 {	 
 
 using namespace cimg_library;	 
@@ -42,13 +42,15 @@ using namespace cimg_library;
 	 * Once we have a hashmap with colors and their frequencies, we will 
 	 * sort it from most prominent color to least prominent, and then grab
 	 * the amount of colors dictated by the size variable.
-	 */ 
-	void makeColorPallet(std::string& path, int size)
+	 * 
+    
+     */ 
+	paletteGenerationStatus makeColorPalette(std::string& path, int size)
 	{
-	
+    
+    try{
 
-	
-	CImg <unsigned char> image(path.c_str());	
+    CImg <unsigned char> image(path.c_str()); //This is assigned if an image is loaded without errors, if not , then the program will exit and this wont be used
 	
 	int widthAndHeight{256};
 	image.resize(widthAndHeight,widthAndHeight);
@@ -90,10 +92,27 @@ using namespace cimg_library;
 		{
 			std::cout<<createHex(p.r,p.g,p.b) << '\n';
 		}
+        
+        return paletteGenerationStatus::success;
+      
+        }
 
-		}
+        //handle errors if they were caught
+        catch(CImgIOException)
+        {
+            return paletteGenerationStatus::imageLoadError;
+        }
+        catch(CImgArgumentException)
+        {
+            return paletteGenerationStatus::inputIsDirectory;
+        }
+        
+    }
+    
+    
+ }
 
-	}
+
 
 
 
