@@ -97,31 +97,6 @@
 		}
 	}
 
-	//determine if the centroids have converged
-	bool shouldContinue(std::vector<Point>& oldCentroids, std::vector<Point>& newCentroids)
-	{
-		
-		std::vector<std::array<int,3>> diffs;
-
-		for (int i {0}; i< oldCentroids.size(); /*both vectors will be the same size, so we can set the limit to any of them*/ ++i)
-			{
-			
-				Point a {oldCentroids.at(i)};
-				Point b {newCentroids.at(i)};
-
-				std::array<int,3> currRgb {a.r-b.r,a.g-b.g,a.b-b.b};//get differences of the two sets of RGB values
-				diffs.push_back(currRgb);
-			}
-
-		//if any of the differences are greater than 0, then we should still go through the main loop
-		for (std::array<int,3> rgb : diffs)
-		{
-			if(rgb[0]> 0 || rgb[1] > 0 || rgb[2] > 0)
-				return true;
-		}
-
-		return false;
-	}
 
  std::vector<Point> generatePalette(std::vector<std::array<int,3>>& colorData, int size)
  {
@@ -129,7 +104,7 @@
 		std::vector<Point> points;
 		std::vector<Cluster> clusters;
 	
-		for(std::array<int,3> rgb : colorData)
+		for(std::array<int,3>& rgb : colorData)
 		{
 			Point p {Point(rgb[0], rgb[1], rgb[2])};
 			points.push_back(p);
@@ -139,14 +114,13 @@
 		chooseCentroids(clusters, points, size);
 	
 		
-		
-
-		while(true)
+        int x {};
+		while(x<20)
 		{
 			std::vector<Point> oldCentroids;
 			//store old centroid data
 		
-			for(Cluster c : clusters)
+			for(Cluster& c : clusters)
 			{
 				oldCentroids.push_back(c.centroid);
 			}	
@@ -158,16 +132,12 @@
 			//store new centroids
 			std::vector<Point> newCentroids;
 
-			for (Cluster c : clusters)
+			for (Cluster& c : clusters)
 			{
 				newCentroids.push_back(c.centroid);
 			}
 
-			//see if we should keep looping
-			if(shouldContinue(oldCentroids, newCentroids))
-				continue;
-			else
-				break;
+        ++x;
 
 		}
 		
