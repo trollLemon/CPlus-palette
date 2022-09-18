@@ -24,7 +24,8 @@
 			indecies.push_back(i);
 		}
 		std::random_device rd;
-    std::mt19937 gen{rd()};
+		std::seed_seq ss{ rd(), rd(), rd(), rd(), rd(), rd(), rd(), rd() }; 
+		std::mt19937 gen{ss};
  
 		std::ranges::shuffle(indecies, gen);
 		for(int i{0}; i<k; ++i)
@@ -98,6 +99,20 @@
 	}
 
 
+
+
+bool done(std::array<int,3>& a, std::array<int,3>& b)
+{
+	
+	if(abs(a[0]-b[0]) == 0 && abs(a[1]-b[1]) == 0 && abs(a[2]-b[2])==0)
+		return true;
+	else
+		return false;
+}
+
+
+
+
  std::vector<Point> generatePalette(std::vector<std::array<int,3>>& colorData, int size)
  {
 		//load image data into points, then put them in the points vector
@@ -114,30 +129,40 @@
 		chooseCentroids(clusters, points, size);
 	
 		
-        int x {};
-		while(x<20)
+
+		
+		while(true)
 		{
-			std::vector<Point> oldCentroids;
-			//store old centroid data
+			std::array<int,3> oldRgb {};
 		
 			for(Cluster& c : clusters)
 			{
-				oldCentroids.push_back(c.centroid);
+				oldRgb[0] += c.centroid.r;
+				oldRgb[1] += c.centroid.r;
+				oldRgb[2] += c.centroid.r;
 			}	
 
 
 			assignPoints(points,clusters);
 			updateCentroids(clusters);
 				
-			//store new centroids
-			std::vector<Point> newCentroids;
 
-			for (Cluster& c : clusters)
+			std::array<int,3> newRgb {};
+		
+			for(Cluster& c : clusters)
+
 			{
-				newCentroids.push_back(c.centroid);
-			}
+				newRgb[0] += c.centroid.r;
+				newRgb[1] += c.centroid.r;
+				newRgb[2] += c.centroid.r;
+			}	
 
-        ++x;
+
+			if(done(oldRgb,newRgb))
+				 break;
+			else
+				continue;
+
 
 		}
 		
