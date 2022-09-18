@@ -100,6 +100,7 @@
 
 
 
+
 bool done(std::array<int,3>& a, std::array<int,3>& b)
 {
 	
@@ -111,13 +112,14 @@ bool done(std::array<int,3>& a, std::array<int,3>& b)
 
 
 
+
  std::vector<Point> generatePalette(std::vector<std::array<int,3>>& colorData, int size)
  {
 		//load image data into points, then put them in the points vector
 		std::vector<Point> points;
 		std::vector<Cluster> clusters;
 	
-		for(std::array<int,3> rgb : colorData)
+		for(std::array<int,3>& rgb : colorData)
 		{
 			Point p {Point(rgb[0], rgb[1], rgb[2])};
 			points.push_back(p);
@@ -127,6 +129,7 @@ bool done(std::array<int,3>& a, std::array<int,3>& b)
 		chooseCentroids(clusters, points, size);
 	
 		
+
 		
 		while(true)
 		{
@@ -143,20 +146,22 @@ bool done(std::array<int,3>& a, std::array<int,3>& b)
 			assignPoints(points,clusters);
 			updateCentroids(clusters);
 				
+
 			std::array<int,3> newRgb {};
 		
 			for(Cluster& c : clusters)
+
 			{
 				newRgb[0] += c.centroid.r;
 				newRgb[1] += c.centroid.r;
 				newRgb[2] += c.centroid.r;
 			}	
 
+
 			if(done(oldRgb,newRgb))
 				 break;
 			else
 				continue;
-
 
 
 		}

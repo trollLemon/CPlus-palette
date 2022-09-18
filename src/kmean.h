@@ -85,5 +85,4 @@
 
 	std::vector<Point> generatePalette(std::vector<std::array<int,3>>& colorData, int size);
 
-	bool shouldContinue(std::vector<Point>& oldCentroids, std::vector<Point>& newCentroids);
 #endif
