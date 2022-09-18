@@ -24,7 +24,8 @@
 			indecies.push_back(i);
 		}
 		std::random_device rd;
-    std::mt19937 gen{rd()};
+		std::seed_seq ss{ rd(), rd(), rd(), rd(), rd(), rd(), rd(), rd() }; 
+		std::mt19937 gen{ss};
  
 		std::ranges::shuffle(indecies, gen);
 		for(int i{0}; i<k; ++i)
@@ -97,31 +98,18 @@
 		}
 	}
 
-	//determine if the centroids have converged
-	bool shouldContinue(std::vector<Point>& oldCentroids, std::vector<Point>& newCentroids)
-	{
-		
-		std::vector<std::array<int,3>> diffs;
 
-		for (int i {0}; i< oldCentroids.size(); /*both vectors will be the same size, so we can set the limit to any of them*/ ++i)
-			{
-			
-				Point a {oldCentroids.at(i)};
-				Point b {newCentroids.at(i)};
 
-				std::array<int,3> currRgb {a.r-b.r,a.g-b.g,a.b-b.b};//get differences of the two sets of RGB values
-				diffs.push_back(currRgb);
-			}
-
-		//if any of the differences are greater than 0, then we should still go through the main loop
-		for (std::array<int,3> rgb : diffs)
-		{
-			if(rgb[0]> 0 || rgb[1] > 0 || rgb[2] > 0)
-				return true;
-		}
-
+bool done(std::array<int,3>& a, std::array<int,3>& b)
+{
+	
+	if(abs(a[0]-b[0]) == 0 && abs(a[1]-b[1]) == 0 && abs(a[2]-b[2])==0)
+		return true;
+	else
 		return false;
-	}
+}
+
+
 
  std::vector<Point> generatePalette(std::vector<std::array<int,3>>& colorData, int size)
  {
@@ -140,34 +128,36 @@
 	
 		
 		
-
 		while(true)
 		{
-			std::vector<Point> oldCentroids;
-			//store old centroid data
+			std::array<int,3> oldRgb {};
 		
-			for(Cluster c : clusters)
+			for(Cluster& c : clusters)
 			{
-				oldCentroids.push_back(c.centroid);
+				oldRgb[0] += c.centroid.r;
+				oldRgb[1] += c.centroid.r;
+				oldRgb[2] += c.centroid.r;
 			}	
 
 
 			assignPoints(points,clusters);
 			updateCentroids(clusters);
 				
-			//store new centroids
-			std::vector<Point> newCentroids;
-
-			for (Cluster c : clusters)
+			std::array<int,3> newRgb {};
+		
+			for(Cluster& c : clusters)
 			{
-				newCentroids.push_back(c.centroid);
-			}
+				newRgb[0] += c.centroid.r;
+				newRgb[1] += c.centroid.r;
+				newRgb[2] += c.centroid.r;
+			}	
 
-			//see if we should keep looping
-			if(shouldContinue(oldCentroids, newCentroids))
-				continue;
+			if(done(oldRgb,newRgb))
+				 break;
 			else
-				break;
+				continue;
+
+
 
 		}
 		
