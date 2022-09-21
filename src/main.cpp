@@ -28,18 +28,19 @@ int main(int argc, char** argv)
 
 
 
-	  std::string  palletSizeInput {argv[2]};//and this is the size of the colo:w
+	  std::string  paletteSizeInput {argv[2]};//and this is the size of the colo:w
 
-	  int palletSize {std::stoi(palletSizeInput)};	
+	  int paletteSize {std::stoi(paletteSizeInput)};	
 
-	  std::cout << "Generating a " << palletSize<<" color pallet from " << path << "..." << '\n';		
+
+	  std::cout << "Generating a " << paletteSize<<" color palette from " << path << "..." << '\n';		
 	
     //take in user inputs and create a color palette, and return an Enum telling us if it 
     //was successful or not
     
     try
     {
-    palette::makeColorPalette(path, palletSize);
+    palette::makeColorPalette(path, paletteSize);
     }
     catch(cimg_library::CImgIOException)
     {
