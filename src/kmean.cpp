@@ -1,12 +1,12 @@
-#include "kmean.h"
 #include <vector>
 #include <array>
 #include <cmath>
-#include <iostream>
 #include <random>
 #include <tuple>
 #include <algorithm>
-  double colorDistance(Point& p, Point& q)
+#include "kmean.h"
+#include "dataTypes.h"
+double colorDistance(Point& p, Point& q)
 	{
 		int diffR {(p.r-q.r) * (p.r-q.r)};
 		int diffG {(p.g-q.g)*(p.g-q.g)};

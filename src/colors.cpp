@@ -1,5 +1,3 @@
-#include "colors.h"
-#include "kmean.h"
 #include "CImg.h"
 #include <functional>
 #include <algorithm>
@@ -9,7 +7,8 @@
 #include <array>
 #include <cmath>
 #include <iostream>
-
+#include "dataTypes.h"
+#include "kmean.h"
 namespace palette
 {	 
 
@@ -96,6 +95,8 @@ using namespace cimg_library;
     
     
  }
+
+
 
 
 
