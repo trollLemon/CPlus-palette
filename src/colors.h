@@ -5,7 +5,7 @@
 #include <string>
 
 namespace palette {
-  void  makeColorPalette(std::string& path, int size);
+void makeColorPalette(std::string &path, int size);
 }
 
 #endif
