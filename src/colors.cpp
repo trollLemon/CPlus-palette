@@ -29,15 +29,6 @@ std::string createHex(int r, int g, int b) {
     return hexString;
 }
 
-/* This is what generates our color pallet.
- * We are going to go through every pixel and use a hashmap to keep
- * track of the frequency of the colors as we loop through each pixel.
- * Once we have a hashmap with colors and their frequencies, we will
- * sort it from most prominent color to least prominent, and then grab
- * the amount of colors dictated by the size variable.
- *
-
-*/
 void makeColorPalette(std::string &path, int size) {
 
     CImg<unsigned char> image(
