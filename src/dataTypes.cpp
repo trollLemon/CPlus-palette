@@ -14,7 +14,7 @@ Point::Point(int r, int g, int b) {
 
 Point::Point() {}
 
-int Point::getId() { return id; }
+int Point::getId() const { return id; }
 
 void Point::setId(int n) { id = n; }
 
@@ -30,18 +30,15 @@ Cluster::Cluster(Point &p, int id) {
     data.push_back(p);
 }
 
-int Cluster::getId() { return id; }
+int Cluster::getId() const { return id; }
 
 void Cluster::addPoint(Point &p) { data.push_back(p); }
 
 void Cluster::calculateNewCentroid() {
 
-    if (data.size() >= 1) {
-        return;
-    }
 
     std::array<int, 3> averages = {0, 0, 0};
-    int size{0};
+    int size = 0;
 
     for (uint p{0}; p < data.size(); ++p) {
         std::vector<int> colorData{data[p].getRGB()};
@@ -54,7 +51,10 @@ void Cluster::calculateNewCentroid() {
         averages[2] += b * b;
         ++size;
     }
-    this->reset();
+    reset();
+
+
+
     Point newCentroid =
         Point(std::sqrt(averages[0] / size), std::sqrt(averages[1] / size),
               std::sqrt(averages[2] / size));
@@ -62,9 +62,9 @@ void Cluster::calculateNewCentroid() {
     addPoint(newCentroid);
 }
 
-std::vector<Point> &Cluster::getData() { return data; }
+std::vector<Point>& Cluster::getData() { return data; }
 
-Point &Cluster::getCentroid() { return centroid; }
+Point& Cluster::getCentroid() { return centroid; }
 
 void Cluster::reset() { data.clear(); }
 
