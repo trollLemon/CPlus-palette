@@ -3,10 +3,10 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <iostream>
 #include <random>
 #include <tuple>
 #include <vector>
-#include <iostream>
 double colorDistance(Point &p, Point &q) {
     std::vector<int> pRgb = p.getRGB();
     std::vector<int> qRgb = q.getRGB();
@@ -38,33 +38,32 @@ void chooseCentroids(std::vector<Cluster> &clusters, std::vector<Point> &points,
 
 void assignPoints(std::vector<Point> &points, std::vector<Cluster> &clusters) {
 
-    for(Point& p: points){
+    for (Point &p : points) {
 
-        int closestId { clusters.at(0).getId() };
-    
-        double distance { colorDistance(p,clusters.at(0).getCentroid())};
-   
-        for(Cluster &c: clusters){
-            double currDist {colorDistance(p,c.getCentroid())};
+        int closestId{clusters.at(0).getId()};
 
-            if(currDist < distance){
+        double distance{colorDistance(p, clusters.at(0).getCentroid())};
+
+        for (Cluster &c : clusters) {
+            double currDist{colorDistance(p, c.getCentroid())};
+
+            if (currDist < distance) {
                 currDist = distance;
                 closestId = c.getId();
             }
         }
 
-        for (Cluster& c: clusters){
-            if (c.getId() == closestId){
-                c.addPoint(p);
+        for (int i{0}; i < clusters.size(); ++i) {
+            if (clusters[i].getId() == closestId) {
+                clusters[i].addPoint(p);
+                break;
             }
         }
-
     }
-
 }
 
 void updateCentroids(std::vector<Cluster> &clusters) {
-    for (Cluster& c : clusters) {
+    for (Cluster &c : clusters) {
         c.calculateNewCentroid();
     }
 }
@@ -77,7 +76,7 @@ bool done(std::array<int, 3> &a, std::array<int, 3> &b) {
         return false;
 }
 
-std::vector<Point> generatePalette(std::vector<std::array<int, 3>> &colorData,
+std::vector<Cluster> generatePalette(std::vector<std::array<int, 3>> &colorData,
                                    int size) {
     // load image data into points, then put them in the points vector
     std::vector<Point> points;
@@ -85,16 +84,18 @@ std::vector<Point> generatePalette(std::vector<std::array<int, 3>> &colorData,
 
     for (std::array<int, 3> &rgb : colorData) {
         Point p{Point(rgb[0], rgb[1], rgb[2])};
+
         points.push_back(p);
     }
 
     // create clusters and choose some starting centroids
     chooseCentroids(clusters, points, size);
-
     while (true) {
+    
         std::array<int, 3> oldRgb{};
 
         for (Cluster &c : clusters) {
+
             std::vector<int> rgb = c.getCentroid().getRGB();
             oldRgb[0] += rgb[0];
             oldRgb[1] += rgb[1];
@@ -119,10 +120,6 @@ std::vector<Point> generatePalette(std::vector<std::array<int, 3>> &colorData,
             continue;
     }
 
-    std::vector<Point> palette;
 
-    for (int i{0}; i < clusters.size(); ++i) {
-        palette.push_back(clusters.at(i).getCentroid());
-    }
-    return palette;
+    return clusters;
 }
