@@ -29,7 +29,7 @@ class Point {
      *
      * Returns the id of the Point
      */
-    int getId();
+    int getId() const;
 
     /*
      *@param: id: int denoting which cluster the point is in
@@ -84,7 +84,7 @@ class Cluster {
      * @param: none
      * @return: the id of the cluster
      */
-    int getId();
+    int getId() const;
 
     /*
      * Assuming the cluster has data in it:
@@ -103,7 +103,7 @@ class Cluster {
      * @return: a reference to a vector of Point objects
      *
      */
-    std::vector<Point> &getData();
+    std::vector<Point>& getData();
 
     /*
      * @param:none
@@ -112,7 +112,12 @@ class Cluster {
      * Clears the data in the cluster (centroid stays however)
      */
     void reset();
-
+    
+    /*  
+     * @param: none
+     * @return reference to the centroid
+     *
+     */
     Point &getCentroid();
 };
 
