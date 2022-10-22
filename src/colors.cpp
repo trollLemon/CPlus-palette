@@ -65,20 +65,20 @@ void makeColorPalette(std::string &path, int size) {
         }
     }
 
-    std::vector<Point> palette{generatePalette(colors, size)};
+    std::vector<Cluster> palette{generatePalette(colors, size)};
 
     // sort palette based on the sum of the R G and B values
     // This is so we can sort the colors from darkest to brightest, since the
     // colors with low sums will be darker and vise versa
     std::sort(palette.begin(), palette.end(),
-              [](Point &a, Point &b) { return a.sumRGB() > b.sumRGB(); });
+              [](Cluster &a, Cluster &b) { return a.getCentroid().sumRGB() > b.getCentroid().sumRGB(); });
 
     // reverse the order so its darkest colors to lightest
     std::reverse(palette.begin(), palette.end());
 
-    for (Point &p : palette) {
+    for (Cluster& c : palette) {
 
-        std::vector<int> rgb{p.getRGB()};
+        std::vector<int> rgb{c.getCentroid().getRGB()};
 
         std::cout << createHex(rgb[0], rgb[1], rgb[2]) << '\n';
     }
