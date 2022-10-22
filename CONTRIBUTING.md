@@ -18,7 +18,5 @@ Any questions can be put in the issues tab, and you don't need to include the in
 ## Pull Requests
 If you want to add something to the project, feel free to make a pull request with the additions you want,and it will most likely be merged. However, it wont be merged if the addition deters from the projects main goal: to generate a color palette. If you want to change something in the source code, just make a pull request and explain what you are changing in the code and why.
 
-Make sure to explain what you are adding to the project in your pull request.
-
 
 Thank you for contributing :)

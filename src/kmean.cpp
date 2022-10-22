@@ -3,9 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
-#include <iostream>
 #include <random>
-#include <tuple>
 #include <vector>
 double colorDistance(Point &p, Point &q) {
     std::vector<int> pRgb = p.getRGB();
