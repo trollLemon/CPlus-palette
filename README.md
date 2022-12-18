@@ -134,15 +134,14 @@ sudo make install
 
 
 # References
-### used these two articles and ndrake127's github repo for ideas on how I should structure the project.
 https://reasonabledeviations.com/2019/10/02/k-means-in-cpp/
 
 https://curiousily.com/posts/color-palette-extraction-with-k-means-clustering/
 
 https://github.com/ndrake127/kMeans
 
+https://muthu.co/reducing-the-number-of-colors-of-an-image-using-median-cut-algorithm/
 
-### tips for getting color data
 https://sighack.com/post/averaging-rgb-colors-the-right-way
 
 https://www.codespeedy.com/convert-rgb-to-hex-color-code-in-cpp/
