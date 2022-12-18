@@ -2,30 +2,17 @@
 #include <algorithm>
 #include "color.h"
 #include "colorGen.h"
+#include "median_cut.h"
 #include <array>
 #include <cmath>
 #include <iostream>
+#include <math.h>
 #include <string>
 #include <vector>
 namespace palette {
 
 using namespace cimg_library;
 
-// convert rgb values to hexidecimal
-// gotten from lindevs: https://www.youtube.com/watch?v=TXMegco45q8
-std::string createHex(int r, int g, int b) {
-
-    char hex[8];
-    std::snprintf(hex, sizeof hex, "#%02x%02x%02x", r, g, b);
-
-    std::string hexString;
-
-    for (char i : hex) {
-        hexString += i;
-    }
-
-    return hexString;
-}
 
 void makeColorPalette(std::string &path, int size) {
 
@@ -34,7 +21,7 @@ void makeColorPalette(std::string &path, int size) {
                        // if not , then the program will exit and this wont be
                        // used
 
-    int widthAndHeight{256};
+    int widthAndHeight{500};
     image.resize(widthAndHeight, widthAndHeight);
     int height{image.height()};
     int width{image.width()};
@@ -48,10 +35,15 @@ void makeColorPalette(std::string &path, int size) {
             int r = image(w, h, 0, 0);
             int g = image(w, h, 0, 1);
             int b = image(w, h, 0, 2);
-
             colors.push_back(new Color(r,g,b));
         }
     }
+    
+
+    int depth = log2(static_cast<double>(size));
+
+    MedianCut generator;
+    std::vector<std::string> palette = generator.makePalette(colors, depth);
 }
 
 } // namespace palette
