@@ -1,7 +1,7 @@
 #include "CImg.h"
 #include <iostream>
 #include <string>
-#include "colors.h"
+#include "colorGen.h"
 void printHelp(std::string programName) {
     std::cout << "Usage:\n " << programName << ": pathToImage numberOfColors\n";
     std::cout << "Example: " << programName << " ~/Pictures/picture.png 8\n";

@@ -1,7 +1,7 @@
 #include "CImg.h"
 #include <algorithm>
 #include "color.h"
-#include "colors.h"
+#include "colorGen.h"
 #include <array>
 #include <cmath>
 #include <iostream>
