@@ -1,7 +1,7 @@
 #include "CImg.h"
-#include "dataTypes.h"
-#include "kmean.h"
 #include <algorithm>
+#include "color.h"
+#include "colors.h"
 #include <array>
 #include <cmath>
 #include <iostream>
@@ -41,37 +41,19 @@ void makeColorPalette(std::string &path, int size) {
 
     // get the colors from each pixel
 
-    std::vector<std::array<int, 3>> colors;
+    std::vector<Color *> colors;
 
     for (int h{0}; h < height; ++h) {
         for (int w{0}; w < width; ++w) {
-            std::array<int, 3> pixelColor = {0, 0, 0};
-            pixelColor[0] = image(w, h, 0, 0);
-            pixelColor[1] = image(w, h, 0, 1);
-            pixelColor[2] = image(w, h, 0, 2);
+            int r = image(w, h, 0, 0);
+            int g = image(w, h, 0, 1);
+            int b = image(w, h, 0, 2);
 
-            colors.push_back(pixelColor);
+            colors.push_back(new Color(r,g,b));
         }
-    }
-
-    std::vector<Cluster> palette{generatePalette(colors, size)};
-
-    // sort palette based on the sum of the R G and B values
-    // This is so we can sort the colors from darkest to brightest, since the
-    // colors with low sums will be darker and vise versa
-    std::sort(palette.begin(), palette.end(),
-              [](Cluster &a, Cluster &b) { return a.getCentroid().sumRGB() > b.getCentroid().sumRGB(); });
-
-    // reverse the order so its darkest colors to lightest
-    std::reverse(palette.begin(), palette.end());
-
-    for (Cluster& c : palette) {
-
-        std::vector<int> rgb{c.getCentroid().getRGB()};
-
-        std::cout << createHex(rgb[0], rgb[1], rgb[2]) << '\n';
     }
 }
 
 } // namespace palette
+
 
