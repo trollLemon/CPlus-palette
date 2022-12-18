@@ -1,8 +1,8 @@
 #include "median_cut.h"
 #include <algorithm>
 #include <vector>
-
-
+#include <iostream>
+#include <cmath>
 //custom compare functions for the median cut algorithm
 bool cmpR(Color * a, Color * b){
     return a->Red() > b->Red();
@@ -25,10 +25,35 @@ int getRangeR(std::vector<Color *> colors) {
     auto min = std::min_element(colors.begin(), colors.end(), cmpR);
     
     range = (*max)->Red() - (*min)->Red();
+    std::cout << (*max)->Red() << " " << (*min)->Red() << std::endl;
 
-    return range;
+    return std::abs(range);
+}
+int getRangeG(std::vector<Color *> colors) {
+
+    int range = 0;
+
+    auto max = std::max_element(colors.begin(), colors.end(), cmpG);
+    
+    auto min = std::min_element(colors.begin(), colors.end(), cmpG);
+    
+    range = (*max)->Green() - (*min)->Green();
+    return std::abs(range);
+}
+int getRangeB(std::vector<Color *> colors) {
+
+    int range = 0;
+
+    auto max = std::max_element(colors.begin(), colors.end(), cmpB);
+    
+    auto min = std::min_element(colors.begin(), colors.end(), cmpB);
+    
+    range = (*max)->Blue() - (*min)->Blue();
+    return std::abs(range);
 }
 
+
+//recursive method based on a python implementation: https://muthu.co/reducing-the-number-of-colors-of-an-image-using-median-cut-algorithm/
 void MedianCut::median_cut(std::vector<Color *> colors, int k) {
 
     if(colors.size() == 0) {
@@ -39,9 +64,11 @@ void MedianCut::median_cut(std::vector<Color *> colors, int k) {
         getAverageColor(colors);
     }
 
-    int rangeR = getRangeR(colors);    
+    int rangeR = getRangeR(colors);   
+    int rangeG = getRangeG(colors);
+    int rangeB = getRangeB(colors);
 
-
+    std::cout << rangeR << " " <<rangeG << " " << rangeB << std::endl;
 
 
 }
@@ -67,6 +94,8 @@ std::string MedianCut::getAverageColor(std::vector<Color *> colors) {
 
 std::vector<std::string> MedianCut::makePalette(std::vector<Color *> colors,
                                                 int k) {
+
+   
 
     median_cut(colors, k);
 
