@@ -23,6 +23,11 @@ int main(int argc, char **argv) {
     std::string paletteSizeInput{argv[2]}; // and this is the size of the colo:w
 
     int paletteSize{std::stoi(paletteSizeInput)};
+    
+    if (paletteSize < 0){
+        std::cout << "Cannot make a palette with size less that 0" << std::endl;
+        return 0;
+    }
 
     std::cout << "Generating a " << paletteSize << " color palette from "
               << path << "..." << '\n';
