@@ -1,8 +1,8 @@
-#include "CImg.h"
-#include <algorithm>
-#include "color.h"
 #include "colorGen.h"
+#include "CImg.h"
+#include "color.h"
 #include "median_cut.h"
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <iostream>
@@ -13,6 +13,16 @@ namespace palette {
 
 using namespace cimg_library;
 
+
+
+//check if user inputed palette size is a power of two
+bool isPowerOfTwo(int x) {
+
+    if(x == 1) return true;
+    if(x==0) return false;
+    return (x%2==0) && isPowerOfTwo(x/2);
+
+}
 
 void makeColorPalette(std::string &path, int size) {
 
@@ -35,20 +45,35 @@ void makeColorPalette(std::string &path, int size) {
             int r = image(w, h, 0, 0);
             int g = image(w, h, 0, 1);
             int b = image(w, h, 0, 2);
-            colors.push_back(new Color(r,g,b));
+            colors.push_back(new Color(r, g, b));
         }
     }
-    
+    int tempSize = size;
+    if (!isPowerOfTwo(size)) {
+
+        size--;
+        size |= size >> 1;
+        size |= size >> 2;
+        size |= size >> 4;
+        size |= size >> 8;
+        size |= size >> 16;
+        size++;
+    }
 
     int depth = log2(static_cast<double>(size));
 
     MedianCut generator;
     std::vector<std::string> palette = generator.makePalette(colors, depth);
-    for(auto i: colors){
+
+
+    for(int i = 0; i<tempSize; ++i){
+        std::cout << palette[i] << std::endl;
+    }
+
+    for (auto i : colors) {
         delete i;
     }
 }
 
 } // namespace palette
-
 
