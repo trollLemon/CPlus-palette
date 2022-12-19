@@ -44,6 +44,9 @@ void makeColorPalette(std::string &path, int size) {
 
     MedianCut generator;
     std::vector<std::string> palette = generator.makePalette(colors, depth);
+    for(auto i: colors){
+        delete i;
+    }
 }
 
 } // namespace palette
