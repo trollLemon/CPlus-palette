@@ -13,9 +13,6 @@ will generate 5 colors based off the colors in example.png:
 
 ![example](https://user-images.githubusercontent.com/90001607/187527831-1b01609d-0846-4d59-afc9-a698982a06a0.png)
 
-The output will look like the following:
-
-![image](https://user-images.githubusercontent.com/90001607/187527765-840ba92d-d2e2-4c79-a548-3d9413be511a.png)
 
 These are the colors generated from the program:
 
