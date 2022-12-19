@@ -48,7 +48,6 @@ int getRangeB(std::vector<Color *> colors) {
 // recursive method based on a python implementation:
 // https://muthu.co/reducing-the-number-of-colors-of-an-image-using-median-cut-algorithm/
 void MedianCut::median_cut(std::vector<Color *> colors, int k) {
-    
 
     if (colors.size() == 0) {
         return;
@@ -63,23 +62,21 @@ void MedianCut::median_cut(std::vector<Color *> colors, int k) {
     int rangeG = getRangeG(colors);
     int rangeB = getRangeB(colors);
 
-
-    if (rangeR > rangeG && rangeR > rangeB){
+    if (rangeR > rangeG && rangeR > rangeB) {
         std::sort(colors.begin(), colors.end(), cmpR);
     }
-    if (rangeG > rangeR && rangeG > rangeR){
+    if (rangeG > rangeR && rangeG > rangeR) {
         std::sort(colors.begin(), colors.end(), cmpG);
     }
-    if (rangeB > rangeG && rangeB > rangeR){
+    if (rangeB > rangeG && rangeB > rangeR) {
         std::sort(colors.begin(), colors.end(), cmpB);
     }
-    //divide vector into two new ones and recurse
-    int median = colors.size()/2;
-    std::vector<Color *> low(colors.begin(), colors.begin()+median);
-    std::vector<Color *> high(colors.begin()+median, colors.end());
-    median_cut(low, k-1);
-    median_cut(high, k-1);
-
+    // divide vector into two new ones and recurse
+    int median = colors.size() / 2;
+    std::vector<Color *> low(colors.begin(), colors.begin() + median);
+    std::vector<Color *> high(colors.begin() + median, colors.end());
+    median_cut(low, k - 1);
+    median_cut(high, k - 1);
 }
 
 void MedianCut::getAverageColor(std::vector<Color *> colors) {
@@ -105,10 +102,6 @@ std::vector<std::string> MedianCut::makePalette(std::vector<Color *> colors,
                                                 int k) {
 
     median_cut(colors, k);
-    for(auto i : this->colors){
-        std::cout <<i << std::endl;
-    }
-    std::cout << this->colors.size() << std::endl;
     return this->colors;
 }
 
