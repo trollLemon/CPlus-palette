@@ -1,10 +1,8 @@
 # CPlus-palette
-Command line utility that generates a color palette based on an image inputted by the user. The amount of colors can also be specified.
+Command line utility that generates a color palette based on an image inputted by the user.
 
 # Usage
-
-The program has two inputs, a path to an image file, and how many colors you want in your
-palette.
+The program has two inputs, a path to an image and how many colors you want in your palette.
 
 For example:
 
@@ -21,25 +19,27 @@ The output will look like the following:
 
 These are the colors generated from the program:
 
+![1](https://user-images.githubusercontent.com/90001607/208357978-9f34397a-2721-4f77-bf75-e46b400bc8e8.png)
+![2](https://user-images.githubusercontent.com/90001607/208357981-378d2543-0d80-478c-b313-30c7f5e40b98.png)
+![3](https://user-images.githubusercontent.com/90001607/208357983-0119f5c6-b90c-4519-9d8e-166727a0fb11.png)
+![4](https://user-images.githubusercontent.com/90001607/208357984-08bff1cf-7f94-44c5-bb18-4ab63691be1c.png)
+![5](https://user-images.githubusercontent.com/90001607/208357985-16c56095-7193-4e96-936b-06b1a808bc34.png)
 
-![#2a2e3a](https://user-images.githubusercontent.com/90001607/187529250-57aae882-766e-4ce7-a01e-776bc4f5aa42.png)
-![#6e7597](https://user-images.githubusercontent.com/90001607/187529252-d95fd989-ba84-4c71-aeba-7975d8616e6a.png)
-![#8e7a99](https://user-images.githubusercontent.com/90001607/187529254-42f6424b-68f0-4642-a47e-e362d836de75.png)
-![#495371](https://user-images.githubusercontent.com/90001607/187529256-f59605ba-ccbc-4a01-a08e-ee46e2c2f6fd.png)
-![#d1697b](https://user-images.githubusercontent.com/90001607/187529258-284d44ab-b04b-402f-98b7-6609c241a45d.png)
 
 
 
 # Building
 
 ### What you need
-
+#### Packages
 You will need [CImg](https://www.cimg.eu/index.html), [ImageMagick](https://imagemagick.org/index.php), and the X11 headers installed on your system in order to build this project.
 
+#### Compilers and Build tools
+You will also need Cmake and a c++ compiler to build (i.e g++, clang, etc..).
 
 
 Installation instructions for these packages for different linux distros are included in this README. 
-You will also need Cmake and a c++ compiler to build (i.e g++, clang, etc..).
+
 
 ### Arch and Arch based Distros
 
