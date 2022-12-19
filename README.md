@@ -145,3 +145,5 @@ https://muthu.co/reducing-the-number-of-colors-of-an-image-using-median-cut-algo
 https://sighack.com/post/averaging-rgb-colors-the-right-way
 
 https://www.codespeedy.com/convert-rgb-to-hex-color-code-in-cpp/
+
+https://stackoverflow.com/questions/466204/rounding-up-to-next-power-of-2
