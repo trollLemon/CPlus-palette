@@ -6,6 +6,7 @@
 #include <map>
 #include <queue>
 #include <string>
+#include <set>
 #include <unordered_map>
 
 // Cluster id and the distance from a point to its centroid
@@ -13,17 +14,25 @@ struct cluster_distance {
 
   int cluster;
   double distance;
+
 };
+
+struct Comp {
+
+bool operator()(const cluster_distance *a, const cluster_distance *b);
+};
+
+
 
 // wrapper around a priority queue for a Min heap
 class minHeap {
 
 private:
-  std::priority_queue<cluster_distance> distances;
+  std::priority_queue<cluster_distance *, std::vector<cluster_distance *>, Comp> distances;
 
 public:
-  void push(double distance);
-  void pop();
+  void push(cluster_distance *pair);
+  int pop();
   void clear();
 };
 
@@ -31,14 +40,12 @@ public:
 class Quantizer {
 
 private:
-  std::map<Color *, minHeap *>
-      data; // Distances from points to each centroid
-  std::vector<Cluster *>
+  std::map<Color *, minHeap *> data; // Distances from points to each centroid
+  std::set<Cluster *>
       toReclalculate; // Clusters whose centroid we need to recalculate
-  std::unordered_map<int /*Cluster ID*/, Cluster *>
-      clusters;                // clusters
-  void K_MEAN_INIT(int k);     // select k random points to be the initial Clusters 
-  void K_MEAN_START();         // begins the data clustering
+  std::unordered_map<int /*Cluster ID*/, Cluster *> clusters; // clusters
+  void K_MEAN_INIT(int k); // select k random points to be the initial Clusters
+  void K_MEAN_START();     // begins the data clustering
   double EuclidianDistance(Color *a, Color *b);
   std::vector<Color *> colors;
 
