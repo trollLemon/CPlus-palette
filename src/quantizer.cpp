@@ -4,9 +4,11 @@
 #include <algorithm>
 #include <assert.h>
 #include <cmath>
+#include <functional>
 #include <iostream>
 #include <random>
 
+cluster_distance::~cluster_distance() {}
 void minHeap::push(cluster_distance *pair) {
 
   pair->distance *= -1;
@@ -18,9 +20,16 @@ bool Comp::operator()(const cluster_distance *a, const cluster_distance *b) {
   return a->distance < b->distance;
 }
 
+minHeap::~minHeap() { clear(); }
+
 int minHeap::pop() {
 
+	if(distances.top() == nullptr){
+	return -1;
+	}
+
   int ClusterId = distances.top()->cluster;
+  delete distances.top();
   distances.pop();
 
   return ClusterId;
@@ -93,12 +102,11 @@ void Quantizer::K_MEAN_START() {
 
   std::set<Cluster *> toRecalculate;
 
-  
   bool firstRun = true;
-  while (firstRun || toRecalculate.size()!=0) {
-    
+  while (firstRun || toRecalculate.size() != 0) {
+
     toRecalculate.clear();
-      for (Color *point : colors) {
+    for (Color *point : colors) {
 
       minHeap *heap = data[point];
 
@@ -107,13 +115,15 @@ void Quantizer::K_MEAN_START() {
         double distance =
             EuclidianDistance(Cluster.second->getCentroid(), point);
         int id = Cluster.second->getId();
-
+	
         cluster_distance *clusterDist = new cluster_distance;
         clusterDist->cluster = id;
         clusterDist->distance = distance;
         heap->push(clusterDist);
-      }
+        
+	}
 
+      
       int closestCluster = heap->pop();
 
       if (closestCluster != point->getClusterId()) {
@@ -126,8 +136,8 @@ void Quantizer::K_MEAN_START() {
     for (auto i : toRecalculate) {
       i->calcNewCentroid();
     }
-	
-    firstRun= false;
+
+    firstRun = false;
   }
 }
 std::vector<std::string> Quantizer::makePalette(std::vector<Color *> &colors,
@@ -155,12 +165,20 @@ std::vector<std::string> Quantizer::makePalette(std::vector<Color *> &colors,
 
   std::vector<std::string> palette;
   for (auto cluster : clusters) {
-
     // up unil this point the Colors have had their LAB Values used, So we
     // should update the RGB values
     cluster.second->getCentroid()->LABtoRGB();
     palette.push_back(cluster.second->asHex());
   }
 
+  for (auto heap : data) {
+    delete heap.second;
+  }
+
+  for (auto cluster : clusters) {
+    delete cluster.second;
+  }
+
+  std::sort(palette.begin(), palette.end(), std::greater<std::string>());
   return palette;
 }
