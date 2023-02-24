@@ -16,6 +16,14 @@ void minHeap::push(cluster_distance *pair) {
   distances.push(pair);
 }
 
+
+
+bool ColorSort::operator()( const Cluster *a, const Cluster *b) {
+
+  return a->getCentroid()->Lum() > b->getCentroid()->Lum();
+}
+
+
 bool Comp::operator()(const cluster_distance *a, const cluster_distance *b) {
   return a->distance < b->distance;
 }
@@ -24,9 +32,9 @@ minHeap::~minHeap() { clear(); }
 
 int minHeap::pop() {
 
-	if(distances.top() == nullptr){
-	return -1;
-	}
+  if (distances.top() == nullptr) {
+    return -1;
+  }
 
   int ClusterId = distances.top()->cluster;
   delete distances.top();
@@ -115,15 +123,13 @@ void Quantizer::K_MEAN_START() {
         double distance =
             EuclidianDistance(Cluster.second->getCentroid(), point);
         int id = Cluster.second->getId();
-	
+
         cluster_distance *clusterDist = new cluster_distance;
         clusterDist->cluster = id;
         clusterDist->distance = distance;
         heap->push(clusterDist);
-        
-	}
+      }
 
-      
       int closestCluster = heap->pop();
 
       if (closestCluster != point->getClusterId()) {
@@ -164,11 +170,22 @@ std::vector<std::string> Quantizer::makePalette(std::vector<Color *> &colors,
   K_MEAN_START();
 
   std::vector<std::string> palette;
-  for (auto cluster : clusters) {
+  std::vector < Cluster * > sortedColors;
+  
+
+for (auto cluster : clusters) {
     // up unil this point the Colors have had their LAB Values used, So we
     // should update the RGB values
-    cluster.second->getCentroid()->LABtoRGB();
-    palette.push_back(cluster.second->asHex());
+   sortedColors.push_back(cluster.second); 
+}
+
+std::sort(sortedColors.begin(), sortedColors.end(), ColorSort());
+
+  for (Cluster *cluster: sortedColors) {
+    // up unil this point the Colors have had their LAB Values used, So we
+    // should update the RGB values
+    cluster->getCentroid()->LABtoRGB();
+    palette.push_back(cluster->asHex());
   }
 
   for (auto heap : data) {
@@ -179,6 +196,5 @@ std::vector<std::string> Quantizer::makePalette(std::vector<Color *> &colors,
     delete cluster.second;
   }
 
-  std::sort(palette.begin(), palette.end(), std::greater<std::string>());
   return palette;
 }
