@@ -112,16 +112,11 @@ sudo make install
 
 
 # References
+http://ijimt.org/papers/102-M480.pdf
 https://reasonabledeviations.com/2019/10/02/k-means-in-cpp/
-
 https://curiousily.com/posts/color-palette-extraction-with-k-means-clustering/
-
 https://github.com/ndrake127/kMeans
-
 https://muthu.co/reducing-the-number-of-colors-of-an-image-using-median-cut-algorithm/
-
 https://sighack.com/post/averaging-rgb-colors-the-right-way
-
 https://www.codespeedy.com/convert-rgb-to-hex-color-code-in-cpp/
-
 https://stackoverflow.com/questions/466204/rounding-up-to-next-power-of-2
