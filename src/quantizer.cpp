@@ -170,15 +170,16 @@ std::vector<std::string> Quantizer::makePalette(std::vector<Color *> &colors,
     data[point] = new minHeap();
   }
 
-  /* Initialize the Clustering
-   *
-   * The first iteration will  be run here aswell
+  /* 
+   * Initialize the Clustering
    *
    * */
   K_MEAN_INIT(k);
 
-  /**/
-
+  /*
+   * Start the clustring iteration
+   * 
+   * */
   K_MEAN_START();
 
   std::vector<std::string> palette;
