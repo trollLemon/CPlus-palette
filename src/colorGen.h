@@ -5,13 +5,13 @@
 #include <string>
 
 namespace palette {
-    /* 
-     * @Param: string path:Image path, int size: size of color palette
-     * @return: none
-     *
-     * Makes a color palette
-     */
-    void makeColorPalette(std::string &path, int size);
-}
+/*
+ * @Param: string path:Image path, int size: size of color palette
+ * @return: none
+ *
+ * Makes a color palette
+ */
+void makeColorPalette(std::string &path, int size);
+} // namespace palette
 
 #endif
