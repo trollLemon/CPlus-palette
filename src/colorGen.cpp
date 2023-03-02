@@ -1,6 +1,7 @@
 #include "colorGen.h"
 #include "CImg.h"
 #include "color.h"
+#include "median_cut.h"
 #include "quantizer.h"
 #include <algorithm>
 #include <array>
@@ -9,11 +10,22 @@
 #include <math.h>
 #include <string>
 #include <vector>
+
 namespace palette {
 
 using namespace cimg_library;
 
-void makeColorPalette(std::string &path, int size) {
+// check if user inputed palette size is a power of two
+bool isPowerOfTwo(int x) {
+
+  if (x == 1)
+    return true;
+  if (x == 0)
+    return false;
+  return (x % 2 == 0) && isPowerOfTwo(x / 2);
+}
+
+void makeColorPalette(std::string &path, int size, int genType) {
 
   CImg<unsigned char> image(
       path.c_str()); // This is assigned if an image is loaded without errors,
@@ -39,12 +51,39 @@ void makeColorPalette(std::string &path, int size) {
     }
   }
 
-  Quantizer q;
+  std::vector<std::string> palette;
 
-  std::vector<std::string> palette = q.makePalette(colors, size);
+  switch (genType) {
+  case 1: {
+    std::cout << "Using K Mean Clustering:::" << std::endl;
+    Quantizer q;
+    palette = q.makePalette(colors, size);
+    for (std::string color : palette) {
+      std::cout << color << std::endl;
+    }
 
-  for (std::string color : palette) {
-    std::cout << color << std::endl;
+    break;
+  }
+  case 2: {
+    std::cout << "Using MedianCut:::" << std::endl;
+    MedianCut generator;
+    int tempSize = size;
+    if (!isPowerOfTwo(size)) {
+      size--;
+      size |= size >> 1;
+      size |= size >> 2;
+      size |= size >> 4;
+      size |= size >> 8;
+      size |= size >> 16;
+      size++;
+    }
+    int depth = log2(static_cast<double>(size));
+    palette = generator.makePalette(colors, depth);
+    for(int i = 0; i<tempSize; ++i){
+	std::cout << palette[i] << std::endl;
+    }
+    break;
+  }
   }
 
   for (Color *color : colors) {
