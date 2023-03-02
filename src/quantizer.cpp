@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <assert.h>
 #include <cmath>
+#include <ctime>
 #include <functional>
 #include <iostream>
 #include <random>
@@ -16,13 +17,10 @@ void minHeap::push(cluster_distance *pair) {
   distances.push(pair);
 }
 
-
-
-bool ColorSort::operator()( const Cluster *a, const Cluster *b) {
+bool ColorSort::operator()(const Cluster *a, const Cluster *b) {
 
   return a->getCentroid()->Lum() > b->getCentroid()->Lum();
 }
-
 
 bool Comp::operator()(const cluster_distance *a, const cluster_distance *b) {
   return a->distance < b->distance;
@@ -62,90 +60,104 @@ double Quantizer::EuclidianDistance(Color *a, Color *b) {
 void Quantizer::K_MEAN_INIT(int k) {
 
   // randomly get k points
-  auto randomGen = std::default_random_engine{};
+  int size = colors.size();
 
-  // TODO: gen random numbers instead of shuffling the entire array
-  //  shuffle colors array
-  //  we only need to do this once
-  std::shuffle(colors.begin(), colors.end(), randomGen);
+  // better seeding from
+  // https://www.learncpp.com/cpp-tutorial/generating-random-numbers-using-mersenne-twister/
+  std::random_device rd;
+  std::seed_seq ss{rd(), rd(), rd(), rd(), rd(), rd(), rd(), rd()};
+
+  std::mt19937 mt{ss};
+  std::uniform_int_distribution<> kPoints{size/2, size};
+  std::set<int> seen; // make sure we have unique numbers
+  std::vector<int> colorIndecies;
+
+  while (seen.size() != k) {
+    int num = kPoints(mt);
+    if (seen.count(num) == 0) {
+      seen.insert(num);
+      colorIndecies.push_back(num);
+    }
+  }
 
   for (int i = 0; i < k; ++i) {
-    Cluster *cluster = new Cluster(colors[i], i);
+    Cluster *cluster = new Cluster(colors[colorIndecies[i]], i);
     clusters[i] = cluster;
   }
 
   // Do the intial iteration
   for (Color *point : colors) {
-
-    minHeap *heap = data[point];
-    for (auto Cluster : clusters) {
-
-      double distance = EuclidianDistance(Cluster.second->getCentroid(), point);
-      int id = Cluster.second->getId();
-
-      cluster_distance *clusterDist = new cluster_distance;
-      clusterDist->cluster = id;
-      clusterDist->distance = distance;
-      heap->push(clusterDist);
-    }
-
-    int closestCluster = heap->pop();
-    clusters[closestCluster]->addPoint(point->getId(), point);
-
-    point->setClusterId(closestCluster);
+    point->setClusterId(-1);
   }
 
-  for (auto Cluster : clusters) {
-    Cluster.second->calcNewCentroid();
-  }
   // first phase done
-  // the next iterations will attempt to only recalculate centroids and
-  // distances for the centroid that have points added or removed.
 }
 void Quantizer::K_MEAN_START() {
 
   // recalculate distances for all points
   // if any points move, we will put the effected clusters in a set,
-  // so K_MEAN_START will be able to recalc their centroids
 
   std::set<Cluster *> toRecalculate;
 
-  bool firstRun = true;
-  while (firstRun || toRecalculate.size() != 0) {
+  bool loop = true;
 
+  int oldSize = 0;
+  int newSize = 0;
+  int failCount = 0; // how many times there are still clusters left in the
+
+  while (loop || toRecalculate.size() != 0) {
+
+    if (oldSize == newSize) {
+      failCount++;
+    }
+
+    // if we fail to converge the clusters more than two times,
+    // we exit
+    if (failCount > 5) {
+      return;
+    }
+
+    oldSize = toRecalculate.size();
     toRecalculate.clear();
     for (Color *point : colors) {
 
       minHeap *heap = data[point];
 
-      for (auto Cluster : clusters) {
+      for (auto cluster : clusters) {
 
         double distance =
-            EuclidianDistance(Cluster.second->getCentroid(), point);
-        int id = Cluster.second->getId();
-
-        cluster_distance *clusterDist = new cluster_distance;
-        clusterDist->cluster = id;
-        clusterDist->distance = distance;
-        heap->push(clusterDist);
+            EuclidianDistance(cluster.second->getCentroid(), point);
+        int id = cluster.second->getId();
+        cluster_distance *dist = new cluster_distance;
+        dist->cluster = id;
+        dist->distance = distance;
+        heap->push(dist);
       }
 
-      int closestCluster = heap->pop();
+      int id = heap->pop();
 
-      if (closestCluster != point->getClusterId()) {
-        toRecalculate.insert(clusters[closestCluster]);
-        toRecalculate.insert(clusters[point->getClusterId()]);
+      if (id != point->getClusterId()) {
+        toRecalculate.insert(clusters[id]);
+        int pId = point->getClusterId();
+        if (pId != -1) {
+          toRecalculate.insert(clusters[pId]);
+        }
       }
 
-      point->setClusterId(closestCluster);
+      point->setClusterId(id);
     }
-    for (auto i : toRecalculate) {
-      i->calcNewCentroid();
+    newSize = toRecalculate.size();
+    if (toRecalculate.size() == 0) {
+      return;
+    }
+    for (Cluster *cluster : toRecalculate) {
+      cluster->calcNewCentroid();
     }
 
-    firstRun = false;
+    loop = !loop;
   }
 }
+
 std::vector<std::string> Quantizer::makePalette(std::vector<Color *> &colors,
                                                 int k) {
 
@@ -170,18 +182,17 @@ std::vector<std::string> Quantizer::makePalette(std::vector<Color *> &colors,
   K_MEAN_START();
 
   std::vector<std::string> palette;
-  std::vector < Cluster * > sortedColors;
-  
+  std::vector<Cluster *> sortedColors;
 
-for (auto cluster : clusters) {
+  for (auto cluster : clusters) {
     // up unil this point the Colors have had their LAB Values used, So we
     // should update the RGB values
-   sortedColors.push_back(cluster.second); 
-}
+    sortedColors.push_back(cluster.second);
+  }
 
-std::sort(sortedColors.begin(), sortedColors.end(), ColorSort());
+  std::sort(sortedColors.begin(), sortedColors.end(), ColorSort());
 
-  for (Cluster *cluster: sortedColors) {
+  for (Cluster *cluster : sortedColors) {
     // up unil this point the Colors have had their LAB Values used, So we
     // should update the RGB values
     cluster->getCentroid()->LABtoRGB();

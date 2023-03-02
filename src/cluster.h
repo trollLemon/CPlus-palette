@@ -11,7 +11,8 @@ private:
   int id;
 
 public:
-  Color *getCentroid();
+  bool operator()(Cluster *a, Cluster *b);
+  Color *getCentroid() const;
   Cluster(Color *a, int id);
   ~Cluster();
   void calcNewCentroid();

@@ -1,7 +1,7 @@
 #include "cluster.h"
 #include "color.h"
 
-Color *Cluster::getCentroid() { return centroid; }
+Color *Cluster::getCentroid() const { return centroid; }
 Cluster::Cluster(Color *a, int id) : centroid{a}, id{id} {}
 Cluster::~Cluster() {}
 

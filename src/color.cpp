@@ -8,16 +8,12 @@ Color::Color(int r, int g, int b, int p)
   RGBtoLAB();
 }
 
-
 Color::Color(double lum, double aVal, double bVal, int p)
     : L{lum}, A{aVal}, B{bVal}, p{p}, clusterId(-1) {
 
   // convert to XYZ and RGB on color creation
   LABtoRGB();
 }
-
-
-
 
 std::string Color::asHex() {
 
@@ -172,10 +168,18 @@ void Color::testColor() {
 
   std::cout << "Color:" << p << std::endl;
 
-  std::cout << "RGB: " << r << " " << g << " " << b << std::endl;	
+  std::cout << "RGB: " << r << " " << g << " " << b << std::endl;
   std::cout << "XYZ: " << x << " " << y << " " << z << std::endl;
   std::cout << "LAB: " << L << " " << A << " " << B << std::endl;
 }
+
+void Color::setLAB(double l, double a, double b) {
+  this->L = l;
+  this->A = a;
+  this->B = b;
+  LABtoRGB();
+}
+
 int Color::getId() { return p; }
 int Color::getClusterId() { return clusterId; }
 void Color::setClusterId(int i) { clusterId = i; }

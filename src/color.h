@@ -1,5 +1,6 @@
 #ifndef COLOR
 #define COLOR
+#include <cmath>
 #include <string>
 
 class Color {
@@ -16,30 +17,46 @@ private:
   int b;
 
   // XYZ Color Space
-  int x;
-  int y;
-  int z;
+  double x;
+  double y;
+  double z;
   // CIE Lab Color Space
-  int L;
-  int A;
-  int B;
+  double L;
+  double A;
+  double B;
 
+  // Color Space conversions
   void RGBtoXYZ();
   void XYZtoLAB();
+  void LABtoXYZ();
+  void XYZtoRGB();
 
-  int ClusterId;
-  int p;
+  int clusterId; // clusterId
+  int p;         // point id
+
 public:
   bool operator<(const Color &ob) const;
 
   Color(int r, int g, int b, int p);
+  void setLAB(double l, double a, double b);
+  Color(double lum, double aVal, double bVal, int p);
   std::string asHex();
   int Red();
   int Green();
   int Blue();
-  void setClusterId();
-  void getClusterId();
+  int getId();
+  double Lum();
+  double aVal();
+  double bVal();
+  void setClusterId(int i);
+  int getClusterId();
+
+  void testColor();
+
+  // Convert RGB to LAB
   void RGBtoLAB();
+  // converts LAB to RGB
+  // Assumes that RGB was already converted to LAB
   void LABtoRGB();
 };
 
