@@ -1,77 +1,111 @@
 # CPlus-palette
-Command line utility that generates a color palette based on an image inputted by the user.
+Command line tool that generates color palettes based on an image given by the user.
+
 
 # Usage
-The program has two inputs, a path to an image and how many colors you want in your palette.
-
-For example:
-
-```bash
-cpluspalette ~/Pictures/example.png 5
 ```
-will generate 5 colors based off the colors in example.png:
+ cpluspalette: pathToImage numberOfColors -t [quantization type]
+Example: cpluspalette ~/Pictures/picture.png 8 -t 1
 
-![example](https://user-images.githubusercontent.com/90001607/187527831-1b01609d-0846-4d59-afc9-a698982a06a0.png)
+-t 1: uses K mean Clustering for Color Palette Generation: slower but produces better palettes most of the time
+-t 2: used Median Cut for Color Palette Generation: Faster than K means Clustering but color palettes aren't always as good
+```
+To generate a palette, input a path to an image file, the number of colors you want, and optionally the quantization type:
+-t 1: Uses K means Clustering for color quantization
+-t 2: Uses Median Cut for color quantization
 
+By default, Cpluspalette will use K means clustering unless you specify a different quantization type. Generally, the palette quality using K means Clustering is better than what Medain Cut produces but is slower. However, depending on the image, K means Clustering may create a poor palette; in that case, try again using Medain Cut.
 
-These are the colors generated from the program:
+## Examples
 
-![1](https://user-images.githubusercontent.com/90001607/208357978-9f34397a-2721-4f77-bf75-e46b400bc8e8.png)
-![2](https://user-images.githubusercontent.com/90001607/208357981-378d2543-0d80-478c-b313-30c7f5e40b98.png)
-![3](https://user-images.githubusercontent.com/90001607/208357983-0119f5c6-b90c-4519-9d8e-166727a0fb11.png)
-![4](https://user-images.githubusercontent.com/90001607/208357984-08bff1cf-7f94-44c5-bb18-4ab63691be1c.png)
-![5](https://user-images.githubusercontent.com/90001607/208357985-16c56095-7193-4e96-936b-06b1a808bc34.png)
+Here is an example:
+```bash
+ cpluspalette 1261697.jpg 8
+```
+or 
+```bash
+ cpluspalette 1261697.jpg 8 -t 1
+```
+Both ways of running cpluspalette will generate a color palette of 8 colors using K means Clustering: 
+```
+Generating a 8 color palette from 1261697.jpg... 
+Using K Mean Clustering::: 
+#f0e889 
+#efe289 
+#ebe386 
+#ebe281 
+#b5d09b 
+#b4cc92 
+#1a646f 
+#164454
+```
+Here are the following colors from the list above:
 
-
-
+To use Median Cut, run:
+```bash
+ cpluspalette 1261697.jpg 8 -t 2
+```
+Which will generate the following:
+```
+Using MedianCut::: 
+#825b41 
+#9e9066 
+#d1d590 
+#1c4852 
+#c3dfba 
+#5fa091 
+#185763 
+#0e2a39
+```
+Here are the colors from the list above:
 
 # Building
 
 ### What you need
 #### Packages
-You will need [CImg](https://www.cimg.eu/index.html), [ImageMagick](https://imagemagick.org/index.php), and the X11 headers installed on your system in order to build this project.
+You will need [CImg](https://www.cimg.eu/index.html), [ImageMagick](https://imagemagick.org/index.php), and the X11 headers installed on your system to build this project.
 
 #### Compilers and Build tools
-You will also need Cmake and a c++ compiler to build (i.e g++, clang, etc..).
+You will also need Cmake and the g++ compiler.
 
 
-Installation instructions for these packages for different linux distros are included in this README. 
+The following section includes installation instructions for these packages for different Linux distros.
 
 
-### Arch and Arch based Distros
+### Arch and Arch-based Distros
 
-On arch, you can install CImg from the AUR with the following:
+On Arch, you can install CImg from the AUR with the following:
 ```bash
 yay CImg
 ```
 and choose the option *community/cimg*.
 
-Then install imagemagick, it is available in the official arch repositories:
+Then install ImageMagick, which is available in the official arch repositories:
 ```bash
 
 sudo pacman -S imagemagick
 ```
-If you dont have the X11 headers you can install them from the official repository:
+If you do not have the X11 headers, you can install them from the official repository:
 ```bash
 sudo pacman -S libx11
 
 ```
-### Debian and Debian Based Distros
+### Debian and Debian-Based Distros
 
-On Debian (or mint, ubuntu, other debian based distros), install imagemagick:
+On Debian (or mint, ubuntu, or other Debian-based distros), install ImageMagick:
 ```bash
-sudo apt install imagemagick
+sudo apt install ImageMagick
 ```
  CImg:
 ```bash
 sudo apt install cimg-dev
 ```
-and the X11 headers if you don't have them:
+And the X11 headers, if you don't have them:
 ```bash
 sudo apt install libx11-dev
 ```
 
-### Fedora and Fedora Based Distros
+### Fedora and Fedora-Based Distros
 
 X11 headers:
 ```bash
@@ -91,21 +125,21 @@ sudo dnf install ImageMagick
 
 ## Compiling
 
-Once you have gotten CImg, you can now compile and link the project.
+Once you have gotten CImg, you can compile and link the project.
 
-First, create a directory called build in the Github repo and then cd into it:
+First, create a directory called build in the GitHub repo and then cd into it:
 ```bash
 mkdir build && cd build
 ```
 
-next configure Cmake and then build the project:
+Next, configure Cmake and then build the project:
 ```bash
 cmake ../
 cmake --build .
 ```
 
 Then if you want to install it on your system rather than having the executable
-in the build directory, run:
+in the build directory, run the following:
 ```bash
 sudo make install
 ```
