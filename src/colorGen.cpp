@@ -6,14 +6,16 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <cstddef>
 #include <iostream>
 #include <math.h>
 #include <string>
+#include <unordered_set>
 #include <vector>
-
 namespace palette {
 
 using namespace cimg_library;
+
 
 // check if user inputed palette size is a power of two
 bool isPowerOfTwo(int x) {
@@ -32,22 +34,37 @@ void makeColorPalette(std::string &path, int size, int genType) {
                      // if not , then the program will exit and this wont be
                      // used
 
-  int widthAndHeight{200};
+  int widthAndHeight{500};
   image.resize(widthAndHeight, widthAndHeight);
   int height{image.height()};
   int width{image.width()};
 
   // get the colors from each pixel
   int count = 0;
+  
+  // The colors from the image
   std::vector<Color *> colors;
+  
 
+  // we will use a map to filter out duplicate colors
+  // for example, an image that is 90% dark blue will likely pollute 
+  // the other colors during the clustering, so we only include the color once
+  // this improves color palette generation by a lot 
+  std::unordered_set<std::string> unique;
+  
   for (int h{0}; h < height; ++h) {
     for (int w{0}; w < width; ++w) {
       int r = image(w, h, 0, 0);
       int g = image(w, h, 0, 1);
       int b = image(w, h, 0, 2);
       Color *newColor = new Color(r, g, b, count++);
-      colors.push_back(newColor);
+
+      if (unique.count(newColor->asHex()) != 0) {
+        delete newColor;
+      } else {
+        unique.insert(newColor->asHex());
+        colors.push_back(newColor);
+      }
     }
   }
 
@@ -79,8 +96,8 @@ void makeColorPalette(std::string &path, int size, int genType) {
     }
     int depth = log2(static_cast<double>(size));
     palette = generator.makePalette(colors, depth);
-    for(int i = 0; i<tempSize; ++i){
-	std::cout << palette[i] << std::endl;
+    for (int i = 0; i < tempSize; ++i) {
+      std::cout << palette[i] << std::endl;
     }
     break;
   }
