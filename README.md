@@ -18,7 +18,11 @@ By default, Cpluspalette will use K means clustering unless you specify a differ
 
 ## Examples
 
-Here is an example:
+Here is an example. The image in this example was gotten from https://wallpaperaccess.com/abstract-minimalist:
+
+![1261697](https://user-images.githubusercontent.com/90001607/224535970-b3313613-cba6-4618-83dc-09cda2df71fe.jpg)
+
+
 ```bash
  cpluspalette 1261697.jpg 8
 ```
@@ -41,6 +45,15 @@ Using K Mean Clustering:::
 ```
 Here are the following colors from the list above:
 
+![1](https://user-images.githubusercontent.com/90001607/224536280-080897c1-5b90-4ce4-a7ce-3f53c6e98a49.png)
+![2](https://user-images.githubusercontent.com/90001607/224536281-0d5bbca2-f567-4a80-9e51-0a228e9404db.png)
+![3](https://user-images.githubusercontent.com/90001607/224536282-283cee5c-c4b6-4c28-97f3-5791979f85d1.png)
+![4](https://user-images.githubusercontent.com/90001607/224536283-cbd72a7a-1e61-47df-9603-d5e0bb64011b.png)
+![5](https://user-images.githubusercontent.com/90001607/224536284-45f682cf-08c2-48f5-9ac6-9b3cc9ff2e08.png)
+![6](https://user-images.githubusercontent.com/90001607/224536286-f41c1e89-1837-4f1e-a862-eacc80a21c99.png)
+![7](https://user-images.githubusercontent.com/90001607/224536288-48b0a2c3-1cb2-41b1-939f-e7c8b420471d.png)
+![8](https://user-images.githubusercontent.com/90001607/224536289-ff4cda00-ea7f-4c00-a867-e7ad90e59be8.png)
+
 To use Median Cut, run:
 ```bash
  cpluspalette 1261697.jpg 8 -t 2
@@ -58,6 +71,32 @@ Using MedianCut:::
 #0e2a39
 ```
 Here are the colors from the list above:
+
+![1](https://user-images.githubusercontent.com/90001607/224536475-a6ccecd0-7f75-42ca-be8b-b39f972a2147.png)
+![2](https://user-images.githubusercontent.com/90001607/224536476-c5387073-ffe6-4a1f-a5fe-9d6ba37d69ab.png)
+![3](https://user-images.githubusercontent.com/90001607/224536477-d3ce5b2e-d55d-4350-8146-cb6ba2bd0c23.png)
+![4](https://user-images.githubusercontent.com/90001607/224536478-e9595b1c-30c6-40f6-9fde-e0d7835ceac5.png)
+![5](https://user-images.githubusercontent.com/90001607/224536479-c7038024-7b4c-4a27-8c74-e806844169c4.png)
+![6](https://user-images.githubusercontent.com/90001607/224536480-6712fbe0-8d3c-4229-a749-e919883d3e20.png)
+![7](https://user-images.githubusercontent.com/90001607/224536482-32588be4-7ffa-46b5-bbab-ec10d68465c8.png)
+![8](https://user-images.githubusercontent.com/90001607/224536483-105b2a1b-ea03-40ad-ad24-2de66d5f22ec.png)
+
+Here are some more images with the generated palettes and color quantization type:
+![alena-aenami-endless-1k](https://user-images.githubusercontent.com/90001607/224536600-bdf0c8a8-5832-43c9-9bdb-6c3eb9b52960.jpg)
+K mean Clustering:
+
+
+![1](https://user-images.githubusercontent.com/90001607/224536770-474d5fb8-b2b1-491a-bf44-e78c0e86e9ee.png)
+![2](https://user-images.githubusercontent.com/90001607/224536772-78e5e4f7-a5e0-41fc-b58b-ebe021b9a6c3.png)
+![3](https://user-images.githubusercontent.com/90001607/224536773-f5c16c19-d103-45c1-ae46-ed319859824c.png)
+![4](https://user-images.githubusercontent.com/90001607/224536774-a915b921-8d6d-444f-8bb6-bdba195cb327.png)
+![5](https://user-images.githubusercontent.com/90001607/224536775-96a3e5a3-fdde-4f7e-bf07-4663890f6295.png)
+![6](https://user-images.githubusercontent.com/90001607/224536776-45a69ea6-84c1-42ee-8a8a-ba87d45e8474.png)
+![7](https://user-images.githubusercontent.com/90001607/224536777-8ff2e756-f565-469e-96c8-7dba7f46a9c6.png)
+![8](https://user-images.githubusercontent.com/90001607/224536778-9a9c8caa-85d7-4bfa-a169-36e2e4703bd7.png)
+
+
+
 
 # Building
 
