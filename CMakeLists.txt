@@ -17,7 +17,7 @@ set_source_files_properties(
     src/quantizer.cpp
     src/colorGen.cpp
     PROPERTIES
-    COMPILE_FLAGS "-g -O3"
+    COMPILE_FLAGS "-O3"
     )
 
 
