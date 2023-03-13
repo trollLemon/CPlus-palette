@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # set the project name
-project(cpluspalette VERSION 1.0.5)
+project(cpluspalette VERSION 1.1.0)
 
 
 
@@ -17,7 +17,7 @@ set_source_files_properties(
     src/quantizer.cpp
     src/colorGen.cpp
     PROPERTIES
-    COMPILE_FLAGS "-g -O0"
+    COMPILE_FLAGS "-g -O3"
     )
 
 
