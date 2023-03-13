@@ -83,8 +83,9 @@ Here are the colors from the list above:
 
 Here are some more images with the generated palettes and color quantization type:
 ![alena-aenami-endless-1k](https://user-images.githubusercontent.com/90001607/224536600-bdf0c8a8-5832-43c9-9bdb-6c3eb9b52960.jpg)
-K mean Clustering:
+(image from: https://www.artstation.com/artwork/4bX4eY )
 
+K mean Clustering:
 
 ![1](https://user-images.githubusercontent.com/90001607/224536770-474d5fb8-b2b1-491a-bf44-e78c0e86e9ee.png)
 ![2](https://user-images.githubusercontent.com/90001607/224536772-78e5e4f7-a5e0-41fc-b58b-ebe021b9a6c3.png)
@@ -95,8 +96,21 @@ K mean Clustering:
 ![7](https://user-images.githubusercontent.com/90001607/224536777-8ff2e756-f565-469e-96c8-7dba7f46a9c6.png)
 ![8](https://user-images.githubusercontent.com/90001607/224536778-9a9c8caa-85d7-4bfa-a169-36e2e4703bd7.png)
 
+_______________________________________________________________________________________________________________
+
+![2test](https://user-images.githubusercontent.com/90001607/224842789-ee3dd660-78ac-4ed3-9cda-979dbc3c6442.png)
+
+(image from: https://www.reddit.com/r/WidescreenWallpaper/comments/qy5dvn/abstracts_5160x2160/)
 
 
+Median Cut::
+
+![1](https://user-images.githubusercontent.com/90001607/224843431-b0216f26-9e87-48a8-a179-c1fd267d8b3b.png)
+![2](https://user-images.githubusercontent.com/90001607/224843434-ffbc4131-7258-48a9-9f24-39296f2fc546.png)
+![3](https://user-images.githubusercontent.com/90001607/224843436-905053bc-9f0b-4832-9c1e-40e6f11da1a6.png)
+![4](https://user-images.githubusercontent.com/90001607/224843437-a0e4cd99-434e-4325-9088-c89188745795.png)
+
+________________________________________________________________________________________________________________
 
 # Building
 
