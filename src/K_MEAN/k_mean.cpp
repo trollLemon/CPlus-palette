@@ -68,7 +68,7 @@ void KMean::K_MEAN_INIT(int k) {
   std::seed_seq ss{rd(), rd(), rd(), rd(), rd(), rd(), rd(), rd()};
 
   std::mt19937 mt{ss};
-  std::uniform_int_distribution<> kPoints{size/2, size};
+  std::uniform_int_distribution<> kPoints{size / 2, size};
   std::set<int> seen; // make sure we have unique numbers
   std::vector<int> colorIndecies;
 
@@ -157,7 +157,7 @@ void KMean::K_MEAN_START() {
 }
 
 std::vector<std::string> KMean::makePalette(std::vector<ADV_Color *> &colors,
-                                                int k) {
+                                            int k) {
 
   this->colors = colors;
 
@@ -168,7 +168,7 @@ std::vector<std::string> KMean::makePalette(std::vector<ADV_Color *> &colors,
     data[point] = new minHeap();
   }
 
-  /* 
+  /*
    * Initialize the Clustering
    *
    * */
@@ -176,7 +176,7 @@ std::vector<std::string> KMean::makePalette(std::vector<ADV_Color *> &colors,
 
   /*
    * Start the clustring iteration
-   * 
+   *
    * */
   K_MEAN_START();
 

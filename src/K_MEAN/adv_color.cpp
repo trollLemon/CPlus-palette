@@ -1,19 +1,17 @@
 ﻿#include "adv_color.h"
 #include <cmath>
 #include <iostream>
-ADV_Color::ADV_Color(int r, int g, int b)
-    : Color(r,g,b) {
+ADV_Color::ADV_Color(int r, int g, int b) : Color(r, g, b) {
 
   // convert to XYZ and LAB on color creation
   RGBtoLAB();
 }
 
-ADV_Color::ADV_Color(double lum, double aVal, double bVal): Color(0,0,0){
+ADV_Color::ADV_Color(double lum, double aVal, double bVal) : Color(0, 0, 0) {
 
   // convert to XYZ and RGB on color creation
   LABtoRGB();
 }
-
 
 // https://www.easyrgb.com/en/math.php
 void ADV_Color::RGBtoXYZ() {
@@ -158,8 +156,6 @@ void ADV_Color::setLAB(double l, double a, double b) {
   LABtoRGB();
 }
 
-
-
 void ADV_Color::setRGB(int r, int g, int b) {
   this->r = r;
   this->g = g;
@@ -167,25 +163,19 @@ void ADV_Color::setRGB(int r, int g, int b) {
   RGBtoLAB();
 }
 
-
 double ADV_Color::Lum() { return L; }
 double ADV_Color::aVal() { return A; }
 double ADV_Color::bVal() { return B; }
 
+/* *
+ * Sets the cluster ID. This allows us to see which cluster the color is in.
+ * If the cluster id is -1 then the color is assumed to not be in any cluster.
+ *
+ * */
+void ADV_Color::setClusterId(int i) { clusterId = i; }
 
-
-
-  /* *
-   * Sets the cluster ID. This allows us to see which cluster the color is in.
-   * If the cluster id is -1 then the color is assumed to not be in any cluster.
-   *
-   * */
-  void ADV_Color::setClusterId(int i){
-        clusterId = i;
-  }
-
-  /* *
-   * Returns the Id for the cluster the point is currently in
-   *
-   * */
-  int ADV_Color::getClusterId() { return clusterId;}
+/* *
+ * Returns the Id for the cluster the point is currently in
+ *
+ * */
+int ADV_Color::getClusterId() { return clusterId; }

@@ -1,9 +1,7 @@
 #include "color.h"
 #include <cmath>
 #include <iostream>
-Color::Color(int r, int g, int b)
-    : r{r}, g{g}, b{b},  id(-1) {
-}
+Color::Color(int r, int g, int b) : r{r}, g{g}, b{b}, id(-1) {}
 
 std::string Color::asHex() {
 
@@ -19,16 +17,14 @@ std::string Color::asHex() {
   return hexString;
 }
 
-
-  /* *
-   * Sets the RGB values for this color.
-   * */
-  void Color::setRGB(int r, int g, int b) {
-        this->r = r;
-        this->g = g;
-        this->b = b;
-  }
-
+/* *
+ * Sets the RGB values for this color.
+ * */
+void Color::setRGB(int r, int g, int b) {
+  this->r = r;
+  this->g = g;
+  this->b = b;
+}
 
 int Color::getClusterId() { return id; }
 void Color::setClusterId(int i) { id = i; }

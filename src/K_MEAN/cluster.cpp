@@ -29,4 +29,4 @@ void Cluster::calcNewCentroid() {
 
 std::string Cluster::asHex() { return centroid->asHex(); }
 int Cluster::getId() { return id; }
-void Cluster::addPoint( ADV_Color *point) { points.push_back(point); }
+void Cluster::addPoint(ADV_Color *point) { points.push_back(point); }
