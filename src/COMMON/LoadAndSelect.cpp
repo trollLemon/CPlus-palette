@@ -38,6 +38,19 @@ void printResults(std::vector<std::string> &result, std::string &prompt ){
 }
 
 
+
+void printResults(std::vector<std::string> &result, std::string &prompt, int limit ){
+    std::cout << prompt << std::endl;
+
+    for (int i = 0; i < limit; ++i) {
+        std::cout <<  result[i] << std::endl;
+
+    }
+
+}
+
+
+
 /* *
  * Perform K_Mean clustering to generate a palette
  *
@@ -88,8 +101,49 @@ void DoKMean( CImg<unsigned char> *image, int size ){
  * Performs median cut to generate a palette
  * */
 void DoMedCut(CImg< unsigned char> *image, int size){
+  
+
   int height{image->height()};
   int width{image->width()};
+
+  std::unordered_set<std::string> seen;
+  std::vector<Color *> colors;
+  Color *base = new Color(0,0,0);  
+
+  for (int i = 0; i< height; ++i){
+        for(int j = 0; j<width; ++j){
+           int r =  *image->data(j, i, 0, 0);
+           int g =  *image->data(j, i, 0, 1);
+           int b =  *image->data(j, i, 0, 2);
+         
+           base->setRGB(r,g,b);
+           std::string hex = base->asHex();
+
+           if (seen.count(hex) == 0) {
+               colors.push_back(new Color(r,g,b)); 
+               seen.insert(hex);
+           }
+
+
+        }
+    }
+    
+        MedianCut *proc = new MedianCut();
+        int depth = powerOfTwoSize(size);
+        std::vector<std::string> palette = proc->makePalette(colors, depth);
+
+        std::string prompt = "Median Cut";
+        printResults(palette, prompt);
+
+
+        delete proc;
+        delete base;
+        for (Color *color: colors) {
+         delete color;
+        }
+  
+
+
 
 
 }
