@@ -42,7 +42,7 @@ public:
   /* *
    * Sets the RGB values for this color.
    * */
-  void setRGB(double r, double g, double b);
+  void setRGB(int r, int g, int b);
 
 
 
