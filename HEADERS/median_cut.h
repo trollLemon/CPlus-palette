@@ -16,7 +16,7 @@ class MedianCut {
 
 private:
   /* *
-   * recursivly sorts colors based on the range of 
+   * recursively sorts colors based on the range of 
    * RGB values, then splits them into two buckets.
    *
    * The recursion stops once we reach a certain depth
