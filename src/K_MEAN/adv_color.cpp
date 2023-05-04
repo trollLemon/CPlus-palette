@@ -1,4 +1,5 @@
-﻿#include "adv_color.h"
+﻿
+#include "adv_color.h"
 #include <cmath>
 #include <iostream>
 ADV_Color::ADV_Color(int r, int g, int b) : Color(r, g, b) {
@@ -7,7 +8,7 @@ ADV_Color::ADV_Color(int r, int g, int b) : Color(r, g, b) {
   RGBtoLAB();
 }
 
-ADV_Color::ADV_Color(double lum, double aVal, double bVal) : Color(0, 0, 0) {
+ADV_Color::ADV_Color(double lum, double aVal, double bVal) :  Color(0, 0, 0), L{lum}, A{aVal}, B{bVal} {
 
   // convert to XYZ and RGB on color creation
   LABtoRGB();

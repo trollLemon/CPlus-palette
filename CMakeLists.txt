@@ -28,7 +28,7 @@ set_source_files_properties(
     src/main.cpp
 
     PROPERTIES
-    COMPILE_FLAGS "-O5")
+    COMPILE_FLAGS "-O5 -Wall -Wextra -s")
 
 
 find_package(X11 REQUIRED)
