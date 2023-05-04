@@ -20,6 +20,16 @@ std::string Color::asHex() {
 }
 
 
+  /* *
+   * Sets the RGB values for this color.
+   * */
+  void Color::setRGB(int r, int g, int b) {
+        this->r = r;
+        this->g = g;
+        this->b = b;
+  }
+
+
 int Color::getClusterId() { return id; }
 void Color::setClusterId(int i) { id = i; }
 int Color::Red() { return r; }
