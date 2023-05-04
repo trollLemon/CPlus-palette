@@ -98,7 +98,7 @@ void MedianCut::getAverageColor(std::vector<Color *> colors) {
         aveB += c->Blue();
     }
 
-    Color *aveColor = new Color(aveR / size, aveG / size, aveB / size,-1);
+    Color *aveColor = new Color(aveR / size, aveG / size, aveB / size);
     std::string aveAsHex = aveColor->asHex();
     delete aveColor;
     this->colors.push_back(aveAsHex);
