@@ -7,8 +7,8 @@ Command line tool that generates color palettes based on an image given by the u
  cpluspalette: pathToImage numberOfColors -t [quantization type]
 Example: cpluspalette ~/Pictures/picture.png 8 -t 1
 
--t 1: uses K mean Clustering for Color Palette Generation: slower but produces better palettes most of the time
--t 2: used Median Cut for Color Palette Generation: Faster than K means Clustering but color palettes aren't always as good
+-k: uses K mean Clustering for Color Palette Generation: slower but produces better palettes most of the time
+-m: used Median Cut for Color Palette Generation: Faster than K means Clustering but color palettes aren't always as good
 ```
 To generate a palette, input a path to an image file, the number of colors you want, and optionally the quantization type:
 -t 1: Uses K means Clustering for color quantization
@@ -28,7 +28,7 @@ Here is an example. The image in this example was gotten from https://wallpapera
 ```
 or 
 ```bash
- cpluspalette 1261697.jpg 8 -t 1
+ cpluspalette 1261697.jpg 8 -k
 ```
 Both ways of running cpluspalette will generate a color palette of 8 colors using K means Clustering: 
 ```
@@ -56,7 +56,7 @@ Here are the following colors from the list above:
 
 To use Median Cut, run:
 ```bash
- cpluspalette 1261697.jpg 8 -t 2
+ cpluspalette 1261697.jpg 8 -k
 ```
 Which will generate the following:
 ```
