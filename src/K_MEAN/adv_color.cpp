@@ -1,36 +1,20 @@
-#include "color.h"
+﻿#include "adv_color.h"
 #include <cmath>
 #include <iostream>
-Color::Color(int r, int g, int b, int p)
-    : r{r}, g{g}, b{b}, p{p}, clusterId(-1) {
+ADV_Color::ADV_Color(int r, int g, int b) : Color(r, g, b) {
 
   // convert to XYZ and LAB on color creation
   RGBtoLAB();
 }
 
-Color::Color(double lum, double aVal, double bVal, int p)
-    : L{lum}, A{aVal}, B{bVal}, p{p}, clusterId(-1) {
+ADV_Color::ADV_Color(double lum, double aVal, double bVal) : Color(0, 0, 0) {
 
   // convert to XYZ and RGB on color creation
   LABtoRGB();
 }
 
-std::string Color::asHex() {
-
-  char hex[8];
-  std::snprintf(hex, sizeof hex, "#%02x%02x%02x", r, g, b);
-
-  std::string hexString;
-
-  for (char i : hex) {
-    hexString += i;
-  }
-
-  return hexString;
-}
-
 // https://www.easyrgb.com/en/math.php
-void Color::RGBtoXYZ() {
+void ADV_Color::RGBtoXYZ() {
 
   double ratioR = (double)r / (255.0);
   double ratioG = (double)g / (255.0);
@@ -62,7 +46,7 @@ void Color::RGBtoXYZ() {
   y = ratioR * 0.2126 + ratioG * 0.7152 + ratioB * 0.0722;
   z = ratioR * 0.0193 + ratioG * 0.1192 + ratioB * 0.9505;
 }
-void Color::XYZtoLAB() {
+void ADV_Color::XYZtoLAB() {
 
   double ratioX = x / (X_2);
   double ratioY = y / (Y_2);
@@ -90,7 +74,7 @@ void Color::XYZtoLAB() {
   A = 500.0 * (ratioX - ratioY);
   B = 200.0 * (ratioY - ratioZ);
 }
-void Color::LABtoXYZ() {
+void ADV_Color::LABtoXYZ() {
 
   double ratioY = (L + 16.0) / 116.0;
   double ratioX = A / 500.0 + ratioY;
@@ -118,7 +102,7 @@ void Color::LABtoXYZ() {
   y = ratioY * Y_2;
   z = ratioZ * Z_2;
 }
-void Color::XYZtoRGB() {
+void ADV_Color::XYZtoRGB() {
 
   double ratioX = x / 100.0;
   double ratioY = y / 100.0;
@@ -152,40 +136,46 @@ void Color::XYZtoRGB() {
 }
 
 // Convert RGB to LAB
-void Color::RGBtoLAB() {
+void ADV_Color::RGBtoLAB() {
 
   RGBtoXYZ();
   XYZtoLAB();
 }
 // converts LAB to RGB
 // Assumes that RGB was already converted to LAB
-void Color::LABtoRGB() {
+void ADV_Color::LABtoRGB() {
 
   LABtoXYZ();
   XYZtoRGB();
 }
-void Color::testColor() {
 
-  std::cout << "Color:" << p << std::endl;
-
-  std::cout << "RGB: " << r << " " << g << " " << b << std::endl;
-  std::cout << "XYZ: " << x << " " << y << " " << z << std::endl;
-  std::cout << "LAB: " << L << " " << A << " " << B << std::endl;
-}
-
-void Color::setLAB(double l, double a, double b) {
+void ADV_Color::setLAB(double l, double a, double b) {
   this->L = l;
   this->A = a;
   this->B = b;
   LABtoRGB();
 }
 
-int Color::getId() { return p; }
-int Color::getClusterId() { return clusterId; }
-void Color::setClusterId(int i) { clusterId = i; }
-int Color::Red() { return r; }
-int Color::Green() { return g; }
-int Color::Blue() { return b; }
-double Color::Lum() { return L; }
-double Color::aVal() { return A; }
-double Color::bVal() { return B; }
+void ADV_Color::setRGB(int r, int g, int b) {
+  this->r = r;
+  this->g = g;
+  this->b = b;
+  RGBtoLAB();
+}
+
+double ADV_Color::Lum() { return L; }
+double ADV_Color::aVal() { return A; }
+double ADV_Color::bVal() { return B; }
+
+/* *
+ * Sets the cluster ID. This allows us to see which cluster the color is in.
+ * If the cluster id is -1 then the color is assumed to not be in any cluster.
+ *
+ * */
+void ADV_Color::setClusterId(int i) { clusterId = i; }
+
+/* *
+ * Returns the Id for the cluster the point is currently in
+ *
+ * */
+int ADV_Color::getClusterId() { return clusterId; }

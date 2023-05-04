@@ -45,10 +45,9 @@ int getRangeB(std::vector<Color *> colors) {
   return std::abs(range);
 }
 
+MedianCut::MedianCut() { this->colors = {}; }
 
-MedianCut::MedianCut(){
-this->colors = {};
-}
+MedianCut::~MedianCut() {}
 
 // recursive method based on a python implementation:
 // https://muthu.co/reducing-the-number-of-colors-of-an-image-using-median-cut-algorithm/
@@ -86,25 +85,21 @@ void MedianCut::median_cut(std::vector<Color *> colors, int k) {
 
 void MedianCut::getAverageColor(std::vector<Color *> colors) {
 
+  int aveR = 0;
+  int aveG = 0;
+  int aveB = 0;
+  int size = colors.size();
 
-    int aveR = 0;
-    int aveG = 0;
-    int aveB = 0;
-    int size = colors.size();
+  for (Color *c : colors) {
+    aveR += c->Red();
+    aveG += c->Green();
+    aveB += c->Blue();
+  }
 
-    for (Color *c : colors) {
-        aveR += c->Red();
-        aveG += c->Green();
-        aveB += c->Blue();
-    }
-
-    Color *aveColor = new Color(aveR / size, aveG / size, aveB / size,-1);
-    std::string aveAsHex = aveColor->asHex();
-    delete aveColor;
-    this->colors.push_back(aveAsHex);
-
-
-
+  Color *aveColor = new Color(aveR / size, aveG / size, aveB / size);
+  std::string aveAsHex = aveColor->asHex();
+  delete aveColor;
+  this->colors.push_back(aveAsHex);
 }
 
 std::vector<std::string> MedianCut::makePalette(std::vector<Color *> colors,

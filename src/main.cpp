@@ -1,5 +1,5 @@
 #include "CImg.h"
-#include "colorGen.h"
+#include "loadAndSelect.h"
 #include <iostream>
 #include <string>
 void printHelp(std::string programName) {
@@ -60,7 +60,7 @@ int main(int argc, char **argv) {
   // telling us if it was successful or not
 
   try {
-    palette::makeColorPalette(path, paletteSize, genType);
+    makeColorPalette(path, paletteSize, genType);
   } catch (cimg_library::CImgIOException) {
     std::cout << "Failed to load " << path << '\n';
     return 1;

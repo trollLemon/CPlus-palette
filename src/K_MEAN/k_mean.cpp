@@ -1,4 +1,4 @@
-#include "quantizer.h"
+#include "k_mean.h"
 #include "cluster.h"
 #include "color.h"
 #include <algorithm>
@@ -48,7 +48,7 @@ void minHeap::clear() {
   }
 }
 
-double Quantizer::EuclidianDistance(Color *a, Color *b) {
+double KMean::EuclidianDistance(ADV_Color *a, ADV_Color *b) {
 
   double deltaL = a->Lum() - b->Lum();
   double deltaA = a->aVal() - b->aVal();
@@ -57,7 +57,7 @@ double Quantizer::EuclidianDistance(Color *a, Color *b) {
   return std::sqrt((deltaL * deltaL) + (deltaA * deltaA) + (deltaB * deltaB));
 }
 
-void Quantizer::K_MEAN_INIT(int k) {
+void KMean::K_MEAN_INIT(int k) {
 
   // randomly get k points
   int size = colors.size();
@@ -68,7 +68,7 @@ void Quantizer::K_MEAN_INIT(int k) {
   std::seed_seq ss{rd(), rd(), rd(), rd(), rd(), rd(), rd(), rd()};
 
   std::mt19937 mt{ss};
-  std::uniform_int_distribution<> kPoints{size/2, size};
+  std::uniform_int_distribution<> kPoints{size / 2, size};
   std::set<int> seen; // make sure we have unique numbers
   std::vector<int> colorIndecies;
 
@@ -86,13 +86,13 @@ void Quantizer::K_MEAN_INIT(int k) {
   }
 
   // Do the intial iteration
-  for (Color *point : colors) {
+  for (ADV_Color *point : colors) {
     point->setClusterId(-1);
   }
 
   // first phase done
 }
-void Quantizer::K_MEAN_START() {
+void KMean::K_MEAN_START() {
 
   // recalculate distances for all points
   // if any points move, we will put the effected clusters in a set,
@@ -106,12 +106,11 @@ void Quantizer::K_MEAN_START() {
   int failCount = 0; // how many times there are still clusters left in the
 
   while (loop || toRecalculate.size() != 0) {
-
     if (oldSize == newSize) {
       failCount++;
     }
 
-    // if we fail to converge the clusters more than two times,
+    // if we fail to converge the clusters more than 5 times,
     // we exit
     if (failCount > 5) {
       return;
@@ -119,7 +118,7 @@ void Quantizer::K_MEAN_START() {
 
     oldSize = toRecalculate.size();
     toRecalculate.clear();
-    for (Color *point : colors) {
+    for (ADV_Color *point : colors) {
 
       minHeap *heap = data[point];
 
@@ -146,7 +145,6 @@ void Quantizer::K_MEAN_START() {
 
       point->setClusterId(id);
     }
-    newSize = toRecalculate.size();
     if (toRecalculate.size() == 0) {
       return;
     }
@@ -158,19 +156,19 @@ void Quantizer::K_MEAN_START() {
   }
 }
 
-std::vector<std::string> Quantizer::makePalette(std::vector<Color *> &colors,
-                                                int k) {
+std::vector<std::string> KMean::makePalette(std::vector<ADV_Color *> &colors,
+                                            int k) {
 
   this->colors = colors;
 
   // load our data into a Red Black tree, in this case a normal map
   // While this data will not be used by the quantizer for the first iteration,
   // the data will every iteration after the first iteration.
-  for (Color *point : colors) {
+  for (ADV_Color *point : colors) {
     data[point] = new minHeap();
   }
 
-  /* 
+  /*
    * Initialize the Clustering
    *
    * */
@@ -178,7 +176,7 @@ std::vector<std::string> Quantizer::makePalette(std::vector<Color *> &colors,
 
   /*
    * Start the clustring iteration
-   * 
+   *
    * */
   K_MEAN_START();
 
@@ -186,7 +184,7 @@ std::vector<std::string> Quantizer::makePalette(std::vector<Color *> &colors,
   std::vector<Cluster *> sortedColors;
 
   for (auto cluster : clusters) {
-    // up unil this point the Colors have had their LAB Values used, So we
+    // up until this point the Colors have had their LAB Values used, So we
     // should update the RGB values
     sortedColors.push_back(cluster.second);
   }
