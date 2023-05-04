@@ -18,7 +18,7 @@
 class Cluster {
 
 private:
-  Color *centroid;
+  ADV_Color *centroid;
   std::vector<ADV_Color *> points;
   int id;
 
@@ -28,7 +28,7 @@ public:
    * If no centroid was recalculated by other code prior to calling
    * this function, the initial centroid is returned
    * */
-  Color *getCentroid() const;
+  ADV_Color *getCentroid() const;
 
   /* *
    * Constructor for a Cluster class.
@@ -61,7 +61,6 @@ public:
    * */
   void calcNewCentroid();
 
-
   /* *
    * Returns the clusters Id
    *
@@ -69,13 +68,13 @@ public:
   int getId();
 
   /* *
-   * Returns the hex representation for the centroids RGB values. 
+   * Returns the hex representation for the centroids RGB values.
    * */
   std::string asHex();
 
   /* *
    * Adds a point to the Cluster
-   * Assumes the point hasn't been added to the cluster already in the 
+   * Assumes the point hasn't been added to the cluster already in the
    * current iteration of K mean clustering
    * */
   void addPoint(ADV_Color *points);

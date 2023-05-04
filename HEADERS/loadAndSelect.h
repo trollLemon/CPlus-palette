@@ -3,17 +3,12 @@
 #define COLOR_FUNCTIONS
 #define cimg_display 0
 #include <string>
+#include "CImg.h"
+
+
+using namespace cimg_library;
+
 
 void makeColorPalette(std::string &path, int size, int genType);
-/* *
- * Perform K_Mean clustering to generate a palette
- *
- * */
-void K_Mean();
-
-/* *
- * Performs median cut to generate a palette
- * */
-void median_cut();
 
 #endif
