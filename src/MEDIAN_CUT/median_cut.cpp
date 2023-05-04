@@ -50,6 +50,8 @@ MedianCut::MedianCut(){
 this->colors = {};
 }
 
+MedianCut::~MedianCut(){}
+
 // recursive method based on a python implementation:
 // https://muthu.co/reducing-the-number-of-colors-of-an-image-using-median-cut-algorithm/
 void MedianCut::median_cut(std::vector<Color *> colors, int k) {
