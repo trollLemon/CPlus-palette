@@ -71,8 +71,7 @@ void KMean::K_MEAN_INIT(int k) {
   std::uniform_int_distribution<> kPoints{size / 2, size};
   std::set<int> seen; // make sure we have unique numbers
   std::vector<int> colorIndecies;
-
-  while (seen.size() != k) {
+  while (seen.size() != static_cast<long unsigned int>(k)) {
     int num = kPoints(mt);
     if (seen.count(num) == 0) {
       seen.insert(num);

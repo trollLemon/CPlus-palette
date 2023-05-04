@@ -67,10 +67,10 @@ int main(int argc, char **argv) {
 
   try {
     makeColorPalette(path, paletteSize, type);
-  } catch (cimg_library::CImgIOException) {
+  } catch (cimg_library::CImgIOException const&) {
     std::cout << "Failed to load " << path << '\n';
     return 1;
-  } catch (cimg_library::CImgArgumentException) {
+  } catch (cimg_library::CImgArgumentException const&) {
     std::cout << "Failed to load " << path << ", it is a directory" << '\n';
     return 1;
   }
