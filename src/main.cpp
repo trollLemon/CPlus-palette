@@ -6,12 +6,12 @@ void printHelp(std::string programName) {
   std::cout << "Usage:\n " << programName
             << ": pathToImage numberOfColors -t [quantization type]"
             << std::endl;
-  std::cout << "Example: " << programName << " ~/Pictures/picture.png 8 -t 1\n"
+  std::cout << "Example: " << programName << " ~/Pictures/picture.png 8 -k \n"
             << std::endl;
-  std::cout << "-t 1: uses K mean Clustering for Color Palette Generation: "
+  std::cout << "-k: uses K mean Clustering for Color Palette Generation: "
                "slower but produces better palettes most of the time"
             << std::endl;
-  std::cout << "-t 2: used Median Cut for Color Palette Generation: Faster "
+  std::cout << "-m : used Median Cut for Color Palette Generation: Faster "
                "than K mean Clustering but color palettes aren't always as good"
             << std::endl;
 }
@@ -42,15 +42,18 @@ int main(int argc, char **argv) {
   std::cout << "Generating a " << paletteSize << " color palette from " << path
             << "..." << '\n';
 
-  int genType = 1;
-
+  char genType = 'm';
+  int type = 1;
   if(argc > 4){
   if (argv[4]) {
-    genType = *argv[4] - '0';
+    genType = *argv[4];
   }
 
 
-  if (genType < -1 || genType > 2) {
+
+ std::cout << genType << std::endl;
+
+  if (genType != 'm' || genType != 'k') {
     printHelp(argv[0]);
     return 1;
   }
@@ -59,8 +62,11 @@ int main(int argc, char **argv) {
   // take in user inputs and create a color palette, and return an Enum
   // telling us if it was successful or not
 
+  if (genType == 'm')
+      type = 2;
+
   try {
-    makeColorPalette(path, paletteSize, genType);
+    makeColorPalette(path, paletteSize, type);
   } catch (cimg_library::CImgIOException) {
     std::cout << "Failed to load " << path << '\n';
     return 1;
