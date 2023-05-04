@@ -28,12 +28,12 @@ set_source_files_properties(
     src/main.cpp
 
     PROPERTIES
-    COMPILE_FLAGS "-O3")
+    COMPILE_FLAGS "-O5")
 
 
 find_package(X11 REQUIRED)
 include_directories(${X11_INCLUDE_DIR})
-include_directories("HEADERS")
+include_directories("HEADERS/")
 
 target_link_libraries(cpluspalette ${X11_LIBRARIES})
 
