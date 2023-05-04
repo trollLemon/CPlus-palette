@@ -1,8 +1,12 @@
 #include "median_cut_helpers.h"
 
 
-bool isPowerOfTwo(int size){
-return false;
+bool isPowerOfTwo(int x){
+  if (x == 1)
+    return true;
+  if (x == 0)
+    return false;
+  return (x % 2 == 0) && isPowerOfTwo(x / 2);
 
 }
 
@@ -17,4 +21,5 @@ if (!isPowerOfTwo(size)) {
       size++;
     }
     int depth = log2(static_cast<double>(size));
+    return depth;
 }
