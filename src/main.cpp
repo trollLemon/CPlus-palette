@@ -2,6 +2,9 @@
 #include "loadAndSelect.h"
 #include <iostream>
 #include <string>
+#include <vector>
+
+
 void printHelp(std::string programName) {
   std::cout << "Usage:\n " << programName
             << ": pathToImage numberOfColors -t [quantization type]"
@@ -17,53 +20,51 @@ void printHelp(std::string programName) {
 }
 
 int main(int argc, char **argv) {
-  if (argc < 3) {
+
+
+std::vector<std::string> all_args;
+    
+    if (argc == 1) {
+        
+        printHelp(argv[0]);
+        return 1;
+    }
+
+    if (argc > 1) 
+        all_args.assign(argv + 1, argv + argc);
+
+
+
+    std::string path = all_args[0];
+    std::string genType = "-k"; 
+   
+    if(all_args.size() > 2)
+        genType = all_args[2];
+
+
+    if (all_args[0] == "--help") {
+        
+        printHelp(argv[0]);
+        return 0;
+    }
+    
+    int paletteSize = std::stoi(all_args[1]);
+        
+    if (paletteSize <= 0){
+        std::cout << "Cannot make a palette with 0 or less colors" << std::endl;
+        return 1;
+    }
+
+
+    if ( genType != "-m" && genType != "-k"  ){
     printHelp(argv[0]);
     return 1;
-  }
+    }
 
-  std::string path{argv[1]}; // this is our path to the image
-
-  if (path == "--help") {
-    printHelp(argv[0]);
-    return 0;
-  }
-
-  std::string paletteSizeInput{argv[2]}; // and this is the size of the color
-
-  int paletteSize{std::stoi(paletteSizeInput)};
-
-  if (paletteSize <= 0) {
-    std::cout << "Cannot make a palette with size less or equal to 0"
-              << std::endl;
-    return 0;
-  }
-
-  std::cout << "Generating a " << paletteSize << " color palette from " << path
-            << "..." << '\n';
-
-  char genType = 'm';
-  int type = 1;
-  if(argc > 4){
-  if (argv[4]) {
-    genType = *argv[4];
-  }
-
-
-
- std::cout << genType << std::endl;
-
-  if (genType != 'm' || genType != 'k') {
-    printHelp(argv[0]);
-    return 1;
-  }
-
-  }
-  // take in user inputs and create a color palette, and return an Enum
-  // telling us if it was successful or not
-
-  if (genType == 'm')
-      type = 2;
+    int type  = 1;
+    if (genType == "-m") {
+        type = 2;
+    }
 
   try {
     makeColorPalette(path, paletteSize, type);
