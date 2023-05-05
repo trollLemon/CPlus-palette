@@ -69,6 +69,7 @@ void DoKMean(CImg<unsigned char> *image, int size) {
 
   delete proc;
   delete base;
+  delete image;
   for (ADV_Color *color : colors) {
     delete color;
   }
@@ -111,6 +112,7 @@ void DoMedCut(CImg<unsigned char> *image, int size) {
 
   delete proc;
   delete base;
+  delete image;
   for (Color *color : colors) {
     delete color;
   }
