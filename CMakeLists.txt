@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # set the project name
-project(cpluspalette VERSION 1.2.0)
+project(cpluspalette VERSION 1.2.1 DESCRIPTION "generate color palettes from images")
 
 
 
@@ -28,7 +28,7 @@ set_source_files_properties(
     src/main.cpp
 
     PROPERTIES
-    COMPILE_FLAGS "-O5 -Wall -Wextra -s")
+    COMPILE_FLAGS "-O3 -finline-functions -march=native -flto -Wall -Wextra -s")
 
 
 find_package(X11 REQUIRED)
