@@ -100,22 +100,9 @@ void KMean::K_MEAN_START() {
 
   bool loop = true;
 
-  int oldSize = 0;
-  int newSize = 0;
-  int failCount = 0; // how many times there are still clusters left in the
 
   while (loop || toRecalculate.size() != 0) {
-    if (oldSize == newSize) {
-      failCount++;
-    }
 
-    // if we fail to converge the clusters more than 5 times,
-    // we exit
-    if (failCount > 5) {
-      return;
-    }
-
-    oldSize = toRecalculate.size();
     toRecalculate.clear();
     for (ADV_Color *point : colors) {
 
