@@ -102,13 +102,12 @@ void DoMedCut(CImg<unsigned char> *image, int size) {
       }
     }
   }
-
   MedianCut *proc = new MedianCut();
   int depth = powerOfTwoSize(size);
   std::vector<std::string> palette = proc->makePalette(colors, depth);
 
   std::string prompt = "Median Cut";
-  printResults(palette, prompt);
+  printResults(palette, prompt,size);
 
   delete proc;
   delete base;
