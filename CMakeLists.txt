@@ -7,6 +7,7 @@ if (USE_CUDA)
     enable_language(CUDA)
     set(CMAKE_CUDA_STANDARD 11)
     set(CMAKE_CUDA_STANDARD_REQUIRED True)
+    add_compile_definitions(USE_CUDA)
     set(CMAKE_CUDA_FLAGS "--cudart shared -gencode arch=compute_75,code=sm_75")  # Replace 75 with your GPU's architecture
 endif()
 
