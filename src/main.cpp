@@ -55,16 +55,37 @@ std::vector<std::string> all_args;
         return 1;
     }
 
+	
+#ifndef USE_CUDA
 
     if ( genType != "-m" && genType != "-k"  ){
     printHelp(argv[0]);
     return 1;
     }
 
+#else
+    if ( genType != "-m" && genType != "-k" && genType != "-c"  ){
+    printHelp(argv[0]);
+    return 1;
+    }
+
+#endif
+
+
+
+
+
     int type  = 1;
     if (genType == "-m") {
         type = 2;
     }
+
+   #ifdef USE_CUDA
+
+	if(genType == "-c")
+	    type=3;	
+
+   #endif
 
   try {
     makeColorPalette(path, paletteSize, type);
