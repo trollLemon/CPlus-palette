@@ -17,7 +17,7 @@
 
 class Cluster {
 
-private:
+protected:
   ADV_Color *centroid;
   std::vector<ADV_Color *> points;
   int id;
@@ -59,7 +59,7 @@ public:
    *
    * The Clusters points are cleared once the new centroid is calculated.
    * */
-  void calcNewCentroid();
+ virtual void calcNewCentroid();
 
   /* *
    * Returns the clusters Id
