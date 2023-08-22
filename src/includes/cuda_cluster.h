@@ -3,9 +3,13 @@
 #include "cluster.h"
 
 
-class CudaCluster: public Cluster {};
+class CudaCluster: public Cluster {
 
-void calcNewCentroid();
 
+public:
+  CudaCluster(ADV_Color *a, int id);
+void calcNewCentroid() override;
+
+};
 #endif
 
