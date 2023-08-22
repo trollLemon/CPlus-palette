@@ -47,7 +47,7 @@ public:
    * in another section of the program
    *
    * */
-  ~Cluster();
+  virtual ~Cluster();
 
   /* *
    * Calculated a new centroid from the Clusters points.
