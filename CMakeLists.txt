@@ -14,6 +14,7 @@ endif()
 set(CPP_SOURCE_FILES
     src/common/color.cpp
     src/common/LoadAndSelect.cpp
+    src/common/util.cpp
     src/kmean/cluster.cpp
     src/kmean/k_mean.cpp
     src/kmean/adv_color.cpp
@@ -24,7 +25,8 @@ set(CPP_SOURCE_FILES
 
 if (USE_CUDA)
     set(CUDA_SOURCE_FILES
-        src/kmean/k_mean.cu
+        src/kmean/cuda/k_mean.cu
+	src/kmean/cuda/cuda_cluster.cu
     )
 endif()
 
