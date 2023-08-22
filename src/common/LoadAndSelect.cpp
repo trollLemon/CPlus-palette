@@ -14,6 +14,16 @@
 #include <string>
 #include <unordered_set>
 #include <vector>
+
+
+
+
+#ifdef USE_CUDA
+#include"k_mean_cuda.h"
+
+#endif
+
+
 using namespace cimg_library;
 
 void printResults(std::vector<std::string> &result, std::string &prompt) {
@@ -129,7 +139,14 @@ void makeColorPalette(std::string &path, int size, int genType) {
 
   if (genType == 1) {
     DoKMean(image, size);
-  } else {
+  } 
+  #ifdef USE_CUDA
+  else if (genType ==3) {
+  CudaKmeanWrapper(image, size);   
+  }
+  #endif
+
+  else{
     DoMedCut(image, size);
   }
 }
