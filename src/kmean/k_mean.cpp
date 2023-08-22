@@ -8,46 +8,12 @@
 #include <functional>
 #include <iostream>
 #include <random>
-
-cluster_distance::~cluster_distance() {}
-void minHeap::push(cluster_distance *pair) {
-
-  pair->distance *= -1;
-
-  distances.push(pair);
-}
-
-bool ColorSort::operator()(const Cluster *a, const Cluster *b) {
+struct ColorSort{
+bool operator()(const Cluster *a, const Cluster *b) {
 
   return a->getCentroid()->Lum() > b->getCentroid()->Lum();
 }
-
-bool Comp::operator()(const cluster_distance *a, const cluster_distance *b) {
-  return a->distance < b->distance;
-}
-
-minHeap::~minHeap() { clear(); }
-
-int minHeap::pop() {
-
-  if (distances.top() == nullptr) {
-    return -1;
-  }
-
-  int ClusterId = distances.top()->cluster;
-  delete distances.top();
-  distances.pop();
-
-  return ClusterId;
-}
-void minHeap::clear() {
-
-  while (!distances.empty()) {
-    delete distances.top();
-    distances.pop();
-  }
-}
-
+};
 double KMean::EuclidianDistance(ADV_Color *a, ADV_Color *b) {
 
   double deltaL = a->Lum() - b->Lum();
