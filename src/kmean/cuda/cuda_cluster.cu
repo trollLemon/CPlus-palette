@@ -16,6 +16,7 @@ __global__ void pointSummationKernel(ADV_Color** input,  double* output, int siz
 }
 
 
+CudaCluster::CudaCluster(ADV_Color *a, int id): Cluster(a,id){};
 void CudaCluster::calcNewCentroid(){
 
     std::vector<ADV_Color*> h_points = points;
