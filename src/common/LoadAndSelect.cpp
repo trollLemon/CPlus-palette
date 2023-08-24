@@ -15,14 +15,10 @@
 #include <unordered_set>
 #include <vector>
 
-
-
-
 #ifdef USE_CUDA
-#include"k_mean_cuda.h"
+#include "k_mean_cuda.h"
 
 #endif
-
 
 using namespace cimg_library;
 
@@ -117,7 +113,7 @@ void DoMedCut(CImg<unsigned char> *image, int size) {
   std::vector<std::string> palette = proc->makePalette(colors, depth);
 
   std::string prompt = "Median Cut";
-  printResults(palette, prompt,size);
+  printResults(palette, prompt, size);
 
   delete proc;
   delete base;
@@ -134,19 +130,24 @@ void makeColorPalette(std::string &path, int size, int genType) {
                      // if not , then the program will exit and this wont be
                      // used
 
-  int widthAndHeight{500};
-  image->resize(widthAndHeight, widthAndHeight);
-
   if (genType == 1) {
-    DoKMean(image, size);
-  } 
-  #ifdef USE_CUDA
-  else if (genType ==3) {
-  CudaKmeanWrapper(image, size);   
-  }
-  #endif
+    int widthAndHeight{500};
+    image->resize(widthAndHeight, widthAndHeight);
 
-  else{
+    DoKMean(image, size);
+  }
+#ifdef USE_CUDA
+  else if (genType == 3) {
+    std::vector<std::string> palette = CudaKmeanWrapper(image, size);
+    std::string prompt = "K-mean clustering GPU accelerated:::";
+    printResults(palette, prompt);
+  }
+#endif
+
+  else {
+    int widthAndHeight{500};
+    image->resize(widthAndHeight, widthAndHeight);
+
     DoMedCut(image, size);
   }
 }
