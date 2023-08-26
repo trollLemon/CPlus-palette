@@ -140,6 +140,8 @@ void makeColorPalette(std::string &path, int size, int genType) {
   }
 #ifdef USE_CUDA
   else if (genType == 3) {
+	    int widthAndHeight{500};
+    image->resize(widthAndHeight, widthAndHeight);
   int height{image->height()};
   int width{image->width()};
   int psize = height * width;
