@@ -26,14 +26,14 @@ set(CPP_SOURCE_FILES
 if (USE_CUDA)
     set(CUDA_SOURCE_FILES
         src/kmean/cuda/k_mean.cu
-	src/kmean/cuda/cuda_cluster.cu
     )
 endif()
 
 set_source_files_properties(
     ${CPP_SOURCE_FILES} ${CUDA_SOURCE_FILES}
     PROPERTIES
-    COMPILE_FLAGS "-O3 -finline-functions -march=native -Wall -Wextra -s"
+    COMPILE_FLAGS "-O0 -g"
+    #COMPILE_FLAGS "-O3 -finline-functions -march=native -Wall -Wextra -s"
 )
 
 find_package(X11 REQUIRED)
@@ -45,6 +45,8 @@ add_executable(cpluspalette ${CPP_SOURCE_FILES} ${CUDA_SOURCE_FILES})
 
 # Link CUDA libraries if CUDA is enabled
 if (USE_CUDA)
+
+set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -G")
     target_include_directories(cpluspalette PRIVATE ${CUDA_INCLUDE_DIRS})
     target_link_libraries(cpluspalette PRIVATE ${CUDA_LIBRARIES})
     target_link_libraries(cpluspalette PRIVATE ${CUDA_cudart_LIBRARY})
