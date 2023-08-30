@@ -13,6 +13,8 @@
 #include <iostream>
 #include <random>
 #include <unordered_set>
+#define BLK_SIZE 16
+#define GRD_SIZE 256
 #define THREADS_PER_BLOCK 256
 typedef pixel CUDA_COLOR_DATA;
 
@@ -22,34 +24,41 @@ __device__ double euclideanDistance(CUDA_COLOR_DATA x, CUDA_COLOR_DATA y) {
   double db = static_cast<double>(y.b) - static_cast<double>(x.b);
   return sqrt(dl * dl + da * da + db * db);
 }
-// https://alexminnaar.com/2019/03/05/cuda-kmeans.html
-__global__ void recalcClusters(CUDA_COLOR_DATA *d_clusters,
-                               CUDA_COLOR_DATA *d_colors, int *assignments,
-                               int *d_clust_sizes, int k, int color_count) {
+
+__global__ void sumClusters(CUDA_COLOR_DATA *d_centroids,
+                            CUDA_COLOR_DATA *d_colors, int *assignments,
+                            int *d_clusterSizes, int k, int color_count) {
+
+  int id = threadIdx.x + blockIdx.x * blockDim.x;
+
+  if (id > color_count)
+    return;
+  int clusterId = assignments[id];
+  int r, g, b;
+
+  r = d_colors[id].r;
+  g = d_colors[id].g;
+  b = d_colors[id].b;
+
+  atomicAdd(&d_clusterSizes[clusterId], 1);
+  atomicAdd(&d_centroids[clusterId].r, r);
+  atomicAdd(&d_centroids[clusterId].g, g);
+  atomicAdd(&d_centroids[clusterId].b, b);
+}
+
+__global__ void recalcClusters(CUDA_COLOR_DATA *d_centroids, int *d_clust_sizes,
+                               int k) {
+
   const int idx = blockIdx.x * blockDim.x + threadIdx.x;
 
-  if (idx > color_count)
+  if (idx > k)
     return;
 
-  __shared__ int partialSums[THREADS_PER_BLOCK * 3];
-  if (threadIdx.x < k * 3) {
-    for (int i = threadIdx.x; i < k * 3; i += blockDim.x) {
-      partialSums[i] = 0;
-    }
-  }
+  int size = d_clust_sizes[idx];
 
-  int clusterId = assignments[idx];
-  atomicAdd(&partialSums[clusterId * 3], d_colors[idx].r);
-  atomicAdd(&partialSums[clusterId * 3 + 1], d_colors[idx].g);
-  atomicAdd(&partialSums[clusterId * 3 + 2], d_colors[idx].b);
-  __syncthreads();
-
-  int pointcount = d_clust_sizes[clusterId];
-
-  d_clusters[clusterId].r = partialSums[clusterId*3]/pointcount;
-  d_clusters[clusterId].g = partialSums[clusterId*3+1]/pointcount;
-  d_clusters[clusterId].b = partialSums[clusterId*3+2]/pointcount;
-
+  d_centroids[idx].r /= size;
+  d_centroids[idx].g /= size;
+  d_centroids[idx].b /= size;
 }
 
 __global__ void assignPoints(CUDA_COLOR_DATA *d_clusters,
@@ -73,7 +82,6 @@ __global__ void assignPoints(CUDA_COLOR_DATA *d_clusters,
     }
   }
   assignments[idx] = closest_centroid;
-  atomicAdd(&cluster_counts[closest_centroid], 1);
 }
 
 __global__ void initClusters(CUDA_COLOR_DATA *d_clusters,
@@ -129,23 +137,23 @@ std::vector<std::string> CudaKmeanWrapper(CUDA_COLOR_DATA *pixel_data, int size,
 
   initClusters<<<blocksPerGrid, THREADS_PER_BLOCK>>>(d_clusters, d_colors, size,
                                                      d_random_points);
+
   cudaDeviceSynchronize();
 
+  blocksPerGrid = (totalPixels + THREADS_PER_BLOCK - 1) / THREADS_PER_BLOCK;
   int x = 0;
-  while (x != 1) {
+  while (x != 10) {
 
-    blocksPerGrid = (totalPixels + THREADS_PER_BLOCK - 1) / THREADS_PER_BLOCK;
     assignPoints<<<blocksPerGrid, THREADS_PER_BLOCK>>>(
         d_clusters, d_colors, d_assignments, d_clust_sizes, size, totalPixels);
 
-    // cudaMemset(d_clust_sizes,0,size*sizeof(int));
-    // cudaMemset(d_clusters,0,size*sizeof(CUDA_COLOR_DATA));
-
-    recalcClusters<<<blocksPerGrid, THREADS_PER_BLOCK>>>(
+    sumClusters<<<blocksPerGrid, THREADS_PER_BLOCK>>>(
         d_clusters, d_colors, d_assignments, d_clust_sizes, size, totalPixels);
 
-    x++;
+    recalcClusters<<<size,1>>>(d_clusters, d_clust_sizes, size);
+    cudaMemset(d_clust_sizes, 0, size * sizeof(int));
     cudaDeviceSynchronize();
+    x++;
   }
 
   CUDA_COLOR_DATA *h_colors =
