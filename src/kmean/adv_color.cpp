@@ -14,6 +14,30 @@ ADV_Color::ADV_Color(double lum, double aVal, double bVal) :  Color(0, 0, 0), L{
   LABtoRGB();
 }
 
+
+
+#ifdef USE_CUDA
+ADV_Color& ADV_Color::operator=(const ADV_Color& other) {
+        if (this != &other) {
+            // Copy the members from 'other' to 'this'
+            this->x = other.x;
+            this->y = other.y;
+            this->z = other.z;
+            this->L = other.L;
+            this->A = other.A;
+            this->B = other.B;
+            this->clusterId = other.clusterId;
+
+            // Call the base class assignment operator if it exists
+            Color::operator=(other);
+        }
+        return *this;
+    }
+
+#endif
+
+
+
 // https://www.easyrgb.com/en/math.php
 void ADV_Color::RGBtoXYZ() {
 

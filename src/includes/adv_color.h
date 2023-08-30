@@ -63,6 +63,10 @@ public:
    * */
   ADV_Color(double L, double A, double B);
 
+#ifdef USE_CUDA
+  ADV_Color& operator=(const ADV_Color& other);
+#endif
+
   /* *
    * Sets the LAB values for this color.
    * The colors RGB values are updated to reflect the new

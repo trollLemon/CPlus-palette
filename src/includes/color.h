@@ -31,6 +31,10 @@ public:
    * */
   Color(int r, int g, int b);
 
+#ifdef USE_CUDA
+  Color& operator=(const Color& other);
+#endif
+
   /* *
    * Returns the hex representation of this color
    *

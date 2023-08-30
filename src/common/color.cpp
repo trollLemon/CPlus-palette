@@ -17,6 +17,21 @@ std::string Color::asHex() {
   return hexString;
 }
 
+
+#ifdef USE_CUDA
+Color& Color::operator=(const Color& other) {
+    if (this != &other) {
+        // Copy the members from 'other' to 'this'
+        this->r = other.r;
+        this->g = other.g;
+        this->b = other.b;
+        this->id = other.id;
+    }
+    return *this;
+}
+#endif
+
+
 /* *
  * Sets the RGB values for this color.
  * */

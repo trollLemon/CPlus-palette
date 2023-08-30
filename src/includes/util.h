@@ -2,6 +2,14 @@
 #define UTIL
 #include <vector>
 #include <queue>
+struct pixel {
+  int r;
+  int g;
+  int b;
+};
+
+
+
 struct cluster_distance {
 
   int cluster;
@@ -28,5 +36,6 @@ public:
   int pop();
   void clear();
 };
+
 
 #endif
