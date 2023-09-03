@@ -47,7 +47,6 @@ void DoKMean(CImg<unsigned char> *image, int size) {
   int height{image->height()};
   int width{image->width()};
 
-  int totalPixels = height*width;
 
   std::unordered_set<std::string> seen;
   std::vector<ADV_Color *> colors;
@@ -147,17 +146,21 @@ void makeColorPalette(std::string &path, int size, int genType) {
   int psize = height * width;
 	pixel* pixelArray = new pixel[psize];
  int pixelIndex = 0; 
-
+  std::unordered_set<std::string> seen;
+  Color helper = Color(0,0,0);
     for (int i = 0; i < height; ++i) {
     for (int j = 0; j < width; ++j) {
       int r = *image->data(j, i, 0, 0);
       int g = *image->data(j, i, 0, 1);
       int b = *image->data(j, i, 0, 2);
+      helper.setRGB(r,g,b);      
+      if(seen.count(helper.asHex())==1) continue;	
+
             pixelArray[pixelIndex].r = r;
             pixelArray[pixelIndex].g = g;
             pixelArray[pixelIndex].b = b;
-
             pixelIndex++;
+	    seen.insert(helper.asHex());
       }
     }
 
