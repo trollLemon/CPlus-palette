@@ -144,7 +144,7 @@ void makeColorPalette(std::string &path, int size, int genType) {
   int height{image->height()};
   int width{image->width()};
   int psize = height * width;
-	pixel* pixelArray = new pixel[psize];
+	adv_pixel* pixelArray = new adv_pixel[psize];
  int pixelIndex = 0; 
   std::unordered_set<std::string> seen;
   Color helper = Color(0,0,0);
@@ -156,9 +156,12 @@ void makeColorPalette(std::string &path, int size, int genType) {
       helper.setRGB(r,g,b);      
       if(seen.count(helper.asHex())==1) continue;	
 
-            pixelArray[pixelIndex].r = r;
-            pixelArray[pixelIndex].g = g;
-            pixelArray[pixelIndex].b = b;
+            pixelArray[pixelIndex].rgb = {r,g,b};
+	    non_rgb_colorspace xyz = rgb_to_xyz(r,g,b);
+	    non_rgb_colorspace lab = xyz_to_lab(xyz.a,xyz.b,xyz.c);
+	    pixelArray[pixelIndex].xyz = xyz;
+	    pixelArray[pixelIndex].lab = lab;
+
             pixelIndex++;
 	    seen.insert(helper.asHex());
       }
