@@ -8,7 +8,7 @@
 #include <functional>
 #include <iostream>
 #include <random>
-#define MAX_IRERATIONS 12
+#define MAX_ITERATIONS 12
 cluster_distance::~cluster_distance() {}
 void minHeap::push(cluster_distance *pair) {
 
@@ -50,7 +50,7 @@ void minHeap::clear() {
   }
 }
 
-double EuclidianDistance(Color *a, Color *b) {
+double EuclideanDistance(Color *a, Color *b) {
 
   double deltaR = a->Red() - b->Red();
   double deltaG = a->Green() - b->Green();
@@ -116,7 +116,7 @@ std::vector<std::string> KMeans(std::vector<Color *> &colors, int k) {
       for (auto cluster : clusters) {
 
         double distance =
-            EuclidianDistance(cluster.second->getCentroid(), point);
+            EuclideanDistance(cluster.second->getCentroid(), point);
         int id = cluster.second->getId();
         cluster_distance *dist = new cluster_distance;
         dist->cluster = id;
@@ -145,7 +145,7 @@ std::vector<std::string> KMeans(std::vector<Color *> &colors, int k) {
     for (Cluster *cluster : toRecalculate)
       cluster->calcNewCentroid();
 
-  } while (toRecalculate.size() != 0 && iterations++ < MAX_IRERATIONS);
+  } while (toRecalculate.size() != 0 && iterations++ < MAX_ITERATIONS);
 
   // At this point the clusters have converged, so we can collect the color
   // palette
@@ -159,7 +159,6 @@ std::vector<std::string> KMeans(std::vector<Color *> &colors, int k) {
   std::sort(sortedColors.begin(), sortedColors.end(), ColorSort());
 
   for (Cluster *cluster : sortedColors) {
-    cluster->getCentroid();
     palette.push_back(cluster->asHex());
   }
 
