@@ -12,14 +12,14 @@
 
 #ifndef CLUSTER
 #define CLUSTER
-#include "adv_color.h"
+#include "color.h"
 #include <vector>
 
 class Cluster {
 
 private:
-  ADV_Color *centroid;
-  std::vector<ADV_Color *> points;
+  Color *centroid;
+  std::vector<Color *> points;
   int id;
 
 public:
@@ -28,7 +28,7 @@ public:
    * If no centroid was recalculated by other code prior to calling
    * this function, the initial centroid is returned
    * */
-  ADV_Color *getCentroid() const;
+  Color *getCentroid() const;
 
   /* *
    * Constructor for a Cluster class.
@@ -37,7 +37,7 @@ public:
    * the cluster later.
    *
    * */
-  Cluster(ADV_Color *a, int id);
+  Cluster(Color *a, int id);
 
   /* *
    * Default Destructor
@@ -77,7 +77,7 @@ public:
    * Assumes the point hasn't been added to the cluster already in the
    * current iteration of K mean clustering
    * */
-  void addPoint(ADV_Color *points);
+  void addPoint(Color *point);
 };
 
 #endif
