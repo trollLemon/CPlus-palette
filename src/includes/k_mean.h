@@ -59,11 +59,9 @@ public:
 
 
   /* *
-   * Returns the Euclidian Distance between two colors by looking
-   * at the colors' LAB values
-   * Assumes the Colors had their RGB values converted to LAB values
+   * Returns the Euclidean Distance between two colors   
    * */
-  double EuclidianDistance(Color *a, Color *b);
+  double EuclideanDistance(Color *a, Color *b);
 
 
   /* *
