@@ -64,9 +64,6 @@ std::vector<std::string> KMeans(std::vector<Color *> &colors, int k) {
   std::map<Color *, minHeap *> data; // Distances from points to each centroid
   std::unordered_map<int /*Cluster ID*/, Cluster *> clusters; // clusters
 
-  // load our data into a Red Black tree, in this case a normal map
-  // While this data will not be used by the quantizer for the first iteration,
-  // the data will every iteration after the first iteration.
   for (Color *point : colors) {
     data[point] = new minHeap();
   }
@@ -78,8 +75,6 @@ std::vector<std::string> KMeans(std::vector<Color *> &colors, int k) {
   // randomly get k points
   int size = colors.size();
 
-  // better seeding from
-  // https://www.learncpp.com/cpp-tutorial/generating-random-numbers-using-mersenne-twister/
   std::random_device rd;
   std::seed_seq ss{rd(), rd(), rd(), rd(), rd(), rd(), rd(), rd()};
 
@@ -89,28 +84,23 @@ std::vector<std::string> KMeans(std::vector<Color *> &colors, int k) {
   std::vector<int> colorIdx;
   while (seen.size() != static_cast<long unsigned int>(k)) {
     int num = kPoints(mt);
-    if (seen.count(num) == 0) {
-      seen.insert(num);
-      colorIdx.push_back(num);
-    }
+
+    if (seen.count(num) != 0)
+      continue;
+
+    seen.insert(num);
+
+    colorIdx.push_back(num);
   }
 
-  for (int i = 0; i < k; ++i) {
-    Cluster *cluster = new Cluster(colors[colorIdx[i]], i);
-    clusters[i] = cluster;
-  }
+  for (int i = 0; i < k; ++i)
+    clusters[i] = new Cluster(colors[colorIdx[i]], i);
 
   // Do the first iteration
-  for (Color *point : colors) {
+  for (Color *point : colors)
     point->setClusterId(-1);
-  }
 
-  // first phase done
 
-  /*
-   * Start the clustering iteration
-   *
-   * */
   // recalculate distances for all points
   // if any points move, we will put the effected clusters in a set,
 
@@ -136,50 +126,48 @@ std::vector<std::string> KMeans(std::vector<Color *> &colors, int k) {
 
       int id = heap->pop();
 
-      if (id != point->getClusterId()) {
-        toRecalculate.insert(clusters[id]);
-        int pId = point->getClusterId();
-        if (pId != -1 ) {
-          toRecalculate.insert(clusters[pId]);
-        }
-      }
+      if (id == point->getClusterId())
+        continue;
+  
+      int pId = point->getClusterId();
+
+      if (pId == -1)
+        continue;
+
 
       point->setClusterId(id);
+      clusters[id]->addPoint(point);
+
+      toRecalculate.insert(clusters[id]);   
+      toRecalculate.insert(clusters[pId]);
+
     }
-    for (Cluster *cluster : toRecalculate) {
+    for (Cluster *cluster : toRecalculate)
       cluster->calcNewCentroid();
-    }
 
   } while (toRecalculate.size() != 0 && iterations++ < MAX_IRERATIONS);
 
-  // At this point the clusters have converges, so we can collect the color
+  // At this point the clusters have converged, so we can collect the color
   // palette
 
   std::vector<std::string> palette;
   std::vector<Cluster *> sortedColors;
 
-  for (auto cluster : clusters) {
-    // up until this point the Colors have had their LAB Values used, So we
-    // should update the RGB values
+  for (auto cluster : clusters)
     sortedColors.push_back(cluster.second);
-  }
 
   std::sort(sortedColors.begin(), sortedColors.end(), ColorSort());
 
   for (Cluster *cluster : sortedColors) {
-    // up unil this point the Colors have had their LAB Values used, So we
-    // should update the RGB values
     cluster->getCentroid();
     palette.push_back(cluster->asHex());
   }
 
-  for (auto heap : data) {
+  for (auto heap : data)
     delete heap.second;
-  }
 
-  for (auto cluster : clusters) {
+  for (auto cluster : clusters)
     delete cluster.second;
-  }
 
   return palette;
 }
