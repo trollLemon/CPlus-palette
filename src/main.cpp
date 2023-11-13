@@ -126,8 +126,10 @@ int main(int argc, char **argv) {
     printHelp(argv[0]);
     return 0;
   }
-
-  int paletteSize = std::stoi(all_args[1]);
+ 
+  int paletteSize = 8;
+  if(all_args.size() >1)
+     paletteSize = std::stoi(all_args[1]);
 
   if (paletteSize <= 0) {
     std::cout << "Cannot make a palette with 0 or less colors" << std::endl;
