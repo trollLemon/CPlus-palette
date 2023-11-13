@@ -12,9 +12,7 @@
 #include "color.h"
 #include <string>
 #include <vector>
-class MedianCut {
 
-private:
   /* *
    * recursively sorts colors based on the range of 
    * RGB values, then splits them into two buckets.
@@ -24,25 +22,14 @@ private:
    * for the color palette
    *
    * */
-  void median_cut(std::vector<Color *> colors, int k);
-  std::vector<std::string> colors;
+  void mc(std::vector<Color *> &colors, std::vector<std::string> &palette, int k);
   /* *
    * Returns the average color of a bucket containing points
    * assumes the bucket has more than 0 points in it
    * */
-  void getAverageColor(std::vector<Color *> colors);
+  void getAverageColor(std::vector<Color *> &colors, std::vector<std::string> &palette);
 
-public:
   
-/* *
- * Crates a Median cut instance
- * */
-  MedianCut();
-
-  /* *
-   * frees the instance from memory
-   * */
-  ~MedianCut();
 
   /* *
    * Returns a vector containing the hex representations of each color in 
@@ -52,7 +39,6 @@ public:
    * required number of colors
    *
    * */
-  std::vector<std::string> makePalette(std::vector<Color *> colors, int k);
-};
+  std::vector<std::string> median_cut(std::vector<Color *> &colors, int k);
 
 #endif

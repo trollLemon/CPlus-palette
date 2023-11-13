@@ -8,7 +8,7 @@
 #include <functional>
 #include <iostream>
 #include <random>
-
+#define MAX_ITERATIONS 12
 cluster_distance::~cluster_distance() {}
 void minHeap::push(cluster_distance *pair) {
 
@@ -19,7 +19,9 @@ void minHeap::push(cluster_distance *pair) {
 
 bool ColorSort::operator()(const Cluster *a, const Cluster *b) {
 
-  return a->getCentroid()->Lum() > b->getCentroid()->Lum();
+  return a->getCentroid()->Red() > b->getCentroid()->Red() &&
+         a->getCentroid()->Green() > b->getCentroid()->Green() &&
+         a->getCentroid()->Blue() > b->getCentroid()->Blue();
 }
 
 bool Comp::operator()(const cluster_distance *a, const cluster_distance *b) {
@@ -48,70 +50,73 @@ void minHeap::clear() {
   }
 }
 
-double KMean::EuclidianDistance(ADV_Color *a, ADV_Color *b) {
+double EuclideanDistance(Color *a, Color *b) {
 
-  double deltaL = a->Lum() - b->Lum();
-  double deltaA = a->aVal() - b->aVal();
-  double deltaB = a->bVal() - b->bVal();
+  double deltaR = a->Red() - b->Red();
+  double deltaG = a->Green() - b->Green();
+  double deltaB = a->Blue() - b->Blue();
 
-  return std::sqrt((deltaL * deltaL) + (deltaA * deltaA) + (deltaB * deltaB));
+  return ((deltaR * deltaR) + (deltaG * deltaG) + (deltaB * deltaB));
 }
 
-void KMean::K_MEAN_INIT(int k) {
+std::vector<std::string> KMeans(std::vector<Color *> &colors, int k) {
 
+  std::map<Color *, minHeap *> data; // Distances from points to each centroid
+  std::unordered_map<int /*Cluster ID*/, Cluster *> clusters; // clusters
+
+  for (Color *point : colors) {
+    data[point] = new minHeap();
+  }
+
+  /*
+   * Initialize the Clustering
+   *
+   * */
   // randomly get k points
   int size = colors.size();
 
-  // better seeding from
-  // https://www.learncpp.com/cpp-tutorial/generating-random-numbers-using-mersenne-twister/
   std::random_device rd;
   std::seed_seq ss{rd(), rd(), rd(), rd(), rd(), rd(), rd(), rd()};
 
   std::mt19937 mt{ss};
   std::uniform_int_distribution<> kPoints{size / 2, size};
   std::set<int> seen; // make sure we have unique numbers
-  std::vector<int> colorIndecies;
+  std::vector<int> colorIdx;
   while (seen.size() != static_cast<long unsigned int>(k)) {
     int num = kPoints(mt);
-    if (seen.count(num) == 0) {
-      seen.insert(num);
-      colorIndecies.push_back(num);
-    }
+
+    if (seen.count(num) != 0)
+      continue;
+
+    seen.insert(num);
+
+    colorIdx.push_back(num);
   }
 
-  for (int i = 0; i < k; ++i) {
-    Cluster *cluster = new Cluster(colors[colorIndecies[i]], i);
-    clusters[i] = cluster;
-  }
+  for (int i = 0; i < k; ++i)
+    clusters[i] = new Cluster(colors[colorIdx[i]], i);
 
-  // Do the intial iteration
-  for (ADV_Color *point : colors) {
+  // Do the first iteration
+  for (Color *point : colors)
     point->setClusterId(-1);
-  }
 
-  // first phase done
-}
-void KMean::K_MEAN_START() {
 
   // recalculate distances for all points
   // if any points move, we will put the effected clusters in a set,
 
   std::set<Cluster *> toRecalculate;
+  int iterations = 0;
 
-  bool loop = true;
-
-
-  while (loop || toRecalculate.size() != 0) {
-
+  do {
     toRecalculate.clear();
-    for (ADV_Color *point : colors) {
+    for (Color *point : colors) {
 
       minHeap *heap = data[point];
 
       for (auto cluster : clusters) {
 
         double distance =
-            EuclidianDistance(cluster.second->getCentroid(), point);
+            EuclideanDistance(cluster.second->getCentroid(), point);
         int id = cluster.second->getId();
         cluster_distance *dist = new cluster_distance;
         dist->cluster = id;
@@ -121,76 +126,47 @@ void KMean::K_MEAN_START() {
 
       int id = heap->pop();
 
-      if (id != point->getClusterId()) {
-        toRecalculate.insert(clusters[id]);
-        int pId = point->getClusterId();
-        if (pId != -1) {
-          toRecalculate.insert(clusters[pId]);
-        }
-      }
+      if (id == point->getClusterId())
+        continue;
+  
+      int pId = point->getClusterId();
+
+      if (pId == -1)
+        continue;
+
 
       point->setClusterId(id);
+      clusters[id]->addPoint(point);
+
+      toRecalculate.insert(clusters[id]);   
+      toRecalculate.insert(clusters[pId]);
+
     }
-    if (toRecalculate.size() == 0) {
-      return;
-    }
-    for (Cluster *cluster : toRecalculate) {
+    for (Cluster *cluster : toRecalculate)
       cluster->calcNewCentroid();
-    }
 
-    loop = !loop;
-  }
-}
+  } while (toRecalculate.size() != 0 && iterations++ < MAX_ITERATIONS);
 
-std::vector<std::string> KMean::makePalette(std::vector<ADV_Color *> &colors,
-                                            int k) {
-
-  this->colors = colors;
-
-  // load our data into a Red Black tree, in this case a normal map
-  // While this data will not be used by the quantizer for the first iteration,
-  // the data will every iteration after the first iteration.
-  for (ADV_Color *point : colors) {
-    data[point] = new minHeap();
-  }
-
-  /*
-   * Initialize the Clustering
-   *
-   * */
-  K_MEAN_INIT(k);
-
-  /*
-   * Start the clustring iteration
-   *
-   * */
-  K_MEAN_START();
+  // At this point the clusters have converged, so we can collect the color
+  // palette
 
   std::vector<std::string> palette;
   std::vector<Cluster *> sortedColors;
 
-  for (auto cluster : clusters) {
-    // up until this point the Colors have had their LAB Values used, So we
-    // should update the RGB values
+  for (auto cluster : clusters)
     sortedColors.push_back(cluster.second);
-  }
 
   std::sort(sortedColors.begin(), sortedColors.end(), ColorSort());
 
   for (Cluster *cluster : sortedColors) {
-    // up unil this point the Colors have had their LAB Values used, So we
-    // should update the RGB values
-    cluster->getCentroid()->LABtoRGB();
     palette.push_back(cluster->asHex());
   }
 
-  for (auto heap : data) {
+  for (auto heap : data)
     delete heap.second;
-  }
 
-  for (auto cluster : clusters) {
+  for (auto cluster : clusters)
     delete cluster.second;
-  }
 
   return palette;
 }
