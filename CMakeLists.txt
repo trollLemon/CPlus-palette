@@ -10,25 +10,21 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_BUILD_TYPE release)
 add_executable(cpluspalette 
     src/common/color.cpp 
-    src/common/LoadAndSelect.cpp 
     src/kmean/cluster.cpp 
     src/kmean/k_mean.cpp 
-    src/kmean/adv_color.cpp 
     src/mediancut/median_cut.cpp 
     src/mediancut/median_cut_helpers.cpp 
     src/main.cpp)
 set_source_files_properties( 
     src/common/color.cpp
-    src/common/LoadAndSelect.cpp 
     src/kmean/cluster.cpp
     src/kmean/k_mean.cpp 
-    src/kmean/adv_color.cpp
     src/mediancut/median_cut.cpp
     src/mediancut/median_cut_helpers.cpp
     src/main.cpp
 
     PROPERTIES
-    COMPILE_FLAGS "-O3 -finline-functions -march=native -flto -Wall -Wextra -s")
+    COMPILE_FLAGS "-O2  -march=native -flto -Wall -Wextra -s")
 
 
 find_package(X11 REQUIRED)
