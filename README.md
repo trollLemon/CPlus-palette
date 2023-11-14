@@ -4,15 +4,23 @@ Command line tool that generates color palettes based on an image given by the u
 
 # Usage
 ```
- cpluspalette: pathToImage numberOfColors -t [quantization type]
-Example: cpluspalette ~/Pictures/picture.png 8 -m
+Usage:
+ ./cpluspalette: pathToImage -d [numberOfColors] -t [quantization type] <FORMAT>[' ','RGB']
+Examples: ./cpluspalette ~/Pictures/picture.png 8 -k RGB
+          ./cpluspalette~/Pictures/picture.png 12 -m
 
 -k: uses K mean Clustering for Color Palette Generation: slower but produces better palettes most of the time
--m: used Median Cut for Color Palette Generation: Faster than K means Clustering but color palettes aren't always as good
+-m : used Median Cut for Color Palette Generation: Faster than K mean Clustering but color palettes aren't always as good
 ```
 To generate a palette, input a path to an image file, the number of colors you want, and optionally the quantization type:
 -k: Uses K means Clustering for color quantization
--m 2: Uses Median Cut for color quantization
+-m: Uses Median Cut for color quantization
+
+You can also specify additional formats of the color palette. For example:
+```bash
+./cpluspalette  ~/Pictures/Wallpapers/1.jpg 8 -k RGB   
+```
+will output a color palette in hex color codes and rgb values.
 
 By default, Cpluspalette will use K means clustering unless you specify a different quantization type. Generally, the palette quality using K means Clustering is better than what Medain Cut produces but is slower. However, depending on the image, K means Clustering may create a poor palette; in that case, try again using Medain Cut.
 
