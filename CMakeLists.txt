@@ -25,13 +25,8 @@ set_source_files_properties(
 
     PROPERTIES
     COMPILE_FLAGS "-O2  -march=native -flto -Wall -Wextra -s")
-
-
-find_package(X11 REQUIRED)
-include_directories(${X11_INCLUDE_DIR})
 include_directories("src/includes/")
 
-target_link_libraries(cpluspalette ${X11_LIBRARIES})
 
 
 install(TARGETS cpluspalette )
