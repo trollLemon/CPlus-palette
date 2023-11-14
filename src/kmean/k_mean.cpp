@@ -17,11 +17,11 @@ void minHeap::push(cluster_distance *pair) {
   distances.push(pair);
 }
 
-bool ColorSort::operator()(const Cluster *a, const Cluster *b) {
+bool ColorSort::operator()(const Color *a, const Color *b) {
 
-  return a->getCentroid()->Red() > b->getCentroid()->Red() &&
-         a->getCentroid()->Green() > b->getCentroid()->Green() &&
-         a->getCentroid()->Blue() > b->getCentroid()->Blue();
+  return a->Red() > b->Red() &&
+         a->Green() > b->Green() &&
+         a->Blue() > b->Blue();
 }
 
 bool Comp::operator()(const cluster_distance *a, const cluster_distance *b) {
@@ -59,7 +59,7 @@ double EuclideanDistance(Color *a, Color *b) {
   return ((deltaR * deltaR) + (deltaG * deltaG) + (deltaB * deltaB));
 }
 
-std::vector<std::string> KMeans(std::vector<Color *> &colors, int k) {
+std::vector<Color *> KMeans(std::vector<Color *> &colors, int k) {
 
   std::map<Color *, minHeap *> data; // Distances from points to each centroid
   std::unordered_map<int /*Cluster ID*/, Cluster *> clusters; // clusters
@@ -151,22 +151,19 @@ std::vector<std::string> KMeans(std::vector<Color *> &colors, int k) {
   // palette
 
   std::vector<std::string> palette;
-  std::vector<Cluster *> sortedColors;
+  std::vector<Color *> sortedColors;
 
-  for (auto cluster : clusters)
-    sortedColors.push_back(cluster.second);
-
+  for (auto cluster : clusters){
+    sortedColors.push_back(cluster.second->getCentroid());
+    delete cluster.second;
+  }
   std::sort(sortedColors.begin(), sortedColors.end(), ColorSort());
 
-  for (Cluster *cluster : sortedColors) {
-    palette.push_back(cluster->asHex());
-  }
 
   for (auto heap : data)
     delete heap.second;
 
-  for (auto cluster : clusters)
-    delete cluster.second;
 
-  return palette;
+
+  return sortedColors;
 }
