@@ -17,24 +17,23 @@
 #include <vector>
 using namespace cimg_library;
 
-void printResults(std::vector<std::string> &result, std::string &prompt) {
-  std::cout << prompt << std::endl;
 
-  for (std::string color : result) {
-    std::cout << color << std::endl;
-  }
-}
-
-void printResults(std::vector<std::string> &result, std::string &prompt,
-                  int limit) {
+void printResults(std::vector<Color *> &results, std::string &prompt,
+                  int limit, int fmt) {
   std::cout << prompt << std::endl;
 
   for (int i = 0; i < limit; ++i) {
-    std::cout << result[i] << std::endl;
+    std::cout << results[i]->asHex() << " ";
+    
+    if (fmt ==2){
+       std::cout << ": rgb(" << results[i]->Red() << "," << results[i]->Green() << "," << results[i]->Blue() << ")";
+    }
+    
+    std::cout << std::endl;
   }
 }
 
-void makeColorPalette(std::string &path, int size, int genType) {
+void makeColorPalette(std::string &path, int size, int genType, int fmt) {
 
   CImg<unsigned char> *image = new CImg<unsigned char>(
       path.c_str()); // This is assigned if an image is loaded without errors,
@@ -69,17 +68,20 @@ void makeColorPalette(std::string &path, int size, int genType) {
 
   if (genType == 1) {
 
-    std::vector<std::string> palette = KMeans(colors, size);
+    std::vector<Color *> palette = KMeans(colors, size);
 
     std::string prompt = "K Mean Clustering:";
-    printResults(palette, prompt);
+    printResults(palette, prompt,size,fmt);
 
   } else {
     int depth = powerOfTwoSize(size);
-    std::vector<std::string> palette = median_cut(colors, depth);
+    std::vector<Color *> palette = median_cut(colors, depth);
 
     std::string prompt = "Median Cut";
-    printResults(palette, prompt, size);
+    printResults(palette, prompt, size,fmt);
+    for (Color *color: palette) {
+	delete color;
+    }
   }
   for (Color *color : colors) {
     delete color;
@@ -117,9 +119,13 @@ int main(int argc, char **argv) {
 
   std::string path = all_args[0];
   std::string genType = "-k";
-
+  std::string colorFmt = "";
   if (all_args.size() > 2)
     genType = all_args[2];
+ 
+  if (all_args.size() > 3) {
+	colorFmt = all_args[3];
+  } 
 
   if (all_args[0] == "--help") {
 
@@ -146,8 +152,14 @@ int main(int argc, char **argv) {
     type = 2;
   }
 
+  int fmt = 1;
+
+  if(colorFmt == "-RGB"){
+   fmt = 2;
+  }
+
   try {
-    makeColorPalette(path, paletteSize, type);
+    makeColorPalette(path, paletteSize, type, fmt);
   } catch (cimg_library::CImgIOException const &) {
     std::cout << "Failed to load " << path << '\n';
     return 1;
