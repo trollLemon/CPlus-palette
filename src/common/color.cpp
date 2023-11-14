@@ -28,6 +28,6 @@ void Color::setRGB(int r, int g, int b) {
 
 int Color::getClusterId() { return id; }
 void Color::setClusterId(int i) { id = i; }
-int Color::Red() { return r; }
-int Color::Green() { return g; }
-int Color::Blue() { return b; }
+ int Color::Red() const { return r; }
+ int Color::Green() const { return g; }
+ int Color::Blue() const { return b; }
