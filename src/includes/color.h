@@ -66,17 +66,17 @@ void setClusterId(int i);
   /* *
    * Returns the R value
    * */
-  int Red();
+ int Red() const;
 
   /* *
    * Returns the Green Value
    * */
-  int Green();
+   int Green() const;
 
   /* *
    * Returns the Blue value
    * */
-  int Blue();
+  int Blue() const;
 };
 
 #endif

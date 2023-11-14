@@ -34,7 +34,7 @@ struct cluster_distance {
 // custom comparator to sort clusters
 struct ColorSort {
 
-  bool operator()(const Cluster *a, const Cluster *b);
+  bool operator()(const Color *a, const Color *b);
 };
 
 // custom comparator to compare cluster_distances
@@ -66,10 +66,8 @@ public:
 
   /* *
    * Performs K means clustering for palette generation:
-   * returns a vector of strings for each color in the palette.
-   * They are represented as hex color codes (#FFFFFF) for ease of use
-   * in config files, CSS, etc...
+   * returns a vector of Color * for each color in the palette.
    * */
-  std::vector<std::string> KMeans(std::vector<Color *> &colors, int k);
+  std::vector<Color *> KMeans(std::vector<Color *> &colors, int k);
 
 #endif
