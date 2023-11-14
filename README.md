@@ -129,10 +129,10 @@ ________________________________________________________________________________
 
 ### What you need
 #### Packages
-You will need [CImg](https://www.cimg.eu/index.html), [ImageMagick](https://imagemagick.org/index.php), and the X11 headers installed on your system to build this project.
+You will need [CImg](https://www.cimg.eu/index.html), and [ImageMagick](https://imagemagick.org/index.php) to build this project.
 
 #### Compilers and Build tools
-You will also need Cmake and the g++ compiler.
+You will also need Cmake and a C++ compiler.
 
 
 The following section includes installation instructions for these packages for different Linux distros.
@@ -140,21 +140,15 @@ The following section includes installation instructions for these packages for 
 
 ### Arch and Arch-based Distros
 
-On Arch, you can install CImg from the AUR with the following:
+On Arch, you can install CImg from the official repos with the following:
 ```bash
-yay CImg
+sudo pacman -S cimg
 ```
-and choose the option *community/cimg*.
 
 Then install ImageMagick, which is available in the official arch repositories:
 ```bash
 
 sudo pacman -S imagemagick
-```
-If you do not have the X11 headers, you can install them from the official repository:
-```bash
-sudo pacman -S libx11
-
 ```
 ### Debian and Debian-Based Distros
 
@@ -166,18 +160,8 @@ sudo apt install ImageMagick
 ```bash
 sudo apt install cimg-dev
 ```
-And the X11 headers, if you don't have them:
-```bash
-sudo apt install libx11-dev
-```
 
 ### Fedora and Fedora-Based Distros
-
-X11 headers:
-```bash
-sudo yum install libX11-dev
-```
-
 Cimg:
 
 ```bash
