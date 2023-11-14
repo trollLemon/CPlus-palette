@@ -22,12 +22,12 @@
    * for the color palette
    *
    * */
-  void mc(std::vector<Color *> &colors, std::vector<std::string> &palette, int k);
+  void mc(std::vector<Color *> &colors, std::vector<Color *> &palette, int k);
   /* *
    * Returns the average color of a bucket containing points
    * assumes the bucket has more than 0 points in it
    * */
-  void getAverageColor(std::vector<Color *> &colors, std::vector<std::string> &palette);
+  void getAverageColor(std::vector<Color *> &colors, std::vector<Color *> &palette);
 
   
 
@@ -39,6 +39,6 @@
    * required number of colors
    *
    * */
-  std::vector<std::string> median_cut(std::vector<Color *> &colors, int k);
+  std::vector<Color *> median_cut(std::vector<Color *> &colors, int k);
 
 #endif
