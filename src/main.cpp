@@ -96,12 +96,16 @@ void printHelp(std::string programName) {
             << std::endl;
   std::cout << "Examples: " << programName << " ~/Pictures/picture.png 8 -k RGB \n          " << programName  << "~/Pictures/picture.png 12 -m \n"
             << std::endl;
+  std::cout <<"quantization types:" << std::endl;
   std::cout << "-k: uses K mean Clustering for Color Palette Generation: "
                "slower but produces better palettes most of the time"
             << std::endl;
   std::cout << "-m : used Median Cut for Color Palette Generation: Faster "
                "than K mean Clustering but color palettes aren't always as good"
             << std::endl;
+  std::cout << "FORMAT types:" << std::endl;
+  std::cout << "' ' leave empty for hex color codes" << std::endl;
+  std::cout <<"\"RGB\" for additional RGB color values along with the hex colors" << std::endl;
 }
 
 int main(int argc, char **argv) {

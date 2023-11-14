@@ -9,8 +9,13 @@ Usage:
 Examples: ./cpluspalette ~/Pictures/picture.png 8 -k RGB
           ./cpluspalette~/Pictures/picture.png 12 -m
 
+quantization types:
 -k: uses K mean Clustering for Color Palette Generation: slower but produces better palettes most of the time
 -m : used Median Cut for Color Palette Generation: Faster than K mean Clustering but color palettes aren't always as good
+FORMAT types:
+' ' leave empty for hex color codes
+"RGB" for additional RGB color values along with the hex colors
+
 ```
 To generate a palette, input a path to an image file, the number of colors you want, and optionally the quantization type:
 -k: Uses K means Clustering for color quantization
