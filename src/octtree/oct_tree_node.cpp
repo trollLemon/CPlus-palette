@@ -24,12 +24,7 @@ OctTreeNode *OctTreeNode::at(int idx) { return children[idx]; };
 
 bool OctTreeNode::isLeaf() {
 
-  for (int i = 0; i < CHILDREN; i++) {
-    if (children[i] != nullptr)
-      return false;
-  }
-
-  return true;
+  return leaf;
 }
 
 std::array<OctTreeNode *, CHILDREN> OctTreeNode::getChildren() {
@@ -42,14 +37,14 @@ void OctTreeNode::reduce(){
 	int ave_g=0;
 	int ave_b =0;
         int count =0;
-	for(OctTreeNode * child: children){
+	for(OctTreeNode *child: children){
 		if(child==nullptr) continue;
 		Color * col = child->color;
 		ave_r+=col->Red();
 		ave_g+=col->Green();
 		ave_b+=col->Blue();
 		count++;
-		delete child;
+		leaf =true;
 	}
 
 	color->setRGB(ave_r/count, ave_g/count, ave_b/count);
@@ -57,7 +52,6 @@ void OctTreeNode::reduce(){
 }
 
 void OctTreeNode::add(Color *col) {
-
   count++;
   int red = col->Red() + color->Red();
   int green = col->Green() + color->Green();
@@ -87,6 +81,7 @@ void OctTreeNode::insert(Color *col) {
     currentNode = currentNode->children[idx];
     depth++;
   }
-
+  
+  currentNode->leaf = true;
   currentNode->add(col);
 }
