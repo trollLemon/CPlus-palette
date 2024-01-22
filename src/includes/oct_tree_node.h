@@ -8,20 +8,25 @@ class OctTreeNode {
 
 private:
   std::array<OctTreeNode *, CHILDREN> children;
-  Color *color;
   int level;
   bool leaf;
+  bool reduced;
   int count;
-  void add(Color *col);
   
 
 public:
+  
+  Color *color;
   OctTreeNode(int level);
   OctTreeNode(Color *col, int level);
   ~OctTreeNode();
-  void insert(Color *col);
-  void reduce();
+  OctTreeNode *at(int idx);
+  std::array<OctTreeNode*, CHILDREN> getChildren();
+  void insert(OctTreeNode* node, size_t idx);
+  int reduce(int leaves, int target);
+  void add(Color *col);
   bool isLeaf();
+  bool isReduced();
 };
 
 #endif

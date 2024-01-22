@@ -2,7 +2,7 @@
 #define OCTTREE
 #include "oct_tree_node.h"
 #include <vector>
-
+#define THRESHOLD 0.01
 
 
 
