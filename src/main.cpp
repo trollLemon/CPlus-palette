@@ -8,6 +8,7 @@
 #include "k_mean.h"
 #include "median_cut.h"
 #include "median_cut_helpers.h"
+#include "oct_tree.h"
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -74,7 +75,7 @@ void makeColorPalette(std::string &path, int size, std::string genType, std::str
     std::string prompt = "K Mean Clustering:";
     printResults(palette, prompt,size,fmt);
 
-  } else {
+  } else if (genType == "-m") {
     int depth = powerOfTwoSize(size);
     std::vector<Color *> palette = median_cut(colors, depth);
 
@@ -83,6 +84,13 @@ void makeColorPalette(std::string &path, int size, std::string genType, std::str
     for (Color *color: palette) {
 	delete color;
     }
+  } else {
+ std::vector<Color *> palette = oct_tree_gen(colors, size);	
+	
+ std::string prompt = "Oct-Tree";
+ 	
+ printResults(palette,prompt, size, fmt);
+
   }
   for (Color *color : colors) {
     delete color;
