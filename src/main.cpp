@@ -93,7 +93,7 @@ void makeColorPalette(std::string &path, int size, std::string genType, std::str
 
 void printHelp(std::string programName) {
   std::cout << "Usage:\n " << programName
-            << ": pathToImage -d [numberOfColors] -t [quantization type] <FORMAT>[' ','RGB'] "
+            << ": pathToImage -[numberOfColors] -[quantization type] <FORMAT>[' ','RGB'] "
             << std::endl;
   std::cout << "Examples: " << programName << " ~/Pictures/picture.png 8 -k RGB \n          " << programName  << "~/Pictures/picture.png 12 -m \n"
             << std::endl;

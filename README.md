@@ -5,7 +5,7 @@ Command line tool that generates color palettes based on an image given by the u
 # Usage
 ```
 Usage:
- ./cpluspalette: pathToImage -d [numberOfColors] -t [quantization type] <FORMAT>[' ','RGB']
+ ./cpluspalette: pathToImage d [numberOfColors] -[quantization type] <FORMAT>[' ','RGB']
 Examples: ./cpluspalette ~/Pictures/picture.png 8 -k RGB
           ./cpluspalette~/Pictures/picture.png 12 -m
 
