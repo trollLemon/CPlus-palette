@@ -24,7 +24,7 @@ set_source_files_properties(
     src/main.cpp
 
     PROPERTIES
-    COMPILE_FLAGS "-O2  -march=native -flto -Wall -Wextra -s")
+    COMPILE_FLAGS "-Os -flto -march=native -Wall -Wextra -s")
 include_directories("src/includes/")
 
 
