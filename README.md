@@ -129,7 +129,7 @@ ________________________________________________________________________________
 
 ### What you need
 #### Packages
-You will need [CImg](https://www.cimg.eu/index.html), and [ImageMagick](https://imagemagick.org/index.php) to build this project.
+You will need [CImg](https://www.cimg.eu/index.html) to build this project.
 
 #### Compilers and Build tools
 You will also need Cmake and a C++ compiler.
@@ -145,17 +145,9 @@ On Arch, you can install CImg from the official repos with the following:
 sudo pacman -S cimg
 ```
 
-Then install ImageMagick, which is available in the official arch repositories:
-```bash
-
-sudo pacman -S imagemagick
-```
 ### Debian and Debian-Based Distros
 
 On Debian (or mint, ubuntu, or other Debian-based distros), install ImageMagick:
-```bash
-sudo apt install ImageMagick
-```
  CImg:
 ```bash
 sudo apt install cimg-dev
@@ -167,10 +159,6 @@ Cimg:
 ```bash
 sudo dnf install CImg-devel
 
-```
-ImageMagick:
-```bash
-sudo dnf install ImageMagick
 ```
 
 ## Compiling
