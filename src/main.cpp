@@ -2,20 +2,16 @@
 #include "CImg.h"
 #include <iostream>
 #include <string>
-
-#include "CImg.h"
 #include "color.h"
 #include "k_mean.h"
 #include "median_cut.h"
 #include "median_cut_helpers.h"
 #include <algorithm>
-#include <array>
-#include <cmath>
 #include <cstddef>
 #include <iostream>
-#include <math.h>
 #include <unordered_set>
 #include <vector>
+#include <fstream>
 using namespace cimg_library;
 
 
@@ -37,9 +33,7 @@ void printResults(std::vector<Color *> &results, std::string &prompt,
 void makeColorPalette(std::string &path, int size, std::string genType, std::string fmt) {
 
   CImg<unsigned char> *image = new CImg<unsigned char>(
-      path.c_str()); // This is assigned if an image is loaded without errors,
-                     // if not , then the program will exit and this wont be
-                     // used
+      path.c_str()); 
 
   int widthAndHeight{500};
   image->resize(widthAndHeight, widthAndHeight);
@@ -139,15 +133,8 @@ int main(int argc, char **argv) {
       printHelp(argv[0]);
       return 1;
     }
-
-  try {
+   
     makeColorPalette(path, paletteSize, genType, colorFormat);
-  } catch (cimg_library::CImgIOException const &) {
-    std::cout << "Failed to load " << path << '\n';
-    return 1;
-  } catch (cimg_library::CImgArgumentException const &) {
-    std::cout << "Failed to load " << path << ", it is a directory" << '\n';
-    return 1;
-  }
+
   return 0;
 }
