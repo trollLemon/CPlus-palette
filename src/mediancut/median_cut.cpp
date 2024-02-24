@@ -10,7 +10,7 @@ bool cmpR(Color *a, Color *b) { return a->Red() > b->Red(); }
 bool cmpG(Color *a, Color *b) { return a->Green() > b->Green(); }
 bool cmpB(Color *a, Color *b) { return a->Blue() > b->Blue(); }
 
-int getRangeR(std::vector<Color *> colors) {
+inline int getRangeR(std::vector<Color *> colors) {
 
   int range = 0;
 
@@ -22,7 +22,7 @@ int getRangeR(std::vector<Color *> colors) {
 
   return std::abs(range);
 }
-int getRangeG(std::vector<Color *> colors) {
+inline int getRangeG(std::vector<Color *> colors) {
 
   int range = 0;
 
@@ -33,7 +33,7 @@ int getRangeG(std::vector<Color *> colors) {
   range = (*max)->Green() - (*min)->Green();
   return std::abs(range);
 }
-int getRangeB(std::vector<Color *> colors) {
+inline int getRangeB(std::vector<Color *> colors) {
 
   int range = 0;
 
