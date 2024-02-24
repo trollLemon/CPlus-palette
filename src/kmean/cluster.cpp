@@ -17,14 +17,12 @@ void Cluster::calcNewCentroid() {
     sumG += color->Green();
     sumB += color->Blue();
   }
-  if (size == 0) {
-    return;
-  }
 
   // modify this clusters centroid values with the new averages,
   // this is better than reallocating memory for a new point each time
   centroid->setRGB(sumR / size, sumG / size, sumB / size);
   points.clear();
+  points.push_back(centroid);
 }
 
 std::string Cluster::asHex() { return centroid->asHex(); }

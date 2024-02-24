@@ -68,33 +68,13 @@ std::vector<Color *> KMeans(std::vector<Color *> &colors, int k) {
     data[point] = new minHeap();
   }
 
-  /*
-   * Initialize the Clustering
-   *
-   * */
-  // randomly get k points
-  int size = colors.size();
+    std::random_device rd;
+    std::mt19937 mt(rd());
+    std::shuffle(colors.begin(), colors.end(), mt);
 
-  std::random_device rd;
-  std::seed_seq ss{rd(), rd(), rd(), rd(), rd(), rd(), rd(), rd()};
-
-  std::mt19937 mt{ss};
-  std::uniform_int_distribution<> kPoints{size / 2, size};
-  std::set<int> seen; // make sure we have unique numbers
-  std::vector<int> colorIdx;
-  while (seen.size() != static_cast<long unsigned int>(k)) {
-    int num = kPoints(mt);
-
-    if (seen.count(num) != 0)
-      continue;
-
-    seen.insert(num);
-
-    colorIdx.push_back(num);
-  }
 
   for (int i = 0; i < k; ++i)
-    clusters[i] = new Cluster(colors[colorIdx[i]], i);
+    clusters[i] = new Cluster(colors[i], i);
 
   // Do the first iteration
   for (Color *point : colors)
