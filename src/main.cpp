@@ -23,8 +23,8 @@ void printResults(std::vector<Color *> &results, std::string &prompt, int limit,
     std::cout << results[i]->asHex() << " ";
 
     if (fmt == "RGB") {
-      std::cout << ": rgb(" << results[i]->Red() << "," << results[i]->Green()
-                << "," << results[i]->Blue() << ")";
+      std::cout << ": rgb(" << (int)results[i]->Red() << "," << (int)results[i]->Green()
+                << "," << (int)results[i]->Blue() << ")";
     }
 
     std::cout << std::endl;
@@ -73,7 +73,7 @@ for (int y = 0; y < widthHeight; ++y) {
   }
 }
   
-
+	
   if (genType == "-k") {
 
     std::vector<Color *> palette = KMeans(colors, size);
