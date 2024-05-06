@@ -1,10 +1,10 @@
 #include <iostream>
 #include <string>
 #define STB_IMAGE_IMPLEMENTATION
-#define STB_IMAGE_RESIZE_IMPLEMENTATION
-#define STBI_NO_FAILURE_STRINGS
 #include "stb_image.h"
+#define STB_IMAGE_RESIZE_IMPLEMENTATION
 #include "stb_image_resize2.h"
+#define STBI_NO_FAILURE_STRINGS
 
 #include "color.h"
 #include "k_mean.h"
@@ -18,15 +18,14 @@
 void printResults(std::vector<Color *> &results, std::string &prompt, int limit,
                   std::string fmt) {
   std::cout << prompt << std::endl;
-
   for (int i = 0; i < limit; ++i) {
     std::cout << results[i]->asHex() << " ";
 
     if (fmt == "RGB") {
-      std::cout << ": rgb(" << (int)results[i]->Red() << "," << (int)results[i]->Green()
-                << "," << (int)results[i]->Blue() << ")";
+      std::cout << ": rgb(" << (int)results[i]->Red() << ","
+                << (int)results[i]->Green() << "," << (int)results[i]->Blue()
+                << ")";
     }
-
     std::cout << std::endl;
   }
 }
@@ -36,44 +35,52 @@ void makeColorPalette(std::string &path, int size, std::string genType,
 
   int widthHeight = 500;
   std::vector<Color *> colors;
-
   int width, height, channels;
   unsigned char *image = stbi_load(path.c_str(), &width, &height, &channels, 0);
+
+  // if we have 4 channels, then:
+  // 1.We probably have a png image
+  // 2.There is an alpha channel we need to deal with
+  //
+  // We need to make sure the pixel format is RGBA and let STB know the image is
+  // premultiplied. Otherwise our colors will be pale shades of white, probably
+  // because the pixels are being premultiplied again.
+
+  stbir_pixel_layout format = channels == 4 ? STBIR_RGBA_PM : STBIR_RGB;
 
   int stride = width * channels;
 
   std::unordered_set<std::string> seen;
-	
- 
 
   if (image == NULL) {
     std::cout << "Unable to load image" << std::endl;
     exit(1);
   }
 
-  unsigned char *resizedImage = stbir_resize_uint8_srgb(
-      image, width, height, stride, NULL, widthHeight, widthHeight, stride, STBIR_RGB);
+  unsigned char *resizedImage =
+      stbir_resize_uint8_srgb(image, width, height, stride, NULL, widthHeight,
+                              widthHeight, stride, format);
   Color base(0, 0, 0);
 
-for (int y = 0; y < widthHeight; ++y) {
+  for (int y = 0; y < widthHeight; ++y) {
     for (int x = 0; x < widthHeight; ++x) {
-    int i = (y * width + x) * channels;
-    unsigned char r = resizedImage[i];
-    unsigned char g = resizedImage[i+1];
-    unsigned char b = resizedImage[i+2];
+      int i = (y * width + x) * channels;
+      unsigned char r = resizedImage[i];
+      unsigned char g = resizedImage[i + 1];
+      unsigned char b = resizedImage[i + 2];
 
-    base.setRGB(r, g, b);
-    
-    std::string hex = base.asHex();
+      base.setRGB(r, g, b);
 
-    if (seen.count(hex) == 0) {
-      colors.push_back(new Color(r, g, b));
-      seen.insert(hex);
+      std::string hex = base.asHex();
+
+      if (seen.count(hex) == 0) {
+        colors.push_back(new Color(r, g, b));
+
+        seen.insert(hex);
+      }
     }
   }
-}
-  
-	
+
   if (genType == "-k") {
 
     std::vector<Color *> palette = KMeans(colors, size);
