@@ -2,11 +2,6 @@
 #include "cluster.h"
 #include "color.h"
 #include <algorithm>
-#include <assert.h>
-#include <cmath>
-#include <ctime>
-#include <functional>
-#include <iostream>
 #include <random>
 #define MAX_ITERATIONS 12
 cluster_distance::~cluster_distance() {}
@@ -18,9 +13,7 @@ void minHeap::push(cluster_distance *pair) {
 }
 
 bool ColorSort::operator()(const Color *a, const Color *b) {
-
-  return a->Red() > b->Red() &&
-         a->Green() > b->Green() &&
+  return a->Red() > b->Red() && a->Green() > b->Green() &&
          a->Blue() > b->Blue();
 }
 
@@ -35,7 +28,6 @@ int minHeap::pop() {
   if (distances.top() == nullptr) {
     return -1;
   }
-
   int ClusterId = distances.top()->cluster;
   delete distances.top();
   distances.pop();
@@ -100,13 +92,15 @@ std::vector<Color *> KMeans(std::vector<Color *> &colors, int k) {
   for (Color *point : colors)
     point->setClusterId(-1);
 
+  // recalculate distances for all points
+  // if any points move, we will put the effected clusters in a set,
 
   // recalculate distances for all points
   // if any points move, we will put the effected clusters in a set,
 
   std::set<Cluster *> toRecalculate;
-  int iterations = 0;
 
+  int itrs = 0;
   do {
     toRecalculate.clear();
     for (Color *point : colors) {
@@ -124,46 +118,37 @@ std::vector<Color *> KMeans(std::vector<Color *> &colors, int k) {
         heap->push(dist);
       }
 
+
       int id = heap->pop();
 
-      if (id == point->getClusterId())
-        continue;
-  
-      int pId = point->getClusterId();
-
-      if (pId == -1)
-        continue;
-
+      if (id != point->getClusterId()) {
+        toRecalculate.insert(clusters[id]);
+        int pId = point->getClusterId();
+        if (pId != -1) {
+          toRecalculate.insert(clusters[pId]);
+        }
+      }
 
       point->setClusterId(id);
-      clusters[id]->addPoint(point);
-
-      toRecalculate.insert(clusters[id]);   
-      toRecalculate.insert(clusters[pId]);
-
     }
+	
     for (Cluster *cluster : toRecalculate)
       cluster->calcNewCentroid();
 
-  } while (toRecalculate.size() != 0 && iterations++ < MAX_ITERATIONS);
-
-  // At this point the clusters have converged, so we can collect the color
-  // palette
+    itrs++;
+  } while (itrs < MAX_ITERATIONS && toRecalculate.size() !=0);
 
   std::vector<std::string> palette;
   std::vector<Color *> sortedColors;
 
-  for (auto cluster : clusters){
+  for (auto cluster : clusters) {
     sortedColors.push_back(cluster.second->getCentroid());
     delete cluster.second;
   }
   std::sort(sortedColors.begin(), sortedColors.end(), ColorSort());
 
-
   for (auto heap : data)
     delete heap.second;
-
-
 
   return sortedColors;
 }
