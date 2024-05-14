@@ -129,53 +129,15 @@ ________________________________________________________________________________
 
 ### What you need
 #### Packages
-You will need [CImg](https://www.cimg.eu/index.html), and [ImageMagick](https://imagemagick.org/index.php) to build this project.
+
+All dependencies are included in this repo.
 
 #### Compilers and Build tools
-You will also need Cmake and a C++ compiler.
+You will need Cmake and a C++ compiler.
 
+### Building
 
-The following section includes installation instructions for these packages for different Linux distros.
-
-
-### Arch and Arch-based Distros
-
-On Arch, you can install CImg from the official repos with the following:
-```bash
-sudo pacman -S cimg
-```
-
-Then install ImageMagick, which is available in the official arch repositories:
-```bash
-
-sudo pacman -S imagemagick
-```
-### Debian and Debian-Based Distros
-
-On Debian (or mint, ubuntu, or other Debian-based distros), install ImageMagick:
-```bash
-sudo apt install ImageMagick
-```
- CImg:
-```bash
-sudo apt install cimg-dev
-```
-
-### Fedora and Fedora-Based Distros
-Cimg:
-
-```bash
-sudo dnf install CImg-devel
-
-```
-ImageMagick:
-```bash
-sudo dnf install ImageMagick
-```
-
-## Compiling
-
-Once you have gotten CImg, you can compile and link the project.
+#### Linux
 
 First, create a directory called build in the GitHub repo and then cd into it:
 ```bash
@@ -193,6 +155,8 @@ in the build directory, run the following:
 ```bash
 sudo make install
 ```
+#### Windows
+
 
 
 # References
