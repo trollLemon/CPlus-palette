@@ -7,16 +7,15 @@
 
 #ifndef COLOR
 #define COLOR
-#include <cmath>
 #include <string>
 
 class Color {
 
 protected:
   // RGB Color Space
-  int r;
-  int g;
-  int b;
+  unsigned char r;
+  unsigned char g;
+  unsigned char b;
   int id;
 public:
   /* *
@@ -29,7 +28,7 @@ public:
    * Requires an r , g and b value, along with a cluster id.
    *
    * */
-  Color(int r, int g, int b);
+  Color(unsigned char r, unsigned char g, unsigned char b);
 
   /* *
    * Returns the hex representation of this color
@@ -42,7 +41,7 @@ public:
   /* *
    * Sets the RGB values for this color.
    * */
-  void setRGB(int r, int g, int b);
+  void setRGB(unsigned char r, unsigned char g, unsigned char b);
 
 
 
@@ -66,17 +65,17 @@ void setClusterId(int i);
   /* *
    * Returns the R value
    * */
- int Red() const;
+ unsigned char Red() const;
 
   /* *
    * Returns the Green Value
    * */
-   int Green() const;
+   unsigned char Green() const;
 
   /* *
    * Returns the Blue value
    * */
-  int Blue() const;
+  unsigned char Blue() const;
 };
 
 #endif
