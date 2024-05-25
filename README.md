@@ -133,7 +133,7 @@ ________________________________________________________________________________
 All dependencies are included in this repo.
 
 #### Compilers and Build tools
-You will need Cmake and a C++ compiler.
+You will need Cmake and a C and C++ compiler (clang, gcc, g++, etc.)
 
 ### Building
 
@@ -157,7 +157,19 @@ sudo make install
 ```
 #### Windows
 
+While you can use Visual Studios C++ suite to compile this software, I reccomend using [MinGW](https://sourceforge.net/projects/mingw/) and install gcc and g++. 
 
+[Geeks4Geeks](https://www.geeksforgeeks.org/installing-mingw-tools-for-c-c-and-changing-environment-variable/#) has a good article on how to install it and get it working.
+
+Once installed, create a directory called build in the GitHub repo and then cd into it:
+```bash
+mkdir build && cd build
+```
+Next, configure Cmake to use the gcc and g++ compilers from MinGW and then build the project:
+```bash
+cmake -G "MinGW Makefiles" -DCMAKE_C_COMPILER=C:/MinGW/bin/gcc.exe -DCMAKE_CXX_COMPILER=C:MinGW/bin/g++.exe ../
+cmake --build .
+```
 
 # References
 http://ijimt.org/papers/102-M480.pdf
