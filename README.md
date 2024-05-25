@@ -130,7 +130,7 @@ ________________________________________________________________________________
 ### What you need
 #### Packages
 
-All dependencies are included in this repo.
+All dependencies are included in this repo. This project uses image loading and resizing libraries from https://github.com/nothings/stb: `src/includes/stb_image.h` and `src/includes/stb_image_resize2.h`
 
 #### Compilers and Build tools
 You will need Cmake and a C and C++ compiler (clang, gcc, g++, etc.)
@@ -180,3 +180,4 @@ https://muthu.co/reducing-the-number-of-colors-of-an-image-using-median-cut-algo
 https://sighack.com/post/averaging-rgb-colors-the-right-way
 https://www.codespeedy.com/convert-rgb-to-hex-color-code-in-cpp/
 https://stackoverflow.com/questions/466204/rounding-up-to-next-power-of-2
+https://github.com/nothings/stb
