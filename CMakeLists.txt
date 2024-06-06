@@ -3,11 +3,16 @@ cmake_minimum_required(VERSION 3.10)
 # set the project name
 project(cpluspalette VERSION 1.2.1 DESCRIPTION "generate color palettes from images")
 
-
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_BUILD_TYPE release)
+
+option(USE_STBI_WINDOWS_UTF8 "Enable STBI_WINDOWS_UTF8 support" OFF)
+if(USE_STBI_WINDOWS_UTF8)
+    add_compile_definitions(STBI_WINDOWS_UTF8)
+endif()
 add_executable(cpluspalette 
     src/common/color.cpp 
     src/kmean/cluster.cpp 
