@@ -3,14 +3,11 @@
  *
  * Header for an implementation of median cut for color palette generation.
  *
- * Unlike the K_Mean implementation, we only need basic RGB colors.
- *
  * */
 
 #ifndef MEDIANCUT
 #define MEDIANCUT
 #include "color.h"
-#include <string>
 #include <vector>
 
   /* *
