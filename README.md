@@ -167,7 +167,14 @@ mkdir build && cd build
 ```
 Next, configure Cmake to use the gcc and g++ compilers from MinGW and then build the project:
 ```bash
+
 cmake -G "MinGW Makefiles" -DCMAKE_C_COMPILER=C:/MinGW/bin/gcc.exe -DCMAKE_CXX_COMPILER=C:MinGW/bin/g++.exe ../
+cmake --build .
+```
+
+If you are building for older versions of Windows, you will need to run
+```
+cmake -G "MinGW Makefiles" -DSTBI_WINDOWS_UTF8=TRUE -DCMAKE_C_COMPILER=C:/MinGW/bin/gcc.exe -DCMAKE_CXX_COMPILER=C:MinGW/bin/g++.exe ../
 cmake --build .
 ```
 
