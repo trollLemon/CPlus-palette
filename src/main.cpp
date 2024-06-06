@@ -4,7 +4,7 @@
 #include "stb_image.h"
 #define STB_IMAGE_RESIZE_IMPLEMENTATION
 #include "stb_image_resize2.h"
-#define STBI_NO_FAILURE_STRINGS
+//#define STBI_NO_FAILURE_STRINGS
 
 #include "color.h"
 #include "k_mean.h"
@@ -43,8 +43,8 @@ void makeColorPalette(std::string &path, int size, std::string genType,
   // 2.There is an alpha channel we need to deal with
   //
   // We need to make sure the pixel format is RGBA and let STB know the image is
-  // premultiplied. Otherwise our colors will be pale shades of white, probably
-  // because the pixels are being premultiplied again.
+  // premultiplied (we can assume so for png images). Otherwise our colors will be pale shades of white, 
+  // probably because the pixels are being premultiplied again.
 
   stbir_pixel_layout format = channels == 4 ? STBIR_RGBA_PM : STBIR_RGB;
 
