@@ -3,6 +3,9 @@
 #include "color.h"
 #include <algorithm>
 #include <random>
+#include <unordered_map>
+#include <set>
+#include <map>
 #define MAX_ITERATIONS 12
 cluster_distance::~cluster_distance() {}
 void minHeap::push(cluster_distance *pair) {
