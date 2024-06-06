@@ -5,7 +5,7 @@
 #define STB_IMAGE_RESIZE_IMPLEMENTATION
 #include "stb_image_resize2.h"
 //#define STBI_NO_FAILURE_STRINGS
-
+#define STBI_FAILURE_USERMSG
 #include "color.h"
 #include "k_mean.h"
 #include "median_cut.h"
@@ -53,13 +53,21 @@ void makeColorPalette(std::string &path, int size, std::string genType,
   std::unordered_set<std::string> seen;
 
   if (image == NULL) {
-    std::cout << "Unable to load image" << std::endl;
+    
+    std::cout << "Unable to load image " << path << std::endl;
+    std::cout << stbi_failure_reason() << std::endl;
     exit(1);
   }
 
   unsigned char *resizedImage =
       stbir_resize_uint8_srgb(image, width, height, stride, NULL, widthHeight,
                               widthHeight, stride, format);
+  
+
+  if (resizedImage == NULL){
+	std::cout << "Unable to resize image " << path << std::endl;
+  }
+
   Color base(0, 0, 0);
 
   for (int y = 0; y < widthHeight; ++y) {
