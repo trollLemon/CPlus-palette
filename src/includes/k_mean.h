@@ -14,13 +14,7 @@
 #ifndef KMEAN
 #define KMEAN
 #include "color.h"
-#include "cluster.h"
-#include <algorithm>
-#include <map>
 #include <queue>
-#include <set>
-#include <string>
-#include <unordered_map>
 
 // Cluster id and the distance from a point to its centroid
 

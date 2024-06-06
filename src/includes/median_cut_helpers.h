@@ -11,7 +11,6 @@
 #ifndef HELPERS
 #define HELPERS
 
-#include <cmath>
 
 /* *
  * Returns true if the inputed number is a power of 2.
