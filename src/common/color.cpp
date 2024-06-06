@@ -1,15 +1,18 @@
 #include "color.h"
+
+
+
+Color::Color() : r{0}, g{0}, b{0}, id{0} {}
+
+
 Color::Color(unsigned char r, unsigned char g, unsigned char b) : r{r}, g{g}, b{b}, id(-1) {}
 
 std::string Color::asHex() {
-  char hex[8];
+  char hex[9] = {'\0'};
   std::snprintf(hex, sizeof hex, "#%02x%02x%02x", r, g, b);
 
-  std::string hexString;
+  std::string hexString(hex);
 
-  for (char i : hex) {
-    hexString += i;
-  }
   return hexString;
 }
 
