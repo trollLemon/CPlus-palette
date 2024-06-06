@@ -23,8 +23,14 @@ public:
    */
   bool operator<(const Color &ob) const;
 
+  
   /* *
-   * Constructor for a point class.
+   * Default constructor for Color
+   * */
+  Color();
+
+  /* *
+   * Constructor for a Color.
    * Requires an r , g and b value, along with a cluster id.
    *
    * */
