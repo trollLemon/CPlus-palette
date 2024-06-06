@@ -1,8 +1,6 @@
 #include "median_cut.h"
 #include <algorithm>
 #include <cmath>
-#include <iostream>
-#include <ostream>
 #include <vector>
 // custom compare functions for the median cut algorithm
 bool cmpR(Color *a, Color *b) { return a->Red() > b->Red(); }
