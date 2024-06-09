@@ -5,15 +5,11 @@
 #include <cmath>
 #include <random>
 #include <set>
-#include <iostream>
 #include <unordered_map>
 #define MAX_ITERATIONS 256
 
 struct CompareColors {
-  bool operator()(Color *a, Color *b) const {
-
-    return a->asHex() > b->asHex();
-  }
+  bool operator()(Color *a, Color *b) const { return a->asHex() > b->asHex(); }
 };
 
 double EuclideanDistance(Color *a, Color *b) {
@@ -36,9 +32,9 @@ std::vector<Color *> KMeans(std::vector<Color *> &colors, int k) {
 
   std::mt19937 gen(ss); // Seed with current time
   std::uniform_int_distribution<int> dist(0, colors.size() - 1);
-	
-  for(int i = 0; i<k; i++){
-  clusters[i] = new Cluster(colors[dist(gen)], i);
+
+  for (int i = 0; i < k; i++) {
+    clusters[i] = new Cluster(colors[dist(gen)], i);
   }
 
   for (Color *point : colors) {
@@ -77,7 +73,6 @@ std::vector<Color *> KMeans(std::vector<Color *> &colors, int k) {
         }
       }
     }
-	
 
     if (toRecalculate.empty()) {
       break; // if no points moved, we converged
