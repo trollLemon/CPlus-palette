@@ -2,48 +2,15 @@
 #include "cluster.h"
 #include "color.h"
 #include <algorithm>
+#include <cmath>
 #include <random>
-#include <unordered_map>
 #include <set>
-#include <map>
-#define MAX_ITERATIONS 12
-cluster_distance::~cluster_distance() {}
-void minHeap::push(cluster_distance *pair) {
+#include <unordered_map>
+#define MAX_ITERATIONS 256
 
-  pair->distance *= -1;
-
-  distances.push(pair);
-}
-
-bool ColorSort::operator()(const Color *a, const Color *b) {
-  return a->Red() > b->Red() && a->Green() > b->Green() &&
-         a->Blue() > b->Blue();
-}
-
-bool Comp::operator()(const cluster_distance *a, const cluster_distance *b) {
-  return a->distance < b->distance;
-}
-
-minHeap::~minHeap() { clear(); }
-
-int minHeap::pop() {
-
-  if (distances.top() == nullptr) {
-    return -1;
-  }
-  int ClusterId = distances.top()->cluster;
-  delete distances.top();
-  distances.pop();
-
-  return ClusterId;
-}
-void minHeap::clear() {
-
-  while (!distances.empty()) {
-    delete distances.top();
-    distances.pop();
-  }
-}
+struct CompareColors {
+  bool operator()(Color *a, Color *b) const { return a->asHex() > b->asHex(); }
+};
 
 double EuclideanDistance(Color *a, Color *b) {
 
@@ -51,107 +18,78 @@ double EuclideanDistance(Color *a, Color *b) {
   double deltaG = a->Green() - b->Green();
   double deltaB = a->Blue() - b->Blue();
 
-  return ((deltaR * deltaR) + (deltaG * deltaG) + (deltaB * deltaB));
+  double dist2 = ((deltaR * deltaR) + (deltaG * deltaG) + (deltaB * deltaB));
+
+  return sqrt(dist2);
 }
 
 std::vector<Color *> KMeans(std::vector<Color *> &colors, int k) {
 
-  std::map<Color *, minHeap *> data; // Distances from points to each centroid
-  std::unordered_map<int /*Cluster ID*/, Cluster *> clusters; // clusters
-
-  for (Color *point : colors) {
-    data[point] = new minHeap();
-  }
-
-  /*
-   * Initialize the Clustering
-   *
-   * */
-  // randomly get k points
-  int size = colors.size();
+  std::unordered_map<int, Cluster *> clusters;
 
   std::random_device rd;
   std::seed_seq ss{rd(), rd(), rd(), rd(), rd(), rd(), rd(), rd()};
 
-  std::mt19937 mt{ss};
-  std::uniform_int_distribution<> kPoints{size / 2, size};
-  std::set<int> seen; // make sure we have unique numbers
-  std::vector<int> colorIdx;
-  while (seen.size() != static_cast<long unsigned int>(k)) {
-    int num = kPoints(mt);
+  std::mt19937 gen(ss); // Seed with current time
+  std::uniform_int_distribution<int> dist(0, colors.size() - 1);
 
-    if (seen.count(num) != 0)
-      continue;
-
-    seen.insert(num);
-
-    colorIdx.push_back(num);
+  for (int i = 0; i < k; i++) {
+    clusters[i] = new Cluster(colors[dist(gen)], i);
   }
 
-  for (int i = 0; i < k; ++i)
-    clusters[i] = new Cluster(colors[colorIdx[i]], i);
-
-  // Do the first iteration
-  for (Color *point : colors)
+  for (Color *point : colors) {
     point->setClusterId(-1);
+  }
 
-  // recalculate distances for all points
-  // if any points move, we will put the effected clusters in a set,
+  std::set<int> toRecalculate;
+  for (int i = 0; i < MAX_ITERATIONS; ++i) {
 
-  // recalculate distances for all points
-  // if any points move, we will put the effected clusters in a set,
-
-  std::set<Cluster *> toRecalculate;
-
-  int itrs = 0;
-  do {
     toRecalculate.clear();
     for (Color *point : colors) {
 
-      minHeap *heap = data[point];
+      int id = -1;
 
-      for (auto cluster : clusters) {
+      double maxDistance = INFINITY;
+      for (std::pair<int, Cluster *> clusterPairs : clusters) {
 
-        double distance =
-            EuclideanDistance(cluster.second->getCentroid(), point);
-        int id = cluster.second->getId();
-        cluster_distance *dist = new cluster_distance;
-        dist->cluster = id;
-        dist->distance = distance;
-        heap->push(dist);
-      }
+        Cluster *cluster = clusterPairs.second;
+        double distance = EuclideanDistance(cluster->getCentroid(), point);
 
-
-      int id = heap->pop();
-
-      if (id != point->getClusterId()) {
-        toRecalculate.insert(clusters[id]);
-        int pId = point->getClusterId();
-        if (pId != -1) {
-          toRecalculate.insert(clusters[pId]);
+        if (distance < maxDistance) {
+          maxDistance = distance;
+          id = cluster->getId();
         }
       }
 
-      point->setClusterId(id);
+      int pid = point->getClusterId();
+
+      if (id != pid) {
+        point->setClusterId(id);
+        clusters[id]->addPoint(point);
+        toRecalculate.insert(id);
+        // edge case for when the points all have an of -1 for the first run
+        if (pid > -1) {
+          toRecalculate.insert(pid);
+        }
+      }
     }
-	
-    for (Cluster *cluster : toRecalculate)
-      cluster->calcNewCentroid();
 
-    itrs++;
-  } while (itrs < MAX_ITERATIONS && toRecalculate.size() !=0);
+    if (toRecalculate.empty()) {
+      break; // if no points moved, we converged
+    }
 
-  std::vector<std::string> palette;
+    for (int cluster : toRecalculate) {
+      clusters[cluster]->calcNewCentroid();
+    }
+  }
+
   std::vector<Color *> sortedColors;
-
   for (auto cluster : clusters) {
     sortedColors.push_back(cluster.second->getCentroid());
     delete cluster.second;
   }
-  std::sort(sortedColors.begin(), sortedColors.end(), ColorSort());
 
-  for (auto heap : data)
-    delete heap.second;
+  std::sort(std::begin(sortedColors), std::end(sortedColors), CompareColors());
 
   return sortedColors;
 }
