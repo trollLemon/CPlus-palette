@@ -1,3 +1,8 @@
+# Update
+
+Archived in favor of https://codeberg.org/trlLemon/Palgen.
+
+
 # CPlus-palette
 Command line tool that generates color palettes based on an image given by the user.
 
